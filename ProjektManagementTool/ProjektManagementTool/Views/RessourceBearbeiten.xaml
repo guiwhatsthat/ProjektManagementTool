@@ -1,0 +1,33 @@
+﻿<Window x:Class="ProjektManagementTool.Views.RessourceBearbeiten"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektManagementTool.Views"
+        mc:Ignorable="d"
+        Title="RessourceBearbeiten" Height="292" Width="271">
+    <Grid>
+        <StackPanel Margin="26,33,0,10">
+            <Label Content="Name" Margin="0,0,0,0"/>
+            <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <Label Content="Kosten" Margin="0,0,0,0"/>
+            <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <Label Content="Startdatum" Margin="0,0,0,0"/>
+            <DatePicker  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
+            <Label Content="Enddatum" Margin="0,0,0,0"/>
+            <DatePicker  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
+            <Grid Width="200"  Margin="5,5,0,0" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button>Button 1</Button>
+                <Button Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
+                <Button Grid.Column="1">Löschen</Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

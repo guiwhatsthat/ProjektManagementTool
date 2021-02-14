@@ -1,0 +1,102 @@
+﻿<Window x:Class="ProjektManagementTool.Views.ProjektBearbeitenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektManagementTool.Views"
+        mc:Ignorable="d"
+        Title="ProjektBearbeitenView" Height="597" Width="646">
+    <Grid>
+        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <Label Content="Name" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Beschreibung" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
+                <DatePicker></DatePicker>
+                <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
+                <DatePicker></DatePicker>
+                <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Fortschritt" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Status" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Projektleiter" Margin="0,0,0,0"/>
+                <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Mitarbeiter" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Grid.Column="1">Hinzufügen</Button>
+                </Grid>
+                <Label Content="Vorgehensmodell" Margin="0,0,0,0"/>
+                <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Modell" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Grid.Column="1">Hinzufügen</Button>
+                </Grid>
+                <Label Content="Dokumente" Margin="0,0,0,0"/>
+                <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Ablage" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Grid.Column="1">Hinzufügen</Button>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Aktivitäten" HorizontalAlignment="Left" Height="122" Margin="329,165,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <ListView>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                </ListView>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button>Button 1</Button>
+                    <Button Grid.Column="0" Padding="5,5,5,5">Erfassen</Button>
+                    <Button Grid.Column="1">Bearbeiten</Button>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="117" Margin="329,43,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <Label Content="Freigabedatum" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Kosten" Margin="0,0,0,0"/>
+                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,292,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <Button Width="100" HorizontalAlignment="Left">Freigeben</Button>
+                <Button Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                <Button Width="100" HorizontalAlignment="Left">Löschen</Button>
+            </StackPanel>
+        </GroupBox>
+
+    </Grid>
+</Window>

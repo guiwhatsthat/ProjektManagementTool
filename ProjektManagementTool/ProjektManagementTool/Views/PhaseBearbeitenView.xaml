@@ -1,0 +1,26 @@
+﻿<Window x:Class="ProjektManagementTool.Views.PhaseBearbeitenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektManagementTool.Views"
+        mc:Ignorable="d"
+        Title="Phase bearbeiten" Height="177" Width="269">
+    <Grid>
+        <StackPanel Margin="26,33,0,10">
+            <Label Content="Name" Margin="0,0,0,0"/>
+            <TextBox Text="Empty"  Margin="5,5,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
+                <Button Grid.Column="1">Löschen</Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
