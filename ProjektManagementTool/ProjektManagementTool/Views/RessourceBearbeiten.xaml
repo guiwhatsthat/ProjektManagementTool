@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="RessourceBearbeiten" Height="292" Width="271">
+        Title="Ressource bearbeiten" Height="292" Width="271">
     <Grid>
         <StackPanel Margin="26,33,0,10">
             <Label Content="Name" Margin="0,0,0,0"/>

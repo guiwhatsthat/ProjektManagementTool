@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Margin="26,33,0,10">
             <Label Content="Name" Margin="0,0,0,0"/>
-            <TextBox Text="Empty"  Margin="5,5,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding PhaseName}"  Margin="5,5,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
             <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -18,8 +18,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Button Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
-                <Button Grid.Column="1">Löschen</Button>
+                <Button Grid.Column="0" Padding="5,5,5,5" Command="{Binding CMDPhaseSpeichern}">Speichern</Button>
+                <Button Grid.Column="1" Command="{Binding CMDPhaseLöschen}">Löschen</Button>
             </Grid>
         </StackPanel>
     </Grid>

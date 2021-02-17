@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ProjektBearbeitenView" Height="597" Width="646">
     <Grid>
-        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
                 <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
@@ -61,7 +61,7 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktivitäten" HorizontalAlignment="Left" Height="122" Margin="329,165,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktivitäten" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <ListView>
                     <ListViewItem>Beispiel 1</ListViewItem>
@@ -82,7 +82,7 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="117" Margin="329,43,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="117" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Freigabedatum" Margin="0,0,0,0"/>
                 <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
@@ -90,13 +90,12 @@
                 <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,292,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,259,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Button Width="100" HorizontalAlignment="Left">Freigeben</Button>
                 <Button Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
                 <Button Width="100" HorizontalAlignment="Left">Löschen</Button>
             </StackPanel>
         </GroupBox>
-
     </Grid>
 </Window>

@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Mindbox.Data.Linq" Version="3.0.2" />
+  </ItemGroup>
+
 </Project>
