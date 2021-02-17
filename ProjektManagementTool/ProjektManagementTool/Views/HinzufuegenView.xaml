@@ -1,0 +1,27 @@
+﻿<Window x:Class="ProjektManagementTool.Views.HinzufuegenView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektManagementTool.Views"
+        mc:Ignorable="d"
+        Title="Hinzufügen" Height="193" Width="328">
+    <Grid>
+        <StackPanel Margin="26,13,0,10" HorizontalAlignment="Left">
+            <GroupBox Header="{Binding Header}" Height="160" Width="275">
+                <StackPanel>
+                    <ListView ItemsSource="{Binding ListObj}" Height="80">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding Vorname}"/>
+                                <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding Nachname}"/>
+                                <GridViewColumn Header="Funktion" DisplayMemberBinding="{Binding Funktion}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Command="{Binding CMDZuweisen}">Zuweisen</Button>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>

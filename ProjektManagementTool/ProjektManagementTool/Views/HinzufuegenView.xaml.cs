@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 namespace ProjektManagementTool.Views
 {
     /// <summary>
-    /// Interaction logic for ProjektBearbeitenView.xaml
+    /// Interaction logic for HinzufuegenView.xaml
     /// </summary>
-    public partial class ProjektBearbeitenView : Window
+    public partial class HinzufuegenView : Window
     {
-        public ProjektBearbeitenView()
+        public HinzufuegenView()
         {
             InitializeComponent();
-            DataContext = new ProjektBearbeitenViewModel();
+            DataContext = new HinzufuegenViewModel();
         }
     }
 }

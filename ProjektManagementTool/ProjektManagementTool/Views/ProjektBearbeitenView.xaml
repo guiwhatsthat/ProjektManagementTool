@@ -10,19 +10,19 @@
         <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Name}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Beschreibung" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Beschreibung}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker></DatePicker>
-                <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker></DatePicker>
+                <DatePicker SelectedDate="{Binding StartDatumG}"></DatePicker>
+                <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
+                <DatePicker SelectedDate="{Binding EndtDatumG}"></DatePicker>
                 <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Fortschritt" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Fortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Status" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Status}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Projektleiter" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label Content="Mitarbeiter" Grid.Column="0" Padding="5,5,5,5"/>
-                    <Button Grid.Column="1">Hinzufügen</Button>
+                    <Button Command="{Binding CMDShowMitarbeiterHinzufuegen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
                 <Label Content="Vorgehensmodell" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
@@ -82,15 +82,24 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="117" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Meilensteine" HorizontalAlignment="Left" Height="90" Margin="329,259,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Label Content="Freigabedatum" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
-                <Label Content="Kosten" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <ListView>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                    <ListViewItem>Beispiel 1</ListViewItem>
+                </ListView>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,259,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <Label Content="Freigabedatum" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding Freigabedatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Kosten" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,350,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Button Width="100" HorizontalAlignment="Left">Freigeben</Button>
                 <Button Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>

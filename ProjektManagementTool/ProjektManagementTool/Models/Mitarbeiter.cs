@@ -6,38 +6,42 @@ using System.Text;
 
 namespace ProjektManagementTool.Models
 {
-    class PhaseTemplate
+    class Mitarbeiter
     {
         //Eigentschaften vom PhaseTemplate
         public int Pkey { get; set; }
-        public string Name { get; set; }
-        public int FKey_VorgehensmodellID { get; set; }
+        public string Vorname { get; set; }
+        public string Nachname { get; set; }
+        public string Funktion { get; set; }
 
-        public PhaseTemplate(int t_Pkey, string t_Name, int t_FKey_VorgehensmodellID)
+        public Mitarbeiter(int t_Pkey, string t_Vorname, string t_Nachname, string t_Funktion)
         {
             Pkey = t_Pkey;
-            Name = t_Name;
-            FKey_VorgehensmodellID = t_FKey_VorgehensmodellID;
+            Vorname = t_Vorname;
+            Nachname = t_Nachname;
+            Funktion = t_Funktion;
         }
 
         //SQL mapping
-        [Table(Name = "PhaseTemplate")]
-        public class db_PhaseTemplate
+        [Table(Name = "Mitarbeiter")]
+        public class db_Mitarbeiter
         {
             //Mapper auf Primary Key
             [Column(Name = "Pkey", IsDbGenerated = true, IsPrimaryKey = true)]
             public int Pkey { get; set; }
             //Mapper auf Feld Name der Gruppe
             [Column]
-            public string Name;
+            public string Vorname;
             [Column]
-            public int FKey_VorgehensmodellID;
+            public string Nachname;
+            [Column]
+            public string Funktion;
         }
 
         public int CreateInDB()
         {
             var dbHelper = new DBHelper();
-            int pkey = dbHelper.Write("PhaseTemplate", this);
+            int pkey = dbHelper.Write("Mitarbeiter", this);
             return pkey;
         }
     }

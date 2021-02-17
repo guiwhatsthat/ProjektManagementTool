@@ -44,6 +44,14 @@ namespace ProjektManagementTool.Helper
                 case "Vorgehensmodell":
                     returnValue = connection.ExecuteQuery<Vorgehensmodell.db_Vorgehensmodell>(t_Query).ToList();
                     break;
+                case "Mitarbeiter":
+                    returnValue = connection.ExecuteQuery<Mitarbeiter.db_Mitarbeiter>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;

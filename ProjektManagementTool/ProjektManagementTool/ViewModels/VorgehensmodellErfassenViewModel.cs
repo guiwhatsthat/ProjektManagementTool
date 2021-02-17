@@ -144,7 +144,6 @@ namespace ProjektManagementTool.ViewModels
             {
                 var objPhaseTemplate = new PhaseTemplate(0,phase,pkey);
                 objPhaseTemplate.CreateInDB(); 
-
             }
         }
     }
