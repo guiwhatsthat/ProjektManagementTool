@@ -27,13 +27,6 @@ namespace ProjektManagementTool.Models
         {
             //leeres object für die tabellen abfrage
         }
-        public Projekt(int t_Pkey, string t_Name, string t_Beschreibung, Nullable<DateTime> t_FreigabeDatum)
-        {
-            Pkey = t_Pkey;
-            Name = t_Name;
-            Beschreibung = t_Beschreibung;
-            FreigabeDatum = t_FreigabeDatum;
-        }
 
         public Projekt(int t_Pkey, string t_Name, string t_Beschreibung, Nullable<DateTime> t_FreigabeDatum, DateTime t_StartDatumG, DateTime t_EndDatumG, Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, int t_FKey_ProjektleiterID, decimal t_KostenG, Nullable<decimal> t_Kosten, int t_FKey_VorgehensmodellID, string t_Dokumente, string t_Status)
         {

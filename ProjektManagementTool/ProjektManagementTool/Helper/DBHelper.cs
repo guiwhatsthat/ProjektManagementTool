@@ -41,14 +41,52 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
-                case "Someting else":
-                    returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
+                case "Vorgehensmodell":
+                    returnValue = connection.ExecuteQuery<Vorgehensmodell.db_Vorgehensmodell>(t_Query).ToList();
                     break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;
             }
             return returnList;
+        }
+
+        public int Write(string t_Table, dynamic obj)
+        {
+            if (null == connection)
+            {
+                connection = Create_DBConnection();
+            }
+            int pkey = -1;
+            switch (t_Table)
+            {
+                case "Vorgehensmodell":
+                    var dbObjVorgehensmodell = new Vorgehensmodell.db_Vorgehensmodell
+                    {
+                        Name = obj.Name,
+                        Beschreibung = obj.Beschreibung
+                    };
+                    Table<Vorgehensmodell.db_Vorgehensmodell> tableVorgehensmodell = connection.GetTable<Vorgehensmodell.db_Vorgehensmodell>();
+                    tableVorgehensmodell.InsertOnSubmit(dbObjVorgehensmodell);
+                    connection.SubmitChanges();
+                    pkey = dbObjVorgehensmodell.Pkey;
+                    break;
+                case "PhaseTemplate":
+                    var dbObjPhaseTemplate = new PhaseTemplate.db_PhaseTemplate
+                    {
+                        Name = obj.Name,
+                        FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID
+                    };
+                    Table<PhaseTemplate.db_PhaseTemplate> tablePhaseTemplate = connection.GetTable<PhaseTemplate.db_PhaseTemplate>();
+                    tablePhaseTemplate.InsertOnSubmit(dbObjPhaseTemplate);
+                    connection.SubmitChanges();
+                    pkey = dbObjPhaseTemplate.Pkey;
+                    break;
+                default:
+                    
+                    break;
+            }
+            return pkey;
         }
 
     }
