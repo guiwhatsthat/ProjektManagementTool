@@ -10,15 +10,9 @@
         <StackPanel Margin="26,13,0,10" HorizontalAlignment="Left">
             <GroupBox Header="{Binding Header}" Height="160" Width="275">
                 <StackPanel>
-                    <ListView ItemsSource="{Binding ListObj}" Height="80">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding Vorname}"/>
-                                <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding Nachname}"/>
-                                <GridViewColumn Header="Funktion" DisplayMemberBinding="{Binding Funktion}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <DataGrid ItemsSource="{Binding ListObj}" Height="80">
+
+                    </DataGrid>
                     <Button Command="{Binding CMDZuweisen}">Zuweisen</Button>
                 </StackPanel>
             </GroupBox>
