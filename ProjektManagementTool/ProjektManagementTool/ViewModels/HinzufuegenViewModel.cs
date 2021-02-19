@@ -9,6 +9,18 @@ namespace ProjektManagementTool.ViewModels
 {
     class HinzufuegenViewModel : BaseViewModel
     {
+        //Parent DataContext
+        ProjektBearbeitenViewModel _ProjektBearbeitenViewModel;
+        public ProjektBearbeitenViewModel ParentDataContext
+        {
+            get { return _ProjektBearbeitenViewModel; }
+            set
+            {
+                _ProjektBearbeitenViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         //Typ
         string _Header;
         public string Header
@@ -18,6 +30,17 @@ namespace ProjektManagementTool.ViewModels
             {
                 _Header = value;
                 OnPropertyChanged("Header");
+            }
+        }
+
+        int _Index;
+        public int Index
+        {
+            get { return _Index; }
+            set
+            {
+                _Index = value;
+                OnPropertyChanged("Index");
             }
         }
 
@@ -46,7 +69,16 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Zuweisen()
         {
-            
+            if (Header == "Mitarbeiter")
+            {
+                string mitarbeiterName = ListObj[Index].Vorname + " " + ListObj[Index].Nachname;
+                ParentDataContext.Mitarbeiter = mitarbeiterName;
+                ParentDataContext.ProjektleiterID = ListObj[Index].Pkey;
+            } else
+            {
+                ParentDataContext.Modell = ListObj[Index].Name;
+                ParentDataContext.VorgehensmodellID = ListObj[Index].Pkey;
+            }
         }
     }
 }

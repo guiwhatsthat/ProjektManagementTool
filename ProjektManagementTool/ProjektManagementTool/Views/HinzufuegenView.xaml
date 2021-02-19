@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Hinzufügen" Height="193" Width="328">
+        Title="Hinzufügen" Height="250" Width="328">
     <Grid>
-        <StackPanel Margin="26,13,0,10" HorizontalAlignment="Left">
-            <GroupBox Header="{Binding Header}" Height="160" Width="275">
+        <StackPanel Margin="0,13,0,43" HorizontalAlignment="Center">
+            <GroupBox Header="{Binding Header}" Height="178" Width="275">
                 <StackPanel>
-                    <DataGrid ItemsSource="{Binding ListObj}" Height="80">
+                    <DataGrid ItemsSource="{Binding ListObj}" SelectedIndex="{Binding Index}" Height="117">
 
                     </DataGrid>
                     <Button Command="{Binding CMDZuweisen}">Zuweisen</Button>

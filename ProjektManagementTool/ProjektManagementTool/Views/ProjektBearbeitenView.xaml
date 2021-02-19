@@ -20,9 +20,9 @@
                 <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Fortschritt" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Fortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Fortschritt}" IsReadOnly="{Binding ReadOnlyFortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Status" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Status}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Status}" IsReadOnly="{Binding ReadOnlyStatus}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Projektleiter" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -32,7 +32,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Mitarbeiter" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Label Content="{Binding Mitarbeiter}" Grid.Column="0" Padding="5,5,5,5"/>
                     <Button Command="{Binding CMDShowMitarbeiterHinzufuegen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
                 <Label Content="Vorgehensmodell" Margin="0,0,0,0"/>
@@ -44,8 +44,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Modell" Grid.Column="0" Padding="5,5,5,5"/>
-                    <Button Grid.Column="1">Hinzufügen</Button>
+                    <Label Content="{Binding Modell}" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Command="{Binding CMDShowVorgehensmodellhinzufügen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
                 <Label Content="Dokumente" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
@@ -56,12 +56,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Ablage" Grid.Column="0" Padding="5,5,5,5"/>
-                    <Button Grid.Column="1">Hinzufügen</Button>
+                    <Label Content="{Binding Ablage}" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Command="{Binding CMDShowAblagehinzufügen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktivitäten" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktivitäten" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <ListView>
                     <ListViewItem>Beispiel 1</ListViewItem>
@@ -91,7 +91,7 @@
                 </ListView>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Freigabedatum" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Freigabedatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
@@ -102,7 +102,7 @@
         <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,350,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Button Width="100" HorizontalAlignment="Left">Freigeben</Button>
-                <Button Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                <Button Command="{Binding CMDProjektspeichern}"  Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
                 <Button Width="100" HorizontalAlignment="Left">Löschen</Button>
             </StackPanel>
         </GroupBox>

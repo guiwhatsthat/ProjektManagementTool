@@ -4,7 +4,6 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\ProjektManagementTool.runtimeconfig.dev.json
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\ProjektManagementTool.dll
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\ProjektManagementTool.pdb
-C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csprojAssemblyReference.cache
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MainView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\App.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool_MarkupCompile.cache
@@ -41,3 +40,4 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csproj.CopyComplete
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\HinzufuegenView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\HinzufuegenView.baml
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csprojAssemblyReference.cache

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjektManagementTool.Helper;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq.Mapping;
 using System.Text;
@@ -81,6 +82,13 @@ namespace ProjektManagementTool.Models
             public string Dokumente;
             [Column]
             public string Status;
+        }
+
+        public int CreateInDB()
+        {
+            var dbHelper = new DBHelper();
+            int pkey = dbHelper.Write("Projekt", this);
+            return pkey;
         }
     }
 }

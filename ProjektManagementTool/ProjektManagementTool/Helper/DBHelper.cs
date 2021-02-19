@@ -43,6 +43,11 @@ namespace ProjektManagementTool.Helper
                     break;
                 case "Vorgehensmodell":
                     returnValue = connection.ExecuteQuery<Vorgehensmodell.db_Vorgehensmodell>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new Vorgehensmodell(i.Pkey, i.Name, i.Beschreibung);
+                        returnList.Add(obj);
+                    }
                     break;
                 case "Mitarbeiter":
                     returnValue = connection.ExecuteQuery<Mitarbeiter.db_Mitarbeiter>(t_Query).ToList();
@@ -89,6 +94,28 @@ namespace ProjektManagementTool.Helper
                     tablePhaseTemplate.InsertOnSubmit(dbObjPhaseTemplate);
                     connection.SubmitChanges();
                     pkey = dbObjPhaseTemplate.Pkey;
+                    break;
+                case "Projekt":
+                    var dbObjProjekt = new Projekt.db_Projekt
+                    {
+                        Name = obj.Name,
+                        Beschreibung = obj.Beschreibung,
+                        FreigabeDatum = obj.FreigabeDatum,
+                        StartDatumG = obj.StartDatumG,
+                        EndDatumG = obj.EndDatumG,
+                        StartDatum = obj.StartDatum,
+                        EndDatum = obj.EndDatum,
+                        FKey_ProjektleiterID = obj.FKey_ProjektleiterID,
+                        KostenG = obj.KostenG,
+                        Kosten = obj.Kosten,
+                        FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID,
+                        Dokumente = obj.Dokumente,
+                        Status = obj.Status,
+                    };
+                    Table<Projekt.db_Projekt> tableProjekt = connection.GetTable<Projekt.db_Projekt>();
+                    tableProjekt.InsertOnSubmit(dbObjProjekt);
+                    connection.SubmitChanges();
+                    pkey = dbObjProjekt.Pkey;
                     break;
                 default:
                     
