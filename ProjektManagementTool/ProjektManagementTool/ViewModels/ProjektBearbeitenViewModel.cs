@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -132,8 +133,8 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //Fortschritt
-        string _Fortschritt;
-        public string Fortschritt
+        int _Fortschritt;
+        public int Fortschritt
         {
             get { return _Fortschritt; }
             set
@@ -394,7 +395,7 @@ namespace ProjektManagementTool.ViewModels
             if (Pkey == null || Pkey == 0)
             {
                 //Projekt speichern
-                Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status);
+                Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
                 int Pkey = projekt.CreateInDB();
                 if (Pkey == -1)
                 {
@@ -425,7 +426,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Projektloeschen()
         {
-            
+
         }
     }
 }

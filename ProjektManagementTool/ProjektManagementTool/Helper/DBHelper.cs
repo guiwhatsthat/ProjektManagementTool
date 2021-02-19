@@ -37,7 +37,7 @@ namespace ProjektManagementTool.Helper
                 case "Projekt":
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     foreach (var i in returnValue) {
-                        var obj = new Projekt(i.Pkey, i.Name, i.Beschreibung, i.FreigabeDatum, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_ProjektleiterID, i.KostenG, i.Kosten, i.FKey_VorgehensmodellID, i.Dokumente, i.Status);
+                        var obj = new Projekt(i.Pkey, i.Name, i.Beschreibung, i.FreigabeDatum, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_ProjektleiterID, i.KostenG, i.Kosten, i.FKey_VorgehensmodellID, i.Dokumente, i.Status, i.Fortschritt);
                         returnList.Add(obj);
                     }
                     break;
@@ -54,6 +54,14 @@ namespace ProjektManagementTool.Helper
                     foreach (var i in returnValue)
                     {
                         var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion);
+                        returnList.Add(obj);
+                    }
+                    break;
+                case "PhaseTemplate":
+                    returnValue = connection.ExecuteQuery<PhaseTemplate.db_PhaseTemplate>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new PhaseTemplate(i.Pkey, i.Name, i.FKey_VorgehensmodellID);
                         returnList.Add(obj);
                     }
                     break;

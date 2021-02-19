@@ -5,16 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Bearbeiten" Height="196" Width="336">
+        Title="Bearbeiten" Height="228" Width="336">
     <Grid>
-        <StackPanel Margin="26,33,0,10" HorizontalAlignment="Left">
-            <GroupBox Header="Vorgensmodell/Projekt" Height="122" Width="275">
-                <StackPanel>
-                    <ListView>
-                        <ListViewItem Content="Beispiel 1"/>
-                        <ListViewItem Content="Beispiel 1"/>
-                        <ListViewItem Content="Beispiel 1"/>
-                    </ListView>
+        <StackPanel Margin="26,13,0,10" HorizontalAlignment="Left">
+            <GroupBox Header="{Binding Header}" Height="160" Width="275">
+                <StackPanel Height="141">
+                    <DataGrid ItemsSource="{Binding ListObj}" SelectedIndex="{Binding Index}" Height="100">
+
+                    </DataGrid>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -24,7 +22,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Button Content="Button 1"/>
-                        <Button Grid.Column="0" Padding="5,5,5,5" Content="Bearbeiten"/>
+                        <Button Command="{Binding CMDBearbeiten}" Grid.Column="0" Padding="5,5,5,5" Content="Bearbeiten"/>
                         <Button Grid.Column="1" Content="Löschen"/>
                     </Grid>
                 </StackPanel>

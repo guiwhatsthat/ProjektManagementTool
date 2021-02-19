@@ -19,7 +19,7 @@
                 <DatePicker SelectedDate="{Binding EndtDatumG}"></DatePicker>
                 <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
-                <Label Content="Fortschritt" Margin="0,0,0,0"/>
+                <Label Content="Fortschritt in %" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Fortschritt}" IsReadOnly="{Binding ReadOnlyFortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Status" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Status}" IsReadOnly="{Binding ReadOnlyStatus}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />

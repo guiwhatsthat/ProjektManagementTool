@@ -46,7 +46,7 @@ namespace ProjektManagementTool.ViewModels
             ProjektBearbeitenViewModel contex = (ProjektBearbeitenViewModel)projektBearbeitenView.DataContext;
             contex.Aktion = "Erfassen";
             contex.ReadOnlyFortschritt = true;
-            contex.Fortschritt = "0%";
+            contex.Fortschritt = 0;
             contex.Status = "Erfasst";
             contex.ReadOnlyStatus = true;
             projektBearbeitenView.Show();
@@ -65,7 +65,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void ShowVorgehensmodellBearbeiten()
         {
-            //Hier die neue View anzeigen
+            ShowWaehlerView("Vorgehensmodell");
         }
 
         //Button: Projekt bearbeiten
@@ -81,7 +81,18 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void ShowProjektBearbeiten()
         {
-            //Hier die neue View anzeigen
+            ShowWaehlerView("Projekt");
+        }
+
+        //Helper Funktion für den Waehlertyp
+        void ShowWaehlerView(string t_Typ)
+        {
+            var dbhelper = new DBHelper();
+            var bearbeitenWaehler = new BearbeitenWaehlerView();
+            var context = (BearbeitenWaehlerViewModel)bearbeitenWaehler.DataContext;
+            context.Header = t_Typ;
+            context.ListObj = dbhelper.RunQuery(t_Typ, $"Select * from {t_Typ}");
+            bearbeitenWaehler.Show();
         }
     }
 }
