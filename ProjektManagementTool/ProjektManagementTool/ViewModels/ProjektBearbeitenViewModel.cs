@@ -53,6 +53,16 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("VorgehensmodellID");
             }
         }
+        int _Pkey;
+        public int Pkey
+        {
+            get { return _Pkey; }
+            set
+            {
+                _Pkey = value;
+                OnPropertyChanged("Pkey");
+            }
+        }
         //Objekte welche in diesem Status nicht ertfasst werden können blocken
         bool _EnablePhase;
         public bool EnablePhase
@@ -365,6 +375,12 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
+            if (DateTime.Now > StartDatumG)
+            {
+                System.Windows.MessageBox.Show("Startdatum muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (StartDatumG == DateTime.MinValue || EndtDatumG == DateTime.MinValue)
             {
                 System.Windows.MessageBox.Show("Daten wurden nicht spezifiziert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -375,16 +391,24 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            //Projekt speichern
-            Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status);
-            int pkey = projekt.CreateInDB();
-            if (pkey == -1)
+            if (Pkey == null || Pkey == 0)
             {
-                System.Windows.MessageBox.Show("Konnte nicht in DB geschrieben werden", "fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                //Projekt speichern
+                Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status);
+                int Pkey = projekt.CreateInDB();
+                if (Pkey == -1)
+                {
+                    System.Windows.MessageBox.Show("Konnte nicht in DB geschrieben werden", "fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Projekt erfasst", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             } else
             {
-                System.Windows.MessageBox.Show("Projekt erfasst", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                //Update
             }
+            
 
         }
 

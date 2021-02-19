@@ -12,6 +12,18 @@ namespace ProjektManagementTool.ViewModels
 {
     class VorgehensmodellErfassenViewModel : BaseViewModel
     {
+        //Helper variable für update
+        int _Pkey;
+        public int Pkey
+        {
+            get { return _Pkey; }
+            set
+            {
+                _Pkey = value;
+                OnPropertyChanged("Pkey");
+            }
+        }
+
         //Button: Phase erfassen
         ICommand _PhaseErfassen;
         public ICommand CMDPhaseErfassen
@@ -132,19 +144,26 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            //Vorgensmodell Objekt erstellen
-            var objModell = new Vorgehensmodell(0,ModellName,ModellBeschreibung);
-            int pkey = objModell.CreateInDB();
-            if (pkey == -1)
+            if (Pkey == null || Pkey == 0)
             {
-                return;
-            }
-            //Phasen erstellen
-            foreach (var phase in Phasen)
+                //Vorgensmodell Objekt erstellen
+                var objModell = new Vorgehensmodell(0, ModellName, ModellBeschreibung);
+                int Pkey = objModell.CreateInDB();
+                if (Pkey == -1)
+                {
+                    return;
+                }
+                //Phasen erstellen
+                foreach (var phase in Phasen)
+                {
+                    var objPhaseTemplate = new PhaseTemplate(0, phase, Pkey);
+                    objPhaseTemplate.CreateInDB();
+                }
+            } else
             {
-                var objPhaseTemplate = new PhaseTemplate(0,phase,pkey);
-                objPhaseTemplate.CreateInDB(); 
+                //Update
             }
+            
         }
     }
 }
