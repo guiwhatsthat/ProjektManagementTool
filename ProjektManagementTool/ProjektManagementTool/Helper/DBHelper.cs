@@ -198,7 +198,7 @@ namespace ProjektManagementTool.Helper
                     Table<PhaseTemplate.db_PhaseTemplate> tablePhaseTemplate = connection.GetTable<PhaseTemplate.db_PhaseTemplate>();
                     var PhaseTemplateObj = (PhaseTemplate)obj;
                     var entryPhasenTamplate = (from i in tablePhaseTemplate
-                                                where i.Pkey == PhaseTemplateObj.Pkey
+                                                where i.Name == PhaseTemplateObj.Name
                                                 select i).First();
                     //Remove
                     tablePhaseTemplate.DeleteOnSubmit(entryPhasenTamplate);

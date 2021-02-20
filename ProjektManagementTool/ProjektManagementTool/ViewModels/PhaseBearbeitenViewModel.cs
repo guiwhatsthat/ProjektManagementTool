@@ -1,4 +1,5 @@
 ﻿using ProjektManagementTool.Helper;
+using ProjektManagementTool.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,6 +58,11 @@ namespace ProjektManagementTool.ViewModels
                     MessageBox.Show("Phase existiert bereits", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 } else
                 {
+                    //Spreichere in der DB
+                    int vorgehensmodellPkey = ParentDataContext.Pkey;
+                    var obj = new PhaseTemplate(0, PhaseName,vorgehensmodellPkey);
+                    obj.CreateInDB();
+                    
                     ParentDataContext.Phasen.Add(PhaseName);
                     MessageBox.Show("Phase wurde hinzugefügt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -83,6 +89,10 @@ namespace ProjektManagementTool.ViewModels
                 MessageBox.Show("Phase existiert nicht", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+            //Entfernen aus DB
+            int vorgehensmodellPkey = ParentDataContext.Pkey;
+            var obj = new PhaseTemplate(0, PhaseName, vorgehensmodellPkey);
+            obj.Remove();
             ParentDataContext.Phasen.Remove(PhaseName);
             if (ParentDataContext.Phasen.Contains(PhaseName))
             {
