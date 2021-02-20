@@ -4,6 +4,7 @@ using ProjektManagementTool.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -162,6 +163,9 @@ namespace ProjektManagementTool.ViewModels
             } else
             {
                 //Update
+                var objModell = new Vorgehensmodell(Pkey, ModellName, ModellBeschreibung);
+                objModell.Update();
+
             }
             
         }

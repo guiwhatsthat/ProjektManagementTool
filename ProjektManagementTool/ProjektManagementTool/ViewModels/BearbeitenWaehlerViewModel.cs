@@ -82,6 +82,8 @@ namespace ProjektManagementTool.ViewModels
                 context.StartDatumG = ListObj[Index].StartDatumG;
                 context.Status = ListObj[Index].Status;
                 context.Pkey = ListObj[Index].Pkey;
+                context.ProjektleiterID = mitarbeiter.Pkey;
+                context.VorgehensmodellID = vorgehensmodell.Pkey;
                 context.EnablePhase = true;
 
                 //Meilensteine 

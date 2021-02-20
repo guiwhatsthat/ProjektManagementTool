@@ -94,5 +94,11 @@ namespace ProjektManagementTool.Models
             int pkey = dbHelper.Write("Projekt", this);
             return pkey;
         }
+
+        public void Update()
+        {
+            var dbHelper = new DBHelper();
+            dbHelper.Update("Projekt", this);
+        } 
     }
 }

@@ -48,5 +48,18 @@ namespace ProjektManagementTool.Models
             int pkey = dbHelper.Write("Vorgehensmodell", this);
             return pkey;
         }
+
+        public void Update()
+        {
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Vorgehensmodell where Name='{Name}'";
+            var returnValue = dbHelper.RunQuery("Vorgehensmodell", query);
+            if (returnValue.Count > 0)
+            {
+                MessageBox.Show("Objekt mit diesem Namen existiert bereits", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            dbHelper.Update("Vorgehensmodell",this);
+        }
     }
 }

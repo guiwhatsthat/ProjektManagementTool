@@ -40,5 +40,11 @@ namespace ProjektManagementTool.Models
             int pkey = dbHelper.Write("PhaseTemplate", this);
             return pkey;
         }
+
+        public void Remove()
+        {
+            var dbHelper = new DBHelper();
+            dbHelper.Remove("PhaseTemplate", this);
+        }
     }
 }

@@ -408,6 +408,8 @@ namespace ProjektManagementTool.ViewModels
             } else
             {
                 //Update
+                Projekt projekt = new Projekt(Pkey, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                projekt.Update();
             }
             
 

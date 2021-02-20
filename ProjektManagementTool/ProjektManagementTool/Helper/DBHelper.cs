@@ -132,5 +132,82 @@ namespace ProjektManagementTool.Helper
             return pkey;
         }
 
+        public void Update(string t_Table, dynamic obj)
+        {
+            if (null == connection)
+            {
+                connection = Create_DBConnection();
+            }
+
+            switch (t_Table)
+            {
+                case "Vorgehensmodell":
+                    //aktuelles objekt aus der DB
+                    Table<Vorgehensmodell.db_Vorgehensmodell> tableVorgehensmodell = connection.GetTable<Vorgehensmodell.db_Vorgehensmodell>();
+                    var vorgehensmodellObj = (Vorgehensmodell)obj;
+                    var entryVorgehensmodell = (from i in tableVorgehensmodell
+                                 where i.Pkey == vorgehensmodellObj.Pkey
+                                 select i).First();
+                    //Daten Updaten
+                    entryVorgehensmodell.Name = vorgehensmodellObj.Name;
+                    entryVorgehensmodell.Beschreibung = vorgehensmodellObj.Beschreibung;
+                    connection.SubmitChanges();
+                    break;
+                case "PhaseTemplate":
+                    
+                    break;
+                case "Projekt":
+                    Table<Projekt.db_Projekt> tableProjekt = connection.GetTable<Projekt.db_Projekt>();
+                    var projektObj = (Projekt)obj;
+                    var entry = (from i in tableProjekt
+                                 where i.Pkey == projektObj.Pkey
+                                 select i).First();
+                    entry.Name = obj.Name;
+                    entry.Beschreibung = obj.Beschreibung;
+                    entry.FreigabeDatum = obj.FreigabeDatum;
+                    entry.StartDatumG = obj.StartDatumG;
+                    entry.EndDatumG = obj.EndDatumG;
+                    entry.StartDatum = obj.StartDatum;
+                    entry.EndDatum = obj.EndDatum;
+                    entry.FKey_ProjektleiterID = obj.FKey_ProjektleiterID;
+                    entry.KostenG = obj.KostenG;
+                    entry.Kosten = obj.Kosten;
+                    entry.FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID;
+                    entry.Dokumente = obj.Dokumente;
+                    entry.Status = obj.Status;
+
+                    connection.SubmitChanges();
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        public void Remove(string t_Table, dynamic obj)
+        {
+            if (null == connection)
+            {
+                connection = Create_DBConnection();
+            }
+
+            switch (t_Table)
+            {
+                case "PhaseTemplate":
+                    //aktuelles objekt aus der DB
+                    Table<PhaseTemplate.db_PhaseTemplate> tablePhaseTemplate = connection.GetTable<PhaseTemplate.db_PhaseTemplate>();
+                    var PhaseTemplateObj = (PhaseTemplate)obj;
+                    var entryPhasenTamplate = (from i in tablePhaseTemplate
+                                                where i.Pkey == PhaseTemplateObj.Pkey
+                                                select i).First();
+                    //Remove
+                    tablePhaseTemplate.DeleteOnSubmit(entryPhasenTamplate);
+                    connection.SubmitChanges();
+                    break;
+                default:
+
+                    break;
+            }
+        }
     }
 }
