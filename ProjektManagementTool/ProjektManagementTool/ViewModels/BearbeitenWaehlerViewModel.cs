@@ -95,7 +95,16 @@ namespace ProjektManagementTool.ViewModels
                 context.WaehlerContext = this;
 
                 //Meilensteine 
-
+                ObservableCollection<Meilenstein> listMeilensteine = new ObservableCollection<Meilenstein>();
+                foreach (var phase in context.PhasenListe)
+                {
+                    query = $"Select * from Meilenstein where FKey_PhaseID='{phase.Pkey}'";
+                    foreach (var i in dbhelper.RunQuery("Meilenstein", query))
+                    {
+                        listMeilensteine.Add((Meilenstein)i);
+                    }
+                }
+                context.ListMeilensteine = listMeilensteine;
                 //aktivitäten
 
                 projektbearbeiten.Show();

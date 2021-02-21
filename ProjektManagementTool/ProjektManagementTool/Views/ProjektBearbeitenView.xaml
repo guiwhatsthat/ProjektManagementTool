@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="ProjektBearbeitenView" Height="657" Width="646">
+        Title="ProjektBearbeitenView" Height="723" Width="646">
     <Grid>
         <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
@@ -61,21 +61,19 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Phasen" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Phasen" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="150" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <DataGrid ItemsSource="{Binding PhasenListe}" SelectedIndex="{Binding IndexPhase}" Height="80">
+                <DataGrid ItemsSource="{Binding PhasenListe}" SelectedIndex="{Binding IndexPhase}" Height="105">
 
                 </DataGrid>
                 <Button Command="{Binding CMDPhaseDatenBearbeiten}" Grid.Column="1">Bearbeiten</Button>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktivitäten" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,254,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktivitäten" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="160" Margin="329,284,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <ListView>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                </ListView>
+                <DataGrid Height="105">
+
+                </DataGrid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -90,13 +88,12 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Meilensteine" HorizontalAlignment="Left" Height="90" Margin="329,381,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Meilensteine" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="165" Margin="329,450,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <ListView>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                </ListView>
+                <DataGrid ItemsSource="{Binding ListMeilensteine}" SelectedIndex="{Binding MeilensteinIndex}" Height="120">
+
+                </DataGrid>
+                <Button Command="{Binding CMDMeilensteinBearbeiten}" Grid.Column="1">Bearbeiten</Button>
             </StackPanel>
         </GroupBox>
         <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
@@ -107,7 +104,7 @@
                 <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="117" Margin="329,472,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="117" Margin="26,534,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>

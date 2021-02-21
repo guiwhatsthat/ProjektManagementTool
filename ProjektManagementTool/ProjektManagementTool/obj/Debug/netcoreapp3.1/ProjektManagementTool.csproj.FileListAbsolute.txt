@@ -43,3 +43,5 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csprojAssemblyReference.cache
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\PhasenDatenView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\PhasenDatenView.baml
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MeilensteinBearbeitenView.g.cs
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MeilensteinBearbeitenView.baml

@@ -222,6 +222,29 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Ablage");
             }
         }
+        //Meilensteine
+        ObservableCollection<Meilenstein> _ListMeilensteine;
+        public ObservableCollection<Meilenstein> ListMeilensteine
+        {
+            get { return _ListMeilensteine; }
+            set
+            {
+                _ListMeilensteine = value;
+                OnPropertyChanged("ListMeilensteine");
+            }
+        }
+        //Meilenstein Index
+        int _MeilensteinIndex;
+        public int MeilensteinIndex
+        {
+            get { return _MeilensteinIndex; }
+            set
+            {
+                _MeilensteinIndex = value;
+                OnPropertyChanged("MeilensteinIndex");
+            }
+        }
+
         //Phasen
         ObservableCollection<dynamic> _PhasenListe;
         public ObservableCollection<dynamic> PhasenListe
@@ -487,7 +510,11 @@ namespace ProjektManagementTool.ViewModels
                 var dbHelper = new DBHelper();
 
                 //Update anzeige view
-                WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Projekt", "Select * from Projekt"));
+                if (WaehlerContext != null)
+                {
+                    WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Projekt", "Select * from Projekt"));
+                } 
+                
             }
             
 
@@ -595,7 +622,39 @@ namespace ProjektManagementTool.ViewModels
                 System.Windows.MessageBox.Show("Projekt kann nicht gestartet werden. Zuerst müssen alle Phasen bearbeitet werden.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-
+        }
+        //Speichern
+        ICommand _MeilensteinBearbeiten;
+        public ICommand CMDMeilensteinBearbeiten
+        {
+            get
+            {
+                return _MeilensteinBearbeiten ?? (_MeilensteinBearbeiten =
+                new RelayCommand(p => MeilensteinBearbeiten()));
+            }
+        }
+        //Funktion für den Command
+        void MeilensteinBearbeiten()
+        {
+            var dbHelper = new DBHelper();
+            var meilensteinbearbeiten = new MeilensteinBearbeitenView();
+            var context = (MeilensteinBearbeitenViewModel)meilensteinbearbeiten.DataContext;
+            if (ListMeilensteine == null || ListMeilensteine.Count == 0)
+            {
+                return;
+            }
+            Meilenstein meilenstein = ListMeilensteine[MeilensteinIndex];
+            context.Name = meilenstein.Name;
+            context.Datum = Convert.ToDateTime(meilenstein.Datum);
+            context.DatumG = meilenstein.DatumG;
+            context.Pkey = meilenstein.Pkey;
+            context.ParentContext = this;
+            context.ProjektName = Name;
+            string query = $"select * from Phase where Pkey='{meilenstein.FKey_PhaseID}'";
+            var phase = dbHelper.RunQuery("Phase", query);
+            context.PhaseName = phase[0].Name;
+            context.Phasen = PhasenListe;
+            meilensteinbearbeiten.Show();
         }
     }
 }

@@ -73,6 +73,14 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
+                case "Meilenstein":
+                    returnValue = connection.ExecuteQuery<Meilenstein.db_Meilenstein>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new Meilenstein(i.Pkey, i.Name, i.DatumG, i.Datum, i.FKey_PhaseID);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;

@@ -200,14 +200,23 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Phasespeichern()
         {
+            var dbHelper = new DBHelper();
             if (Status == "Eröffnet")
             {
                 Status = "Erfasst";
+                //Meilenstein hinzufügen
+                string meilensteinName = Name + "_Ende";
+                var objMeilenstein = new Meilenstein(0,meilensteinName,EndtDatumG,null,Pkey);
+                objMeilenstein.CreateInDB();
+                if (ParentContext.ListMeilensteine == null)
+                {
+                    ParentContext.ListMeilensteine = new ObservableCollection<Meilenstein>();
+                }
+                ParentContext.ListMeilensteine.Add(objMeilenstein);
             }
             var objPhase = new Phase(Pkey, Name, Status, Fortschritt, StartDatumG, EndtDatumG, StartDatum, EndtDatum, FKey_PhaseTemplateID, FKey_ProjektID);
             objPhase.Update();
 
-            var dbHelper = new DBHelper();
             string query = $"Select * from Phase where FKey_ProjektID='{ParentContext.Pkey}'";
             ParentContext.PhasenListe = new ObservableCollection<dynamic>(dbHelper.RunQuery("Phase", query));
         }
