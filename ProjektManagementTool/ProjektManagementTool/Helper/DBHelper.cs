@@ -172,6 +172,28 @@ namespace ProjektManagementTool.Helper
                     connection.SubmitChanges();
                     pkey = dbObjMeilenstein.Pkey;
                     break;
+                case "Aktivitaet":
+                    var dbObjAktivitaet = new Aktivitaet.db_Aktivitaet
+                    {
+                        Pkey = obj.Pkey,
+                        Name = obj.Name,
+                        StartDatumG = obj.StartDatumG,
+                        EndDatumG = obj.EndDatumG,
+                        StartDatum = obj.StartDatum,
+                        EndDatum = obj.EndDatum,
+                        BudgetExterneKostenG = obj.BudgetExterneKostenG,
+                        BudgetPersonenKostenG = obj.BudgetPersonenKostenG,
+                        BudgetExterneKosten = obj.BudgetExterneKosten,
+                        BudgetPersonenKosten = obj.BudgetPersonenKosten,
+                        Fortschritt = obj.Fortschritt,
+                        FKey_VerantwortlichePersonID = obj.FKey_VerantwortlichePersonID,
+                        FKey_PhaseID = obj.FKey_PhaseID
+                    };
+                    Table<Aktivitaet.db_Aktivitaet> tableAktivitaet = connection.GetTable<Aktivitaet.db_Aktivitaet>();
+                    tableAktivitaet.InsertOnSubmit(dbObjAktivitaet);
+                    connection.SubmitChanges();
+                    pkey = dbObjAktivitaet.Pkey;
+                    break;
                 default:
                     
                     break;
@@ -255,6 +277,26 @@ namespace ProjektManagementTool.Helper
                     entryMeilenstein.FKey_PhaseID = obj.FKey_PhaseID;
                     connection.SubmitChanges();
                     break;
+                case "Aktivitaet":
+                    Table<Aktivitaet.db_Aktivitaet> tableAktivitaet = connection.GetTable<Aktivitaet.db_Aktivitaet>();
+                    var AktivitaetObj = (Aktivitaet)obj;
+                    var entryAktivitaet = (from i in tableAktivitaet
+                                           where i.Pkey == AktivitaetObj.Pkey
+                                            select i).First();
+                    entryAktivitaet.Name = obj.Name;
+                    entryAktivitaet.StartDatumG = obj.StartDatumG;
+                    entryAktivitaet.EndDatumG = obj.EndDatumG;
+                    entryAktivitaet.StartDatum = obj.StartDatum;
+                    entryAktivitaet.EndDatum = obj.EndDatum;
+                    entryAktivitaet.BudgetExterneKostenG = obj.BudgetExterneKostenG;
+                    entryAktivitaet.BudgetPersonenKostenG = obj.BudgetPersonenKostenG;
+                    entryAktivitaet.BudgetExterneKosten = obj.BudgetExterneKosten;
+                    entryAktivitaet.BudgetPersonenKosten = obj.BudgetPersonenKosten;
+                    entryAktivitaet.Fortschritt = obj.Fortschritt;
+                    entryAktivitaet.FKey_VerantwortlichePersonID = obj.FKey_VerantwortlichePersonID;
+                    entryAktivitaet.FKey_PhaseID = obj.FKey_PhaseID;
+                    connection.SubmitChanges();
+                    break;
                 default:
 
                     break;
@@ -290,6 +332,17 @@ namespace ProjektManagementTool.Helper
                                                select i).First();
                     //Remove
                     tableMeilenstein.DeleteOnSubmit(entryMeilenstein);
+                    connection.SubmitChanges();
+                    break;
+                case "Aktivitaet":
+                    //aktuelles objekt aus der DB
+                    Table<Aktivitaet.db_Aktivitaet> tableAktivitaet = connection.GetTable<Aktivitaet.db_Aktivitaet>();
+                    var aktivitaetObj = (Aktivitaet)obj;
+                    var entryAktivitaet = (from i in tableAktivitaet
+                                           where i.Name == aktivitaetObj.Name
+                                            select i).First();
+                    //Remove
+                    tableAktivitaet.DeleteOnSubmit(entryAktivitaet);
                     connection.SubmitChanges();
                     break;
                 default:
