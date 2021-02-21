@@ -10,17 +10,17 @@
         <GroupBox Header="Aktivität" HorizontalAlignment="Left" Height="439" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Name}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker></DatePicker>
-                <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker></DatePicker>
+                <DatePicker SelectedDate="{Binding StartDatumG}"></DatePicker>
+                <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
+                <DatePicker SelectedDate="{Binding EndDatumG}"></DatePicker>
                 <Label Content="Externe-Kosten (Geplant)" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text=""  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Personen-Kosten (Geplant)" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Fortschritt" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Mitarbeiter" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -71,13 +71,13 @@
         <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="182" Margin="329,43,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Startdautm" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Enddatum" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Externe-Kosten" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Personen-Kosten" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,357,0,0" VerticalAlignment="Top" Width="275">
