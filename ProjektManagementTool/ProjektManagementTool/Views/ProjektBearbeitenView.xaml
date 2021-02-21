@@ -88,12 +88,24 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Meilensteine" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="165" Margin="329,450,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Meilensteine" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="175" Margin="329,450,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <DataGrid ItemsSource="{Binding ListMeilensteine}" SelectedIndex="{Binding MeilensteinIndex}" Height="120">
 
                 </DataGrid>
-                <Button Command="{Binding CMDMeilensteinBearbeiten}" Grid.Column="1">Bearbeiten</Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button>Button 1</Button>
+                    <Button Grid.Column="0"  Command="{Binding CMDMeilensteinErfassen}" Padding="5,5,5,5">Erfassen</Button>
+                    <Button Grid.Column="1" Command="{Binding CMDMeilensteinBearbeiten}" >Bearbeiten</Button>
+                </Grid>
+                
             </StackPanel>
         </GroupBox>
         <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">

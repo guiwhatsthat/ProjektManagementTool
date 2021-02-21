@@ -476,7 +476,7 @@ namespace ProjektManagementTool.ViewModels
             if (Pkey == 0)
             {
                 //dieser test muss nur beim eröffnen gemacht werden
-                if (DateTime.Now > StartDatumG)
+                if (DateTime.Now >= StartDatumG)
                 {
                     System.Windows.MessageBox.Show("Startdatum muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -623,7 +623,7 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
         }
-        //Speichern
+        //Meilenstein bearbeiten
         ICommand _MeilensteinBearbeiten;
         public ICommand CMDMeilensteinBearbeiten
         {
@@ -645,7 +645,7 @@ namespace ProjektManagementTool.ViewModels
             }
             Meilenstein meilenstein = ListMeilensteine[MeilensteinIndex];
             context.Name = meilenstein.Name;
-            context.Datum = Convert.ToDateTime(meilenstein.Datum);
+            context.Datum = meilenstein.Datum;
             context.DatumG = meilenstein.DatumG;
             context.Pkey = meilenstein.Pkey;
             context.ParentContext = this;
@@ -653,6 +653,28 @@ namespace ProjektManagementTool.ViewModels
             string query = $"select * from Phase where Pkey='{meilenstein.FKey_PhaseID}'";
             var phase = dbHelper.RunQuery("Phase", query);
             context.PhaseName = phase[0].Name;
+            context.Phasen = PhasenListe;
+            meilensteinbearbeiten.Show();
+        }
+
+        //Meilenstein erfassen
+        ICommand _MeilensteinErfassen;
+        public ICommand CMDMeilensteinErfassen
+        {
+            get
+            {
+                return _MeilensteinErfassen ?? (_MeilensteinErfassen =
+                new RelayCommand(p => MeilensteinErfassen()));
+            }
+        }
+        //Funktion für den Command
+        void MeilensteinErfassen()
+        {
+            var dbHelper = new DBHelper();
+            var meilensteinbearbeiten = new MeilensteinBearbeitenView();
+            var context = (MeilensteinBearbeitenViewModel)meilensteinbearbeiten.DataContext;
+            context.ParentContext = this;
+            context.ProjektName = Name;
             context.Phasen = PhasenListe;
             meilensteinbearbeiten.Show();
         }

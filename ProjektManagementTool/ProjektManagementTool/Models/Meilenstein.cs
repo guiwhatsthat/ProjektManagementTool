@@ -48,5 +48,16 @@ namespace ProjektManagementTool.Models
             int pkey = dbHelper.Write("Meilenstein", this);
             return pkey;
         }
+        public void Update()
+        {
+            var dbHelper = new DBHelper();
+            dbHelper.Update("Meilenstein", this);
+        }
+        public void Remove()
+        {
+            var dbHelper = new DBHelper();
+            dbHelper.Remove("Meilenstein", this);
+        }
+
     }
 }

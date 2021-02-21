@@ -10,7 +10,7 @@
         <GroupBox Header="Meilenstein" HorizontalAlignment="Left" Height="340" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Name}" IsReadOnly="True"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Name}" Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
                 <DatePicker SelectedDate="{Binding DatumG}"></DatePicker>
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>

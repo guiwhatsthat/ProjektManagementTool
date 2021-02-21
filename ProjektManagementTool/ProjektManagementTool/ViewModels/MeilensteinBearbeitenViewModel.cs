@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
+using System.Linq;
 
 namespace ProjektManagementTool.ViewModels
 {
@@ -68,8 +70,8 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //Datum
-        DateTime _Datum;
-        public DateTime Datum
+        Nullable<DateTime> _Datum;
+        public Nullable<DateTime> Datum
         {
             get { return _Datum; }
             set
@@ -126,7 +128,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Waehlen()
         {
-            //Muss noch gemacht werden
+            PhaseName = Phasen[Index].Name;
         }
         //Abschliessen
         ICommand _Abschliessen;
@@ -156,7 +158,53 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Speichern()
         {
-            //Muss noch gemacht werden
+            //check ob Daten leer sind
+            if (string.IsNullOrEmpty(Name))
+            {
+                MessageBox.Show("Name darf nicht leer sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            } else if (PhaseName == null)
+            {
+                MessageBox.Show("Es muss eine Phase gewählt werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!DateTime.TryParse(DatumG.ToString(), out DateTime a))
+            {
+                System.Windows.MessageBox.Show("Datum (Geplant) hat das falsche Format", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            } else if (DatumG == DateTime.MinValue )
+            {
+                System.Windows.MessageBox.Show("Datum (Geplant) wurden nicht spezifiziert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+
+            if (Pkey == 0)
+            {
+                //dieser test muss nur beim eröffnen gemacht werden
+                if (DateTime.Now >= DatumG)
+                {
+                    System.Windows.MessageBox.Show("Datum (Geplant) muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var meilenstein = new Meilenstein(0,Name,DatumG,Datum,Phasen[Index].Pkey);
+                Pkey = meilenstein.CreateInDB();
+                meilenstein.Pkey = Pkey;
+                MessageBox.Show($"Phase '{Name}' hinzugefügt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                ParentContext.ListMeilensteine.Add(meilenstein);
+
+            } else
+            {
+                var dbHelper = new DBHelper();
+                string query = $"Select * from Phase where Name='{PhaseName}'";
+                var dbPhase = dbHelper.RunQuery("Phase", query);
+                var meilenstein = new Meilenstein(Pkey, Name, DatumG, Datum, dbPhase[0].Pkey);
+                meilenstein.CreateInDB();
+                MessageBox.Show($"Phase '{Name}' hinzugefügt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                ParentContext.ListMeilensteine.Add(meilenstein);
+            }
         }
         //Löschen
         ICommand _Loeschen;
@@ -171,7 +219,28 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Loeschen()
         {
-            //Muss noch gemacht werden
+            if (Name.Contains("_End"))
+            {
+                MessageBox.Show($"Phase '{Name}' kann nicht entfernt werden. Jede Phase braucht ein Meilenstein am Ende", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Phase where Name='{PhaseName}'";
+            var dbPhase = dbHelper.RunQuery("Phase", query);
+            var meilenstein = new Meilenstein(Pkey, Name, DatumG, Datum, dbPhase[0].Pkey);
+            meilenstein.Remove();
+            MessageBox.Show($"Phase '{Name}' enntfernt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            int index = 0;
+            for (int i = 0; i < ParentContext.ListMeilensteine.Count;i++)
+            {
+                var obj = (Meilenstein)ParentContext.ListMeilensteine[i];
+                if (obj.Pkey == Pkey)
+                {
+                    index = i;
+                    i = ParentContext.ListMeilensteine.Count;
+                }
+            }
+            ParentContext.ListMeilensteine.RemoveAt(index);
         }
     }
 }

@@ -243,6 +243,18 @@ namespace ProjektManagementTool.Helper
 
                     connection.SubmitChanges();
                     break;
+                case "Meilenstein":
+                    Table<Meilenstein.db_Meilenstein> tableMeilenstein = connection.GetTable<Meilenstein.db_Meilenstein>();
+                    var meilensteinObj = (Meilenstein)obj;
+                    var entryMeilenstein = (from i in tableMeilenstein
+                                      where i.Pkey == meilensteinObj.Pkey
+                                      select i).First();
+                    entryMeilenstein.Name = obj.Name;
+                    entryMeilenstein.DatumG = obj.DatumG;
+                    entryMeilenstein.Datum = obj.Datum;
+                    entryMeilenstein.FKey_PhaseID = obj.FKey_PhaseID;
+                    connection.SubmitChanges();
+                    break;
                 default:
 
                     break;
@@ -267,6 +279,17 @@ namespace ProjektManagementTool.Helper
                                                 select i).First();
                     //Remove
                     tablePhaseTemplate.DeleteOnSubmit(entryPhasenTamplate);
+                    connection.SubmitChanges();
+                    break;
+                case "Meilenstein":
+                    //aktuelles objekt aus der DB
+                    Table<Meilenstein.db_Meilenstein> tableMeilenstein = connection.GetTable<Meilenstein.db_Meilenstein>();
+                    var meilensteinObj = (Meilenstein)obj;
+                    var entryMeilenstein = (from i in tableMeilenstein
+                                               where i.Name == meilensteinObj.Name
+                                               select i).First();
+                    //Remove
+                    tableMeilenstein.DeleteOnSubmit(entryMeilenstein);
                     connection.SubmitChanges();
                     break;
                 default:
