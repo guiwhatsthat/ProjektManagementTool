@@ -25,6 +25,18 @@ namespace ProjektManagementTool.ViewModels
             }
         }
 
+        //wählerListe um die Objekte zu aktualisieren nach dem ein Update ausgeführt wurde (Context)
+        BearbeitenWaehlerViewModel _WaehlerContext;
+        public BearbeitenWaehlerViewModel WaehlerContext
+        {
+            get { return _WaehlerContext; }
+            set
+            {
+                _WaehlerContext = value;
+                OnPropertyChanged("WaehlerContext");
+            }
+        }
+
         //Button: Phase erfassen
         ICommand _PhaseErfassen;
         public ICommand CMDPhaseErfassen
@@ -145,7 +157,7 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            if (Pkey == null || Pkey == 0)
+            if (Pkey == 0)
             {
                 //Vorgensmodell Objekt erstellen
                 var objModell = new Vorgehensmodell(0, ModellName, ModellBeschreibung);
@@ -166,6 +178,10 @@ namespace ProjektManagementTool.ViewModels
                 var objModell = new Vorgehensmodell(Pkey, ModellName, ModellBeschreibung);
                 objModell.Update();
 
+
+                //Update anzeige view
+                var dbHelper = new DBHelper();
+                WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Vorgehensmodell", "Select * from Vorgehensmodell"));
             }
             
         }

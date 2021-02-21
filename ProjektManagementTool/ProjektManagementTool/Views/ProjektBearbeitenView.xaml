@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="ProjektBearbeitenView" Height="597" Width="646">
+        Title="ProjektBearbeitenView" Height="657" Width="646">
     <Grid>
         <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
@@ -61,7 +61,15 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktivitäten" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Phasen" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,132,0,0" VerticalAlignment="Top" Width="275">
+            <StackPanel>
+                <DataGrid ItemsSource="{Binding PhasenListe}" SelectedIndex="{Binding IndexPhase}" Height="80">
+
+                </DataGrid>
+                <Button Command="{Binding CMDPhaseDatenBearbeiten}" Grid.Column="1">Bearbeiten</Button>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Aktivitäten" IsEnabled="{Binding EnablePhase}" HorizontalAlignment="Left" Height="122" Margin="329,254,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <ListView>
                     <ListViewItem>Beispiel 1</ListViewItem>
@@ -82,7 +90,7 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Meilensteine" HorizontalAlignment="Left" Height="90" Margin="329,259,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Meilensteine" HorizontalAlignment="Left" Height="90" Margin="329,381,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <ListView>
                     <ListViewItem>Beispiel 1</ListViewItem>
@@ -99,11 +107,26 @@
                 <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,350,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="117" Margin="329,472,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Button Width="100" HorizontalAlignment="Left">Freigeben</Button>
-                <Button Command="{Binding CMDProjektspeichern}"  Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
-                <Button Width="100" HorizontalAlignment="Left">Löschen</Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button Command="{Binding CMDFreigeabeerteilen}" Grid.Column="0" Grid.Row="0" Width="100" HorizontalAlignment="Left" Margin="0,5">Freigeben</Button>
+                    <Button Command="{Binding CMDPlanen}" Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left"  Margin="0,5">Planen</Button>
+                    <Button Command="{Binding CMDStarten}" Grid.Column="0" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Starten</Button>
+                    <Button Command="{Binding CMDProjektspeichern}" Grid.Column="1" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
+                    <Button Command="{Binding CMDProjektspeichern}" Grid.Column="0" Grid.Row="3" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                    <Button Command="{Binding CMDProjektloeschen}" Width="100" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="3" Margin="0,5">Löschen</Button>
+                </Grid>
+
             </StackPanel>
         </GroupBox>
     </Grid>

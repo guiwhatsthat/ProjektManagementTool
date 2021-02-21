@@ -2,6 +2,7 @@
 using ProjektManagementTool.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -91,7 +92,7 @@ namespace ProjektManagementTool.ViewModels
             var bearbeitenWaehler = new BearbeitenWaehlerView();
             var context = (BearbeitenWaehlerViewModel)bearbeitenWaehler.DataContext;
             context.Header = t_Typ;
-            context.ListObj = dbhelper.RunQuery(t_Typ, $"Select * from {t_Typ}");
+            context.ListObj = new ObservableCollection<dynamic>(dbhelper.RunQuery(t_Typ, $"Select * from {t_Typ}"));
             bearbeitenWaehler.Show();
         }
     }

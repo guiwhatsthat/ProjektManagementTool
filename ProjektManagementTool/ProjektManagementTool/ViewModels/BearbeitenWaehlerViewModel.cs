@@ -35,8 +35,8 @@ namespace ProjektManagementTool.ViewModels
         }
 
         //Liste mit den Objekten
-        List<dynamic> _ListObj;
-        public List<dynamic> ListObj
+        ObservableCollection<dynamic> _ListObj;
+        public ObservableCollection<dynamic> ListObj
         {
             get { return _ListObj; }
             set
@@ -59,6 +59,10 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void ShowBearbeiten()
         {
+            if (ListObj.Count == 0)
+            {
+                return;
+            }
             var dbhelper = new DBHelper();
             if (Header == "Projekt")
             {
@@ -73,7 +77,7 @@ namespace ProjektManagementTool.ViewModels
                 context.Beschreibung = ListObj[Index].Beschreibung;
                 context.EndtDatumG = ListObj[Index].EndDatumG;
                 context.Fortschritt = ListObj[Index].Fortschritt;
-                context.Freigabedatum = ListObj[Index].FreigabeDatum;
+                context.Freigabedatum = Convert.ToString(ListObj[Index].FreigabeDatum);
                 context.Kosten = ListObj[Index].Kosten;
                 context.KostenG = ListObj[Index].KostenG;
                 context.Mitarbeiter = mitarbeiter.Vorname + " " + mitarbeiter.Nachname;
@@ -85,12 +89,17 @@ namespace ProjektManagementTool.ViewModels
                 context.ProjektleiterID = mitarbeiter.Pkey;
                 context.VorgehensmodellID = vorgehensmodell.Pkey;
                 context.EnablePhase = true;
+                query = $"Select * from Phase where FKey_ProjektID='{ListObj[Index].Pkey}'";
+                context.PhasenListe = new ObservableCollection<dynamic>(dbhelper.RunQuery("Phase", query));
+                //List der angezeigten Elemente übergeben
+                context.WaehlerContext = this;
 
                 //Meilensteine 
 
                 //aktivitäten
 
                 projektbearbeiten.Show();
+
             } else
             {
                 var vorgehensmodellErfassen = new VorgehensmodellErfassenView();
@@ -109,6 +118,10 @@ namespace ProjektManagementTool.ViewModels
                     list.Add(i.Name);
                 }
                 context.Phasen = list;
+
+                //List der angezeigten Elemente übergeben
+                context.WaehlerContext = this;
+
                 vorgehensmodellErfassen.Show();
             }
         }

@@ -65,6 +65,14 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
+                case "Phase":
+                    returnValue = connection.ExecuteQuery<Phase.db_Phase>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new Phase(i.Pkey, i.Name, i.Status, i.Fortschritt, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_PhaseTemplateID, i.FKey_ProjektID);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;
@@ -125,6 +133,37 @@ namespace ProjektManagementTool.Helper
                     connection.SubmitChanges();
                     pkey = dbObjProjekt.Pkey;
                     break;
+                case "Phase":
+                    var dbObjPhase = new Phase.db_Phase
+                    {
+                        Name = obj.Name,
+                        Status = obj.Status,
+                        Fortschritt = obj.Fortschritt,
+                        StartDatumG = obj.StartDatumG,
+                        EndDatumG = obj.EndDatumG,
+                        StartDatum = obj.StartDatum,
+                        EndDatum = obj.EndDatum,
+                        FKey_PhaseTemplateID = obj.FKey_PhaseTemplateID,
+                        FKey_ProjektID = obj.FKey_ProjektID,
+                    };
+                    Table<Phase.db_Phase> tablePhase = connection.GetTable<Phase.db_Phase>();
+                    tablePhase.InsertOnSubmit(dbObjPhase);
+                    connection.SubmitChanges();
+                    pkey = dbObjPhase.Pkey;
+                    break;
+                case "Meilenstein":
+                    var dbObjMeilenstein = new Meilenstein.db_Meilenstein
+                    {
+                        Name = obj.Name,
+                        DatumG = obj.DatumG,
+                        Datum = obj.Datum,
+                        FKey_PhaseID = obj.FKey_PhaseID
+                    };
+                    Table<Meilenstein.db_Meilenstein> tableMeilenstein = connection.GetTable<Meilenstein.db_Meilenstein>();
+                    tableMeilenstein.InsertOnSubmit(dbObjMeilenstein);
+                    connection.SubmitChanges();
+                    pkey = dbObjMeilenstein.Pkey;
+                    break;
                 default:
                     
                     break;
@@ -175,6 +214,24 @@ namespace ProjektManagementTool.Helper
                     entry.FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID;
                     entry.Dokumente = obj.Dokumente;
                     entry.Status = obj.Status;
+
+                    connection.SubmitChanges();
+                    break;
+                case "Phase":
+                    Table<Phase.db_Phase> tablePhase = connection.GetTable<Phase.db_Phase>();
+                    var phaseObj = (Phase)obj;
+                    var entryPhase = (from i in tablePhase
+                                 where i.Pkey == phaseObj.Pkey
+                                 select i).First();
+                    entryPhase.Name = obj.Name;
+                    entryPhase.Status = obj.Status;
+                    entryPhase.Fortschritt = obj.Fortschritt;
+                    entryPhase.StartDatumG = obj.StartDatumG;
+                    entryPhase.EndDatumG = obj.EndDatumG;
+                    entryPhase.StartDatum = obj.StartDatum;
+                    entryPhase.EndDatum = obj.EndDatum;
+                    entryPhase.FKey_PhaseTemplateID = obj.FKey_PhaseTemplateID;
+                    entryPhase.FKey_ProjektID = obj.FKey_ProjektID;
 
                     connection.SubmitChanges();
                     break;

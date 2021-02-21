@@ -24,13 +24,6 @@ namespace ProjektManagementTool.ViewModels
             {
                 _Aktion = value;
                 OnPropertyChanged("Aktion");
-                if (Aktion == "Erfassen")
-                {
-                    EnablePhase = false;
-                } else
-                {
-                    EnablePhase = true;
-                }
             }
         }
         //Helper Value für die FKey
@@ -64,6 +57,19 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Pkey");
             }
         }
+        //wählerListe um die Objekte zu aktualisieren nach dem ein Update ausgeführt wurde
+        //Liste mit den Objekten
+        BearbeitenWaehlerViewModel _WaehlerContext;
+        public BearbeitenWaehlerViewModel WaehlerContext
+        {
+            get { return _WaehlerContext; }
+            set
+            {
+                _WaehlerContext = value;
+                OnPropertyChanged("WaehlerContext");
+            }
+        }
+
         //Objekte welche in diesem Status nicht ertfasst werden können blocken
         bool _EnablePhase;
         public bool EnablePhase
@@ -94,6 +100,17 @@ namespace ProjektManagementTool.ViewModels
             {
                 _ReadOnlyStatus = value;
                 OnPropertyChanged("ReadOnlyStatus");
+            }
+        }
+        //Fortschritt
+        int _IndexPhase;
+        public int IndexPhase
+        {
+            get { return _IndexPhase; }
+            set
+            {
+                _IndexPhase = value;
+                OnPropertyChanged("IndexPhase");
             }
         }
 
@@ -152,6 +169,13 @@ namespace ProjektManagementTool.ViewModels
             {
                 _Status = value;
                 OnPropertyChanged("Status");
+                if (Status == "Freigegeben" || Status == "Erfasst" || Status == "Archiviert")
+                {
+                    EnablePhase = false;
+                } else
+                {
+                    EnablePhase = true;
+                }
             }
         }
         //Kosten
@@ -196,6 +220,17 @@ namespace ProjektManagementTool.ViewModels
             {
                 _Ablage = value;
                 OnPropertyChanged("Ablage");
+            }
+        }
+        //Phasen
+        ObservableCollection<dynamic> _PhasenListe;
+        public ObservableCollection<dynamic> PhasenListe
+        {
+            get { return _PhasenListe; }
+            set
+            {
+                _PhasenListe = value;
+                OnPropertyChanged("PhasenListe");
             }
         }
         //Datum Eigenschaften
@@ -342,7 +377,34 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Freigeabeerteilen()
         {
+            if (string.IsNullOrEmpty(Freigabedatum))
+            {
+                Freigabedatum = DateTime.Now.ToString("dd.MM.yyyy");
+                Status = "Freigegeben";
+                Projektspeichern();
 
+                //Phasen generieren
+                var dbHelper = new DBHelper();
+
+                //PhasenTemplates holen
+                string query = $"Select * from PhaseTemplate where FKey_VorgehensmodellID='{VorgehensmodellID}'";
+                var phasenTemplates = dbHelper.RunQuery("PhaseTemplate", query);
+                //Duch phasentemplates loopen und phasen mit Projekt pkey als fkey erstellen
+                PhasenListe = new ObservableCollection<dynamic>();
+                foreach (var template in phasenTemplates)
+                {
+                    //Create Phasen
+                    var phaseObj = new Phase(0,template.Name,"Eröffnet",0,DateTime.Now, DateTime.Now,null,null,template.Pkey, Pkey);
+                    int phasePKey = phaseObj.CreateInDB();
+                    //Phasen dem bindig zuweisen
+                    PhasenListe.Add(phaseObj);
+                }
+                EnablePhase = false;
+            } else
+            {
+                System.Windows.MessageBox.Show("Projekt wurde bereits freigegeben", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            
         }
 
         //Button Projekt speicher
@@ -376,11 +438,7 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            if (DateTime.Now > StartDatumG)
-            {
-                System.Windows.MessageBox.Show("Startdatum muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            
 
             if (StartDatumG == DateTime.MinValue || EndtDatumG == DateTime.MinValue)
             {
@@ -392,12 +450,19 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            if (Pkey == null || Pkey == 0)
+            if (Pkey == 0)
             {
+                //dieser test muss nur beim eröffnen gemacht werden
+                if (DateTime.Now > StartDatumG)
+                {
+                    System.Windows.MessageBox.Show("Startdatum muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 //Projekt speichern
                 Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
-                int Pkey = projekt.CreateInDB();
-                if (Pkey == -1)
+                int projektPkey = projekt.CreateInDB();
+                if (projektPkey == -1)
                 {
                     System.Windows.MessageBox.Show("Konnte nicht in DB geschrieben werden", "fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -405,14 +470,78 @@ namespace ProjektManagementTool.ViewModels
                 {
                     System.Windows.MessageBox.Show("Projekt erfasst", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                Pkey = projektPkey;
             } else
             {
                 //Update
-                Projekt projekt = new Projekt(Pkey, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
-                projekt.Update();
+                if (null == Freigabedatum)
+                {
+                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung,null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                    projekt.Update();
+                } else
+                {
+                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, DateTime.Parse(Freigabedatum), StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                    projekt.Update();
+                }
+                
+                var dbHelper = new DBHelper();
+
+                //Update anzeige view
+                WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Projekt", "Select * from Projekt"));
             }
             
 
+        }
+        //Button Projekt planen
+        ICommand _ShowPhaseDaten;
+        public ICommand CMDPhaseDatenBearbeiten
+        {
+            get
+            {
+                return _ShowPhaseDaten ?? (_ShowPhaseDaten =
+                new RelayCommand(p => ShowPhaseDaten()));
+            }
+        }
+        //Funktion für den Command
+        void ShowPhaseDaten()
+        {
+            if (Status != "In Planung" && Status != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Phasen könnent nur bearbeitet werden, wenn das Projekt in Planung ist", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            var phaseDatenView = new PhasenDatenView();
+            var context = (PhasenDatenViewModel)phaseDatenView.DataContext;
+            context.Name = PhasenListe[IndexPhase].Name;
+            context.StartDatum = PhasenListe[IndexPhase].StartDatum;
+            context.StartDatumG = PhasenListe[IndexPhase].StartDatumG;
+            context.Status = PhasenListe[IndexPhase].Status;
+            context.EndtDatum = PhasenListe[IndexPhase].EndDatum;
+            context.EndtDatumG = PhasenListe[IndexPhase].EndDatumG;
+            context.Fortschritt = PhasenListe[IndexPhase].Fortschritt;
+            context.Pkey = PhasenListe[IndexPhase].Pkey;
+            context.ProjektStatus = Status;
+            context.FKey_ProjektID = PhasenListe[IndexPhase].FKey_ProjektID;
+            context.FKey_PhaseTemplateID = PhasenListe[IndexPhase].FKey_PhaseTemplateID;
+            context.ParentContext = this;
+            phaseDatenView.Show();
+        }
+
+        //Button Projekt planen
+        ICommand _Projektplanen;
+        public ICommand CMDPlanen
+        {
+            get
+            {
+                return _Projektplanen ?? (_Projektplanen =
+                new RelayCommand(p => Projektplanen()));
+            }
+        }
+        //Funktion für den Command
+        void Projektplanen()
+        {
+            Status = "In Planung";
+            Projektspeichern();
         }
 
         //Button Projekt löschen
@@ -428,6 +557,44 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Projektloeschen()
         {
+            Status = "Archiviert";
+            Projektspeichern();
+        }
+
+        //Button Projekt Starten
+        ICommand _Projektstarten;
+        public ICommand CMDStarten
+        {
+            get
+            {
+                return _Projektstarten ?? (_Projektstarten =
+                new RelayCommand(p => Projektstarten()));
+            }
+        }
+        //Funktion für den Command
+        void Projektstarten()
+        {
+            //Checken ob alle Phasen den status erfasst haben
+            bool startErlaubt = true;
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Phase where FKey_ProjektID='{Pkey}'";
+            List<dynamic> phasen = dbHelper.RunQuery("Phase", query);
+            foreach(var phase in phasen)
+            {
+                if (phase.Status == "Eröffnet")
+                {
+                    startErlaubt = false;
+                }
+            }
+
+            if (startErlaubt)
+            {
+                Status = "In Arbeit";
+            } else
+            {
+                System.Windows.MessageBox.Show("Projekt kann nicht gestartet werden. Zuerst müssen alle Phasen bearbeitet werden.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
         }
     }

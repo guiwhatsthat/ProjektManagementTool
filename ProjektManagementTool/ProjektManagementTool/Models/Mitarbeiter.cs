@@ -8,7 +8,7 @@ namespace ProjektManagementTool.Models
 {
     class Mitarbeiter
     {
-        //Eigentschaften vom PhaseTemplate
+        //Eigentschaften
         public int Pkey { get; set; }
         public string Vorname { get; set; }
         public string Nachname { get; set; }
