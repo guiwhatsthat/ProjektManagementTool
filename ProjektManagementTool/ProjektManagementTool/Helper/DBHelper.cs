@@ -81,6 +81,14 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
+                case "Aktivitaet":
+                    returnValue = connection.ExecuteQuery<Aktivitaet.db_Aktivitaet>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new Aktivitaet(i.Pkey,i.Name,i.StartDatumG,i.EndDatumG,i.StartDatum,i.EndDatum,i.BudgetExterneKostenG,i.BudgetPersonenKostenG,i.BudgetExterneKosten,i.BudgetPersonenKosten,i.Fortschritt,i.FKey_VerantwortlichePersonID,i.FKey_PhaseID,i.Dokumente);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;
@@ -175,7 +183,7 @@ namespace ProjektManagementTool.Helper
                 case "Aktivitaet":
                     var dbObjAktivitaet = new Aktivitaet.db_Aktivitaet
                     {
-                        Pkey = obj.Pkey,
+                        //Pkey = obj.Pkey,
                         Name = obj.Name,
                         StartDatumG = obj.StartDatumG,
                         EndDatumG = obj.EndDatumG,
@@ -187,7 +195,8 @@ namespace ProjektManagementTool.Helper
                         BudgetPersonenKosten = obj.BudgetPersonenKosten,
                         Fortschritt = obj.Fortschritt,
                         FKey_VerantwortlichePersonID = obj.FKey_VerantwortlichePersonID,
-                        FKey_PhaseID = obj.FKey_PhaseID
+                        FKey_PhaseID = obj.FKey_PhaseID,
+                        Dokumente = obj.Dokumente
                     };
                     Table<Aktivitaet.db_Aktivitaet> tableAktivitaet = connection.GetTable<Aktivitaet.db_Aktivitaet>();
                     tableAktivitaet.InsertOnSubmit(dbObjAktivitaet);
@@ -295,6 +304,7 @@ namespace ProjektManagementTool.Helper
                     entryAktivitaet.Fortschritt = obj.Fortschritt;
                     entryAktivitaet.FKey_VerantwortlichePersonID = obj.FKey_VerantwortlichePersonID;
                     entryAktivitaet.FKey_PhaseID = obj.FKey_PhaseID;
+                    entryAktivitaet.Dokumente = obj.Dokumente;
                     connection.SubmitChanges();
                     break;
                 default:

@@ -91,6 +91,19 @@ namespace ProjektManagementTool.ViewModels
                 context.EnablePhase = true;
                 query = $"Select * from Phase where FKey_ProjektID='{ListObj[Index].Pkey}'";
                 context.PhasenListe = new ObservableCollection<dynamic>(dbhelper.RunQuery("Phase", query));
+                var aktivitaetListe = new ObservableCollection<Aktivitaet>();
+                foreach (var obj in context.PhasenListe)
+                {
+                    var phase = (Phase)obj;
+                    query = $"Select * from Aktivitaet where FKey_PhaseID='{phase.Pkey}'";
+                    var listAktivitaeten = dbhelper.RunQuery("Aktivitaet", query);
+                    foreach (Aktivitaet aktivitaet in listAktivitaeten)
+                    {
+                        aktivitaetListe.Add((Aktivitaet)aktivitaet);
+                    }
+
+                }
+                context.ListAktivitaet = aktivitaetListe;
                 //List der angezeigten Elemente übergeben
                 context.WaehlerContext = this;
 

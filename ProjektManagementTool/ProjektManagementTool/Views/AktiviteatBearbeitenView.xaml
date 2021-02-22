@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Aktivität bearbeiten" Height="519" Width="647">
+        Title="Aktivität bearbeiten" Height="610" Width="647">
     <Grid>
-        <GroupBox Header="Aktivität" HorizontalAlignment="Left" Height="439" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktivität" HorizontalAlignment="Left" Height="561" Margin="26,13,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Name}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
@@ -16,11 +16,11 @@
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
                 <DatePicker SelectedDate="{Binding EndDatumG}"></DatePicker>
                 <Label Content="Externe-Kosten (Geplant)" Margin="0,0,0,0"/>
-                <TextBox Text=""  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding ExterneKostenG}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Personen-Kosten (Geplant)" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding PersonenKostenG}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Fortschritt" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Fortschritt}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Mitarbeiter" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -30,8 +30,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Mitarbeiter" Grid.Column="0" Padding="5,5,5,5"/>
-                    <Button Grid.Column="1">Hinzufügen</Button>
+                    <Label Content="{Binding MitarbeiterName}" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Command="{Binding CMDMitarbeiterzuweisen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
                 <Label Content="Dokumente" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
@@ -42,18 +42,19 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Ablage" Grid.Column="0" Padding="5,5,5,5"/>
-                    <Button Grid.Column="1">Hinzufügen</Button>
+                    <Label Content="{Binding Ablage}" Grid.Column="0" Padding="5,5,5,5"/>
+                    <Button Command="{Binding CMDAblagezuweisen}" Grid.Column="1">Hinzufügen</Button>
                 </Grid>
+                <Label Content="Phase" Margin="0,0,0,0"></Label>
+                <DataGrid ItemsSource="{Binding ListPhasen}" SelectedIndex="{Binding PhasenIndex}" Height="100">
+                </DataGrid>
+                <Button Command="{Binding CMDPhasezuweisen}">Zuweisen</Button>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Kosten" HorizontalAlignment="Left" Height="122" Margin="329,230,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Kosten" HorizontalAlignment="Left" Height="152" Margin="329,275,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <ListView>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                    <ListViewItem>Beispiel 1</ListViewItem>
-                </ListView>
+                <DataGrid ItemsSource="{Binding ListKosten}" SelectedIndex="{Binding KostenIndex}" Height="100">
+                </DataGrid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -63,29 +64,31 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button>Button 1</Button>
-                    <Button Grid.Column="0" Padding="5,5,5,5">Erfassen</Button>
-                    <Button Grid.Column="1">Bearbeiten</Button>
+                    <Button Command="{Binding CMDKostenerfassen}" Grid.Column="0" Padding="5,5,5,5">Erfassen</Button>
+                    <Button Command="{Binding CMDKostenbearbeiten}" Grid.Column="1">Bearbeiten</Button>
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informationen" HorizontalAlignment="Left" Height="182" Margin="329,43,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Informationen" IsEnabled="False" HorizontalAlignment="Left" Height="250" Margin="329,13,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Startdautm" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding StartDatum}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Enddatum" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding EndDatum}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Externe-Kosten" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding ExterneKosten}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
                 <Label Content="Personen-Kosten" Margin="0,0,0,0"/>
-                <TextBox Text="Empty"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding PersonenKosten}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
+                <Label Content="Phase" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding PhaseName}"  Margin="5,0,0,0"  Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,357,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,435,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Button Width="100" HorizontalAlignment="Left">Starten</Button>
-                <Button Width="100" HorizontalAlignment="Left" Margin="0,5,0,0">Beenden</Button>
-                <Button Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
-                <Button Width="100" HorizontalAlignment="Left">Löschen</Button>
+                <Button Command="{Binding CMDStarten}" Width="100" HorizontalAlignment="Left">Starten</Button>
+                <Button Command="{Binding CMDBeenden}" Width="100" HorizontalAlignment="Left" Margin="0,5,0,0">Beenden</Button>
+                <Button Command="{Binding CMDSpeichern}" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                <Button Command="{Binding CMDLoeschen}" Width="100" HorizontalAlignment="Left">Löschen</Button>
             </StackPanel>
         </GroupBox>
     </Grid>

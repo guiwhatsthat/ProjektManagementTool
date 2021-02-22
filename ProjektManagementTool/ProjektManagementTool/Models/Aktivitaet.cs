@@ -22,9 +22,10 @@ namespace ProjektManagementTool.Models
         public int Fortschritt { get; set; }
         public int FKey_VerantwortlichePersonID { get; set; }
         public int FKey_PhaseID { get; set; }
+        public string Dokumente { get; set; }
 
 
-        public Aktivitaet(int t_Pkey, string t_Name, DateTime t_StartDatumG, DateTime t_EndDatumG, Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, decimal t_BudgetExterneKostenG, decimal t_BudgetPersonenKostenG, decimal t_BudgetExterneKosten, decimal t_BudgetPersonenKosten, int t_Fortschritt, int t_FKey_VerantwortlichePersonID, int t_FKey_PhaseID)
+        public Aktivitaet(int t_Pkey, string t_Name, DateTime t_StartDatumG, DateTime t_EndDatumG, Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, decimal t_BudgetExterneKostenG, decimal t_BudgetPersonenKostenG, decimal t_BudgetExterneKosten, decimal t_BudgetPersonenKosten, int t_Fortschritt, int t_FKey_VerantwortlichePersonID, int t_FKey_PhaseID, string t_Dokumente)
         {
             Pkey = t_Pkey;
             Name = t_Name;
@@ -39,6 +40,7 @@ namespace ProjektManagementTool.Models
             Fortschritt = t_Fortschritt;
             FKey_VerantwortlichePersonID = t_FKey_VerantwortlichePersonID;
             FKey_PhaseID = t_FKey_PhaseID;
+            Dokumente = t_Dokumente;
         }
 
         //SQL mapping
@@ -73,6 +75,8 @@ namespace ProjektManagementTool.Models
             public int FKey_VerantwortlichePersonID;
             [Column]
             public int FKey_PhaseID;
+            [Column]
+            public string Dokumente;
         }
 
         public int CreateInDB()

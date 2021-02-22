@@ -245,6 +245,29 @@ namespace ProjektManagementTool.ViewModels
             }
         }
 
+        //AktivitaetenListe
+        ObservableCollection<Aktivitaet> _ListAktivitaet;
+        public ObservableCollection<Aktivitaet> ListAktivitaet
+        {
+            get { return _ListAktivitaet; }
+            set
+            {
+                _ListAktivitaet = value;
+                OnPropertyChanged("ListAktivitaet");
+            }
+        }
+        //Aktivität Index
+        int _AktivitaeteIndex;
+        public int AktivitaeteIndex
+        {
+            get { return _AktivitaeteIndex; }
+            set
+            {
+                _AktivitaeteIndex = value;
+                OnPropertyChanged("AktivitaeteIndex");
+            }
+        }
+
         //Phasen
         ObservableCollection<dynamic> _PhasenListe;
         public ObservableCollection<dynamic> PhasenListe
@@ -355,31 +378,6 @@ namespace ProjektManagementTool.ViewModels
             {
                 Ablage = fbd.SelectedPath;
 
-            }
-        }
-        //Button Aktivität erfassen
-        ICommand _Aaktivitaeterfassen;
-        public ICommand CMDShowAaktivitaeterfassen
-        {
-            get
-            {
-                return _Aaktivitaeterfassen ?? (_Aaktivitaeterfassen =
-                new RelayCommand(p => ShowAaktivitaeterfassen()));
-            }
-        }
-        //Funktion für den Command
-        void ShowAaktivitaeterfassen()
-        {
-
-        }
-        //Button Aktivität bearbeiten
-        ICommand _Aktivitaetbearbeiten;
-        public ICommand CMDShowAktivitaetbearbeiten
-        {
-            get
-            {
-                return _Aktivitaetbearbeiten ?? (_Aktivitaetbearbeiten =
-                new RelayCommand(p => ShowAktivitaetbearbeiten()));
             }
         }
         //Funktion für den Command
@@ -677,6 +675,72 @@ namespace ProjektManagementTool.ViewModels
             context.ProjektName = Name;
             context.Phasen = PhasenListe;
             meilensteinbearbeiten.Show();
+        }
+
+        //Aktivitaeter fassen
+        ICommand _Aktivitaeterfassen;
+        public ICommand CMDAktivitaeterfassen
+        {
+            get
+            {
+                return _Aktivitaeterfassen ?? (_Aktivitaeterfassen =
+                new RelayCommand(p => Aktivitaeterfassen()));
+            }
+        }
+        //Funktion für den Command
+        void Aktivitaeterfassen()
+        {
+            var aktiviteatBearbeitenView = new AktiviteatBearbeitenView();
+            var context = (AktiviteatBearbeitenViewModel)aktiviteatBearbeitenView.DataContext;
+            context.ParentDataContext = this;
+            context.ListPhasen = PhasenListe;
+            aktiviteatBearbeitenView.Show();
+        }
+
+        //Meilenstein erfassen
+        ICommand _Aktivitaetbearbeiten;
+        public ICommand CMDAktivitaetbearbeiten
+        {
+            get
+            {
+                return _Aktivitaetbearbeiten ?? (_Aktivitaetbearbeiten =
+                new RelayCommand(p => Aktivitaetbearbeiten()));
+            }
+        }
+        //Funktion für den Command
+        void Aktivitaetbearbeiten()
+        {
+            if (ListAktivitaet == null)
+            {
+                return;
+            }
+            var dbHelper = new DBHelper();
+            var aktiviteatBearbeitenView = new AktiviteatBearbeitenView();
+            var context = (AktiviteatBearbeitenViewModel)aktiviteatBearbeitenView.DataContext;
+            context.ParentDataContext = this;
+            context.ListPhasen = PhasenListe;
+
+            var aktivitaet = ListAktivitaet[AktivitaeteIndex];
+            string query = $"Select * from Mitarbeiter where Pkey='{aktivitaet.FKey_VerantwortlichePersonID}'";
+            var mitarbeiter = dbHelper.RunQuery("Mitarbeiter", query)[0];
+            context.MitarbeiterName = mitarbeiter.Vorname + " " + mitarbeiter.Nachname;
+            context.MitarbeiterPkey = aktivitaet.FKey_VerantwortlichePersonID;
+            context.Name = aktivitaet.Name;
+            context.PersonenKosten = aktivitaet.BudgetPersonenKosten;
+            context.PersonenKostenG = aktivitaet.BudgetPersonenKostenG;
+            context.ExterneKosten = aktivitaet.BudgetExterneKosten;
+            context.ExterneKostenG = aktivitaet.BudgetExterneKostenG;
+            query = $"Select * from Phase where Pkey='{aktivitaet.FKey_PhaseID}'";
+            context.PhaseName = dbHelper.RunQuery("Phase", query)[0].Name;
+            context.StartDatum= aktivitaet.StartDatum;
+            context.StartDatumG = aktivitaet.StartDatumG;
+            context.EndDatum = aktivitaet.EndDatum;
+            context.EndDatumG = aktivitaet.EndDatumG;
+            context.Pkey = aktivitaet.Pkey;
+            context.PhasePkey = aktivitaet.FKey_PhaseID;
+            context.MitarbeiterPkey = aktivitaet.FKey_VerantwortlichePersonID;
+
+            aktiviteatBearbeitenView.Show();
         }
     }
 }

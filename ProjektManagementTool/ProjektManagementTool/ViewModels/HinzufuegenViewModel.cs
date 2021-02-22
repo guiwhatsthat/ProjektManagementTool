@@ -21,6 +21,18 @@ namespace ProjektManagementTool.ViewModels
             }
         }
 
+        //Parent DataContext
+        AktiviteatBearbeitenViewModel _AktiviteatBearbeitenViewModel;
+        public AktiviteatBearbeitenViewModel ParentDataContextAktiviteat
+        {
+            get { return _AktiviteatBearbeitenViewModel; }
+            set
+            {
+                _AktiviteatBearbeitenViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         //Typ
         string _Header;
         public string Header
@@ -72,8 +84,16 @@ namespace ProjektManagementTool.ViewModels
             if (Header == "Mitarbeiter")
             {
                 string mitarbeiterName = ListObj[Index].Vorname + " " + ListObj[Index].Nachname;
-                ParentDataContext.Mitarbeiter = mitarbeiterName;
-                ParentDataContext.ProjektleiterID = ListObj[Index].Pkey;
+                if (ParentDataContextAktiviteat == null)
+                {
+                    ParentDataContext.Mitarbeiter = mitarbeiterName;
+                    ParentDataContext.ProjektleiterID = ListObj[Index].Pkey;
+                } else
+                {
+                    ParentDataContextAktiviteat.MitarbeiterName = mitarbeiterName;
+                    ParentDataContextAktiviteat.MitarbeiterPkey = ListObj[Index].Pkey;
+                }
+                
             } else
             {
                 ParentDataContext.Modell = ListObj[Index].Name;
