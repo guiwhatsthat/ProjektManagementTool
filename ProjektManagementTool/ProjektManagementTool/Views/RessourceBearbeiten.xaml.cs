@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjektManagementTool.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace ProjektManagementTool.Views
         public RessourceBearbeiten()
         {
             InitializeComponent();
+            DataContext = new RessourceBearbeitenViewModel();
         }
     }
 }

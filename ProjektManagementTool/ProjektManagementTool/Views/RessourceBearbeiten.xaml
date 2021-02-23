@@ -5,29 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Ressource bearbeiten" Height="292" Width="271">
+        Title="Ressource bearbeiten" Height="390" Width="506">
     <Grid>
-        <StackPanel Margin="26,33,0,10">
-            <Label Content="Name" Margin="0,0,0,0"/>
-            <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
-            <Label Content="Kosten" Margin="0,0,0,0"/>
-            <TextBox Text="Empty"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
-            <Label Content="Startdatum" Margin="0,0,0,0"/>
-            <DatePicker  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
-            <Label Content="Enddatum" Margin="0,0,0,0"/>
-            <DatePicker  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
-            <Grid Width="200"  Margin="5,5,0,0" HorizontalAlignment="Left">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Button>Button 1</Button>
-                <Button Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
-                <Button Grid.Column="1">Löschen</Button>
-            </Grid>
-        </StackPanel>
+        <GroupBox Width="220" Margin="26,13,0,20" HorizontalAlignment="Left">
+            <StackPanel Height="341" >
+                <Label Content="Name" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Name}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Art" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <ComboBox ItemsSource="{Binding Arten}" Width="200" HorizontalAlignment="Left"></ComboBox>
+                <Label Content="Kosten Geplant" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Kosten" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Startdatum" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <DatePicker SelectedDate="{Binding StartDaum}" Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
+                <Label Content="Enddatum" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
+                <DatePicker SelectedDate="{Binding EndDatum}" Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
+                <Grid Width="200"  Margin="5,5,0,0" HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button Command="{Binding CMDSpeichern}" Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
+                    <Button Command="{Binding CMDLöschen}" Grid.Column="1">Löschen</Button>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Verfügbare Resourcen" HorizontalAlignment="Left" Height="320" Margin="271,13,0,0" VerticalAlignment="Top" Width="201">
+            <StackPanel>
+                <DataGrid ItemsSource="{Binding Resourcen}" SelectedIndex="{Binding ResourcenIndex}" Height="275">
+
+                </DataGrid>
+                <Button Command="{Binding CMDWaehlen}">Wählen</Button>
+            </StackPanel>
+        </GroupBox>
+
     </Grid>
 </Window>

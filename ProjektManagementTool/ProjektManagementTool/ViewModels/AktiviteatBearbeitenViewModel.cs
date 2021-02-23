@@ -179,8 +179,8 @@ namespace ProjektManagementTool.ViewModels
         }
 
         //Kosten liste ist dynamisch da zwei Datentypen abegfüllt werden müssen
-        ObservableCollection<dynamic> _ListKosten;
-        public ObservableCollection<dynamic> ListKosten
+        ObservableCollection<GenericKosten> _ListKosten;
+        public ObservableCollection<GenericKosten> ListKosten
         {
             get { return _ListKosten; }
             set
@@ -468,6 +468,9 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Kostenerfassen()
         {
+            var ressourceBearbeitenView = new RessourceBearbeiten();
+            var ressourceBearbeitenViewModel = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
+            ressourceBearbeitenView.Show();
         }
         //Button Kosten bearbeiten
         ICommand _Kostenbearbeiten;
