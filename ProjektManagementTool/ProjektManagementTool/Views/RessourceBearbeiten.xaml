@@ -32,7 +32,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button Command="{Binding CMDSpeichern}" Grid.Column="0" Padding="5,5,5,5">Speichern</Button>
-                    <Button Command="{Binding CMDLöschen}" Grid.Column="1">Löschen</Button>
+                    <Button Command="{Binding CMDLoeschen}" Grid.Column="1">Löschen</Button>
                 </Grid>
             </StackPanel>
         </GroupBox>

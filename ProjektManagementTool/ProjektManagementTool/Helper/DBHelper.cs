@@ -503,6 +503,28 @@ namespace ProjektManagementTool.Helper
                     tableAktivitaet.DeleteOnSubmit(entryAktivitaet);
                     connection.SubmitChanges();
                     break;
+                case "ZExterneResource":
+                    //aktuelles objekt aus der DB
+                    Table<ZExterneResource.db_ExterneResource> tableZExterneResource = connection.GetTable<ZExterneResource.db_ExterneResource>();
+                    var ZExterneResourceObj = (ZExterneResource)obj;
+                    var entryZExterneResource = (from i in tableZExterneResource
+                                                 where i.Pkey == ZExterneResourceObj.Pkey
+                                           select i).First();
+                    //Remove
+                    tableZExterneResource.DeleteOnSubmit(entryZExterneResource);
+                    connection.SubmitChanges();
+                    break;
+                case "ZPerseonenResource":
+                    //aktuelles objekt aus der DB
+                    Table<ZPerseonenResource.db_ZPerseonenResource> tableZPerseonenResource = connection.GetTable<ZPerseonenResource.db_ZPerseonenResource>();
+                    var ZPerseonenResourcetObj = (ZPerseonenResource)obj;
+                    var entryZPerseonenResource = (from i in tableZPerseonenResource
+                                                   where i.Pkey == ZPerseonenResourcetObj.Pkey
+                                           select i).First();
+                    //Remove
+                    tableZPerseonenResource.DeleteOnSubmit(entryZPerseonenResource);
+                    connection.SubmitChanges();
+                    break;
                 default:
 
                     break;

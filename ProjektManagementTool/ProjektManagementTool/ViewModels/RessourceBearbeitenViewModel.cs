@@ -429,7 +429,50 @@ namespace ProjektManagementTool.ViewModels
         }
 
         //CMDLoeschen
+        ICommand _Loeschen;
+        public ICommand CMDLoeschen
+        {
+            get
+            {
+                return _Loeschen ?? (_Loeschen =
+                new RelayCommand(p => Loeschen()));
+            }
+        }
+        //Funktion für den Command
+        void Loeschen()
+        {
+            if (Pkey != 0 && ZPkey != 0)
+            {
+                var dbHelper = new DBHelper();
+               
+                if (Art == "ExterneKosten")
+                {
+                    string query = $"Select * from Z_ExterneResource where Pkey='{ZPkey}'";
+                    var zexterne = (ZExterneResource)dbHelper.RunQuery("ZExterneResource", query)[0];
+                    var link = new ZExterneResource(zexterne.Pkey, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, 0, zexterne.Kommentar);
+                    link.Remove();
+                } else
+                {
+                    string query = $"Select * from Z_PerseonenResource where PKey='{ZPkey}'";
+                    var zperson = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
+                    var link = new ZPerseonenResource(zperson.Pkey, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, 0, zperson.Kommentar);
+                    link.Remove();
+                }
 
+                //Entfernen vom liste in parentview
+                int index = 0;
+                for (int i = 0; i < ParentDataContext.ListKosten.Count; i++)
+                {
+                    if (ParentDataContext.ListKosten[i].Pkey == ZPkey)
+                    {
+                        index = i;
+                        i = ParentDataContext.ListKosten.Count;
+                    }
+                }
+                System.Windows.MessageBox.Show("Entfernt", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                ParentDataContext.ListKosten.RemoveAt(index);
+            }
+        }
         #endregion
     }
 }
