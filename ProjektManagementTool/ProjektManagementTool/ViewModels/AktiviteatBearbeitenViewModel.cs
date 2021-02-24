@@ -523,6 +523,7 @@ namespace ProjektManagementTool.ViewModels
                 context.KostenG = externeResource.KostenG;
                 context.Name = externeResource.Name;
                 context.ArtFunktion = externeResource.Art;
+                context.ZPkey = kosten.ZPkey;
                 query = $"Select * from Z_ExterneResource where PKey='{kosten.ZPkey}'";
                 var zexterneResource = (ZExterneResource)dbHelper.RunQuery("ZExterneResource", query)[0];
                 context.StartDatum = zexterneResource.StartDatum;
@@ -537,15 +538,16 @@ namespace ProjektManagementTool.ViewModels
                 context.KostenG = personenRsourcen.KostenG;
                 context.Name = personenRsourcen.Name;
                 context.ArtFunktion = personenRsourcen.Funktion;
+                context.ZPkey = kosten.ZPkey;
                 query = $"Select * from Z_PerseonenResource where PKey='{kosten.ZPkey}'";
                 var zpersonenResource = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
                 context.StartDatum = zpersonenResource.StartDatum;
                 context.EndDatum = zpersonenResource.EndDatum;
                 context.Kosten = Convert.ToDecimal(zpersonenResource.Kosten);
                 context.Art = "PersonenKosten";
-
             }
 
+            context.OArt = context.Art;
 
             ressourceBearbeitenView.Show();
         }

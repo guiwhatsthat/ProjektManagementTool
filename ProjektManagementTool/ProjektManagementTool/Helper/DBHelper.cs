@@ -399,6 +399,62 @@ namespace ProjektManagementTool.Helper
                     entryAktivitaet.Dokumente = obj.Dokumente;
                     connection.SubmitChanges();
                     break;
+                case "ExterneResource":
+                    Table<ExterneResource.db_ExterneResource> tableExterneResource = connection.GetTable<ExterneResource.db_ExterneResource>();
+                    var ExterneResourceObj = (ExterneResource)obj;
+                    var entryExterneResource = (from i in tableExterneResource
+                                                where i.Pkey == ExterneResourceObj.Pkey
+                                           select i).First();
+                    entryExterneResource.Name = obj.Name;
+                    entryExterneResource.Art = obj.Art;
+                    entryExterneResource.KostenG = obj.KostenG;
+                    entryExterneResource.Pkey = obj.Pkey;
+                    connection.SubmitChanges();
+                    break;
+                case "ZExterneResource":
+                    Table<ZExterneResource.db_ExterneResource> tableZExterneResource = connection.GetTable<ZExterneResource.db_ExterneResource>();
+                    var ZExterneResourceObj = (ZExterneResource)obj;
+                    var entryZExterneResource = (from i in tableZExterneResource
+                                                where i.Pkey == ZExterneResourceObj.Pkey
+                                                select i).First();
+                    entryZExterneResource.EndDatum = obj.EndDatum;
+                    entryZExterneResource.FKey_Aktiviteat = obj.FKey_Aktiviteat;
+                    entryZExterneResource.FKey_ExterneResource = obj.FKey_ExterneResource;
+                    entryZExterneResource.StartDatum = obj.StartDatum;
+                    entryZExterneResource.Pkey = obj.Pkey;
+                    entryZExterneResource.Abweichung = obj.Abweichung;
+                    entryZExterneResource.Kommentar = obj.Kommentar;
+                    entryZExterneResource.Kosten = obj.Kosten;
+                    connection.SubmitChanges();
+                    break;
+                case "PerseonenResource":
+                    Table<PerseonenResource.db_PerseonenResource> tablePerseonenResource = connection.GetTable<PerseonenResource.db_PerseonenResource>();
+                    var PersonenResourceObj = (PerseonenResource)obj;
+                    var entryPerseonenResource = (from i in tablePerseonenResource
+                                                  where i.Pkey == PersonenResourceObj.Pkey
+                                                select i).First();
+                    entryPerseonenResource.Name = obj.Name;
+                    entryPerseonenResource.Funktion = obj.Funktion;
+                    entryPerseonenResource.KostenG = obj.KostenG;
+                    entryPerseonenResource.Pkey = obj.Pkey;
+                    connection.SubmitChanges();
+                    break;
+                case "ZPerseonenResource":
+                    Table<ZPerseonenResource.db_ZPerseonenResource> tableZPerseonenResource = connection.GetTable<ZPerseonenResource.db_ZPerseonenResource>();
+                    var ZPersonenResourceObj = (ZPerseonenResource)obj;
+                    var entryZPerseonenResource = (from i in tableZPerseonenResource
+                                                 where i.Pkey == ZPersonenResourceObj.Pkey
+                                                 select i).First();
+                    entryZPerseonenResource.EndDatum = obj.EndDatum;
+                    entryZPerseonenResource.FKey_Aktiviteat = obj.FKey_Aktiviteat;
+                    entryZPerseonenResource.FKey_PerseonenResource = obj.FKey_PerseonenResource;
+                    entryZPerseonenResource.StartDatum = obj.StartDatum;
+                    entryZPerseonenResource.Pkey = obj.Pkey;
+                    entryZPerseonenResource.Abweichung = obj.Abweichung;
+                    entryZPerseonenResource.Kommentar = obj.Kommentar;
+                    entryZPerseonenResource.Kosten = obj.Kosten;
+                    connection.SubmitChanges();
+                    break;
                 default:
 
                     break;

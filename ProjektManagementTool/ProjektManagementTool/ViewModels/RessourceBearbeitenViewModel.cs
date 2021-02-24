@@ -44,6 +44,18 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Pkey");
             }
         }
+
+        //Pkey
+        int _ZPkey;
+        public int ZPkey
+        {
+            get { return _ZPkey; }
+            set
+            {
+                _ZPkey = value;
+                OnPropertyChanged("ZPkey");
+            }
+        }
         //Name
         string _Name;
         public string Name
@@ -78,6 +90,8 @@ namespace ProjektManagementTool.ViewModels
             }
         }
 
+        //soll verhindern das beim Update der Typ geändert werden kann
+        public string OArt;
 
         //ArtFunktion
         string _ArtFunktion;
@@ -166,6 +180,7 @@ namespace ProjektManagementTool.ViewModels
             set
             {
                 _ResourcenPIndex = value;
+                ResourcenEIndex = -1;
                 OnPropertyChanged("ResourcenPIndex");
             }
         }
@@ -188,6 +203,7 @@ namespace ProjektManagementTool.ViewModels
             set
             {
                 _ResourcenEIndex = value;
+                ResourcenPIndex = -1;
                 OnPropertyChanged("ResourcenEIndex");
             }
         }
@@ -195,7 +211,6 @@ namespace ProjektManagementTool.ViewModels
 
         #region Buttons
         //CMDSpeichern
-        //Button Mitarbeiter zuweisen
         ICommand _Speichern;
         public ICommand CMDSpeichern
         {
@@ -255,24 +270,24 @@ namespace ProjektManagementTool.ViewModels
                 }
             }
 
+            //abweichung
+            decimal abweichung = 0;
+            if (Kosten > 0)
+            {
+                abweichung = KostenG - Kosten;
+            }
 
             //objekt erstellen
             if (Art == "ExterneKosten")
             {
-                //abweichung
-                decimal abweichung = 0;
-                if (Kosten > 0)
-                {
-                    abweichung = KostenG - Kosten;
-                }
-
                 if (Pkey == 0)
                 {
                     var externeKosten = new ExterneResource(0, Name, KostenG,ArtFunktion, Fkey_Aktivitaet);
                     Pkey = externeKosten.CreateInDB();
+                    OArt = Art;
                     //Create link zwischen aktivitaet und Kosten
                     var link = new ZExterneResource(0,Fkey_Aktivitaet,Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
-                    int ZPkey = link.CreateInDB();
+                    ZPkey = link.CreateInDB();
 
                     //Liste in der view updaten
                     if (ParentDataContext.ListKosten == null)
@@ -285,26 +300,36 @@ namespace ProjektManagementTool.ViewModels
                     return;
                 } else
                 {
-                    //Update 
+                    //Checken ob der Typ geändert wurde
+                    if (OArt != Art)
+                    {
+                        System.Windows.MessageBox.Show("Typ kann für Update nicht geändert werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    //Update
+                    var externeKosten = new ExterneResource(Pkey, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
+                    externeKosten.Update();
+
+
                     //Kommentar laden
+                    var dbHelper = new DBHelper();
+                    string query = $"Select * from Z_ExterneResource where Pkey='{ZPkey}'";
+                    var zexterne = (ZExterneResource)dbHelper.RunQuery("ZExterneResource", query)[0];
+                    var link = new ZExterneResource(zexterne.Pkey, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, zexterne.Kommentar);
+                    link.Update();
+                    System.Windows.MessageBox.Show("Aktualisiert", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 
             } else
             {
-                //abweichung
-                decimal abweichung = 0;
-                if (Kosten > 0)
-                {
-                    abweichung = KostenG - Kosten;
-                }
-
                 if (Pkey == 0)
                 {
                     var personenKosten = new PerseonenResource(0, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
                     Pkey = personenKosten.CreateInDB();
+                    OArt = Art;
                     //Create link zwischen aktivitaet und Kosten
                     var link = new ZPerseonenResource(0, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
-                    int ZPkey = link.CreateInDB();
+                    ZPkey = link.CreateInDB();
 
                     //Liste in der view updaten
                     if (ParentDataContext.ListKosten == null)
@@ -318,14 +343,93 @@ namespace ProjektManagementTool.ViewModels
                 }
                 else
                 {
+                    //Checken ob der Typ geändert wurde
+                    if (OArt != Art)
+                    {
+                        System.Windows.MessageBox.Show("Typ kann für Update nicht geändert werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
                     //Update 
-                    //Kommentar laden und unverändert übergeben beim update
+                    var personenKosten = new PerseonenResource(Pkey, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
+                    personenKosten.Update();
+
+
+                    //Kommentar laden
+                    var dbHelper = new DBHelper();
+                    string query = $"Select * from Z_PerseonenResource where PKey='{ZPkey}'";
+                    var zperson = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
+                    var link = new ZPerseonenResource(zperson.Pkey, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, zperson.Kommentar);
+                    link.Update();
+                    System.Windows.MessageBox.Show("Aktualisiert", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             
         }
-        //CMDLöschen
         //CMDWaehlen
+        ICommand _WaehlenE;
+        public ICommand CMDWaehlenE
+        {
+            get
+            {
+                return _WaehlenE ?? (_WaehlenE =
+                new RelayCommand(p => WaehlenE()));
+            }
+        }
+        //Funktion für den Command
+        void WaehlenE()
+        {
+            if (ResourcenE == null || ResourcenE.Count == 0)
+            {
+                return;
+            }
+
+            if (ResourcenEIndex == -1)
+            {
+                System.Windows.MessageBox.Show("Kein Eintrag ausgewählt", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var externeKosten = (ExterneResource)ResourcenE[ResourcenEIndex];
+            Name = externeKosten.Name;
+            KostenG = externeKosten.KostenG;
+            ArtFunktion = externeKosten.Art;
+            Art = "ExterneKosten";
+
+        }
+        //CMDWaehlen
+        ICommand _WaehlenP;
+        public ICommand CMDWaehlenP
+        {
+            get
+            {
+                return _WaehlenP ?? (_WaehlenP =
+                new RelayCommand(p => WaehlenP()));
+            }
+        }
+        //Funktion für den Command
+        void WaehlenP()
+        {
+            if (ResourcenP == null || ResourcenP.Count == 0)
+            {
+                return;
+            }
+
+            if (ResourcenPIndex == -1)
+            {
+                System.Windows.MessageBox.Show("Kein Eintrag ausgewählt", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var personenKosten = (PerseonenResource)ResourcenP[ResourcenPIndex];
+            Name = personenKosten.Name;
+            KostenG = personenKosten.KostenG;
+            ArtFunktion = personenKosten.Funktion;
+            Art = "PersonenKosten";
+        }
+
+        //CMDLoeschen
+
         #endregion
     }
 }
