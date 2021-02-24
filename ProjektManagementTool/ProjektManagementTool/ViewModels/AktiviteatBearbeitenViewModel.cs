@@ -472,6 +472,26 @@ namespace ProjektManagementTool.ViewModels
             var context = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
             context.Fkey_Aktivitaet = Pkey;
             context.ParentDataContext = this;
+
+            //Liste mit allen verfübaren kosten
+            var dbHelper = new DBHelper();
+            string query = $"Select * from ExterneResource";
+            List<dynamic> listexterne = dbHelper.RunQuery("ExterneResource", query);
+            var olistexterne = new ObservableCollection<ExterneResource>();
+            query = $"Select * from PerseonenResource";
+            List<dynamic> listpersonen = dbHelper.RunQuery("PerseonenResource", query);
+            var olistpersonen = new ObservableCollection<PerseonenResource>();
+
+            foreach (var externe in listexterne)
+            {
+                olistexterne.Add((ExterneResource)externe);
+            }
+            foreach (var person in listpersonen)
+            {
+                olistpersonen.Add((PerseonenResource)person);
+            }
+            context.ResourcenE = olistexterne;
+            context.ResourcenP = olistpersonen;
             ressourceBearbeitenView.Show();
         }
         //Button Kosten bearbeiten
@@ -500,7 +520,6 @@ namespace ProjektManagementTool.ViewModels
                 string query = $"Select * from ExterneResource where PKey='{kosten.Pkey}'";
                 var externeResource = (ExterneResource)dbHelper.RunQuery("ExterneResource", query)[0];
                 context.Pkey = externeResource.Pkey;
-                context.Kosten = externeResource.Kosten;
                 context.KostenG = externeResource.KostenG;
                 context.Name = externeResource.Name;
                 context.ArtFunktion = externeResource.Art;
@@ -508,13 +527,13 @@ namespace ProjektManagementTool.ViewModels
                 var zexterneResource = (ZExterneResource)dbHelper.RunQuery("ZExterneResource", query)[0];
                 context.StartDatum = zexterneResource.StartDatum;
                 context.EndDatum = zexterneResource.EndDatum;
+                context.Kosten = Convert.ToDecimal(zexterneResource.Kosten);
                 context.Art = "ExterneKosten";
             } else
             {
                 string query = $"Select * from PerseonenResource where PKey='{kosten.Pkey}'";
                 var personenRsourcen = (PerseonenResource)dbHelper.RunQuery("PerseonenResource", query)[0];
                 context.Pkey = personenRsourcen.Pkey;
-                context.Kosten = personenRsourcen.Kosten;
                 context.KostenG = personenRsourcen.KostenG;
                 context.Name = personenRsourcen.Name;
                 context.ArtFunktion = personenRsourcen.Funktion;
@@ -522,6 +541,7 @@ namespace ProjektManagementTool.ViewModels
                 var zpersonenResource = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
                 context.StartDatum = zpersonenResource.StartDatum;
                 context.EndDatum = zpersonenResource.EndDatum;
+                context.Kosten = Convert.ToDecimal(zpersonenResource.Kosten);
                 context.Art = "PersonenKosten";
 
             }

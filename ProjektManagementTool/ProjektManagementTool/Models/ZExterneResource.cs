@@ -14,14 +14,21 @@ namespace ProjektManagementTool.Models
         public int FKey_ExterneResource { get; set; }
         public DateTime StartDatum { get; set; }
         public Nullable<DateTime> EndDatum { get; set; }
+        public Nullable<decimal> Kosten { get; set; }
+        public Nullable<decimal> Abweichung { get; set; }
+        public string Kommentar { get; set; }
 
-        public ZExterneResource(int t_Pkey, int t_FKey_Aktiviteat, int t_FKey_ExterneResource,DateTime t_StartDatum, Nullable<DateTime> t_EndDatum)
+        public ZExterneResource(int t_Pkey, int t_FKey_Aktiviteat, int t_FKey_ExterneResource,DateTime t_StartDatum, Nullable<DateTime> t_EndDatum, Nullable<decimal> t_Kosten, Nullable<decimal> t_Abweichung, string t_Kommentar)
         {
             Pkey = t_Pkey;
             FKey_Aktiviteat = t_FKey_Aktiviteat;
             FKey_ExterneResource = t_FKey_ExterneResource;
             StartDatum = t_StartDatum;
             EndDatum = t_EndDatum;
+            Kosten = t_Kosten;
+            Abweichung = t_Abweichung;
+            Kommentar = t_Kommentar;
+
         }
 
         //SQL mapping
@@ -40,6 +47,12 @@ namespace ProjektManagementTool.Models
             public DateTime StartDatum;
             [Column]
             public Nullable<DateTime> EndDatum;
+            [Column]
+            public Nullable<decimal> Kosten;
+            [Column]
+            public Nullable<decimal> Abweichung;
+            [Column]
+            public string Kommentar;
         }
 
         public int CreateInDB()

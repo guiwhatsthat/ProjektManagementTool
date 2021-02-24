@@ -148,25 +148,47 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //Resourcen
-        ObservableCollection<GenericKosten> _Resourcen;
-        public ObservableCollection<GenericKosten> Resourcen
+        ObservableCollection<PerseonenResource> _ResourcenP;
+        public ObservableCollection<PerseonenResource> ResourcenP
         {
-            get { return _Resourcen; }
+            get { return _ResourcenP; }
             set
             {
-                _Resourcen = value;
-                OnPropertyChanged("Resourcen");
+                _ResourcenP = value;
+                OnPropertyChanged("ResourcenP");
             }
         }
         //ResourcenIndex
-        int _ResourcenIndex;
-        public int ResourcenIndex
+        int _ResourcenPIndex;
+        public int ResourcenPIndex
         {
-            get { return _ResourcenIndex; }
+            get { return _ResourcenPIndex; }
             set
             {
-                _ResourcenIndex = value;
-                OnPropertyChanged("ResourcenIndex");
+                _ResourcenPIndex = value;
+                OnPropertyChanged("ResourcenPIndex");
+            }
+        }
+        //Resourcen
+        ObservableCollection<ExterneResource> _ResourcenE;
+        public ObservableCollection<ExterneResource> ResourcenE
+        {
+            get { return _ResourcenE; }
+            set
+            {
+                _ResourcenE = value;
+                OnPropertyChanged("ResourcenE");
+            }
+        }
+        //ResourcenIndex
+        int _ResourcenEIndex;
+        public int ResourcenEIndex
+        {
+            get { return _ResourcenEIndex; }
+            set
+            {
+                _ResourcenEIndex = value;
+                OnPropertyChanged("ResourcenEIndex");
             }
         }
         #endregion
@@ -190,10 +212,6 @@ namespace ProjektManagementTool.ViewModels
             if (string.IsNullOrEmpty(Name))
             {
                 MessageBox.Show("Name darf nicht leer sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            } else if (ResourcenIndex != 0)
-            {
-                MessageBox.Show("Es muss ein typ ausgewählt werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             } else if (string.IsNullOrEmpty(Art))
             {
@@ -230,7 +248,7 @@ namespace ProjektManagementTool.ViewModels
                     System.Windows.MessageBox.Show("Enddatum wurden nicht spezifiziert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                else if (StartDatum > EndDatum)
+                else if (StartDatum < EndDatum)
                 {
                     System.Windows.MessageBox.Show("Startdatum muss vor dem enddatum liegen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -250,10 +268,10 @@ namespace ProjektManagementTool.ViewModels
 
                 if (Pkey == 0)
                 {
-                    var externeKosten = new ExterneResource(0, Name, KostenG, Kosten, abweichung,"",Art, Fkey_Aktivitaet);
+                    var externeKosten = new ExterneResource(0, Name, KostenG,ArtFunktion, Fkey_Aktivitaet);
                     Pkey = externeKosten.CreateInDB();
                     //Create link zwischen aktivitaet und Kosten
-                    var link = new ZExterneResource(0,Fkey_Aktivitaet,Pkey, StartDatum, EndDatum);
+                    var link = new ZExterneResource(0,Fkey_Aktivitaet,Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
                     int ZPkey = link.CreateInDB();
 
                     //Liste in der view updaten
@@ -268,7 +286,7 @@ namespace ProjektManagementTool.ViewModels
                 } else
                 {
                     //Update 
-                    //Kommentar laden und unverändert übergeben beim update
+                    //Kommentar laden
                 }
                 
             } else
@@ -282,10 +300,10 @@ namespace ProjektManagementTool.ViewModels
 
                 if (Pkey == 0)
                 {
-                    var personenKosten = new PerseonenResource(0, Name, KostenG, Kosten, abweichung, "", Art, Fkey_Aktivitaet);
+                    var personenKosten = new PerseonenResource(0, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
                     Pkey = personenKosten.CreateInDB();
                     //Create link zwischen aktivitaet und Kosten
-                    var link = new ZPerseonenResource(0, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum);
+                    var link = new ZPerseonenResource(0, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
                     int ZPkey = link.CreateInDB();
 
                     //Liste in der view updaten

@@ -93,7 +93,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<ExterneResource.db_ExterneResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new ExterneResource(i.Pkey,i.Name,i.KostenG,i.Kosten,i.Abweichung,i.Kommentar,i.Art,0);
+                        var obj = new ExterneResource(i.Pkey,i.Name,i.KostenG,i.Art,0);
                         returnList.Add(obj);
                     }
                     break;
@@ -101,7 +101,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<ZExterneResource.db_ExterneResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new ZExterneResource(i.Pkey,i.FKey_Aktiviteat, i.FKey_ExterneResource, i.StartDatum,i.EndDatum);
+                        var obj = new ZExterneResource(i.Pkey,i.FKey_Aktiviteat, i.FKey_ExterneResource, i.StartDatum,i.EndDatum, i.Kosten, i.Abweichung, i.Kommentar);
                         returnList.Add(obj);
                     }
                     break;
@@ -109,7 +109,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<PerseonenResource.db_PerseonenResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new PerseonenResource(i.Pkey, i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Kommentar, i.Funktion, 0);
+                        var obj = new PerseonenResource(i.Pkey, i.Name, i.KostenG, i.Funktion, 0);
                         returnList.Add(obj);
                     }
                     break;
@@ -117,7 +117,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<ZPerseonenResource.db_ZPerseonenResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new ZPerseonenResource(i.Pkey, i.FKey_Aktiviteat, i.FKey_PerseonenResource, i.StartDatum, i.EndDatum);
+                        var obj = new ZPerseonenResource(i.Pkey, i.FKey_Aktiviteat, i.FKey_PerseonenResource, i.StartDatum, i.EndDatum, i.Kosten, i.Abweichung, i.Kommentar);
                         returnList.Add(obj);
                     }
                     break;
@@ -239,10 +239,7 @@ namespace ProjektManagementTool.Helper
                     var dbObjExterneResource = new ExterneResource.db_ExterneResource
                     {
                         Name = obj.Name,
-                        Abweichung = obj.Abweichung,
                         Art = obj.Art,
-                        Kommentar = obj.Kommentar,
-                        Kosten = obj.Kosten,
                         KostenG = obj.KostenG,
                         Pkey = obj.Pkey
                     };
@@ -258,7 +255,10 @@ namespace ProjektManagementTool.Helper
                         FKey_Aktiviteat = obj.FKey_Aktiviteat,
                         FKey_ExterneResource = obj.FKey_ExterneResource,
                         StartDatum = obj.StartDatum,
-                        Pkey = obj.Pkey
+                        Pkey = obj.Pkey,
+                        Abweichung = obj.Abweichung,
+                        Kommentar = obj.Kommentar,
+                        Kosten = obj.Kosten
                     };
                     Table<ZExterneResource.db_ExterneResource> tableZExterneResource = connection.GetTable<ZExterneResource.db_ExterneResource>();
                     tableZExterneResource.InsertOnSubmit(dbObjZExterneResource);
@@ -269,10 +269,7 @@ namespace ProjektManagementTool.Helper
                     var dbObjPerseonenResource = new PerseonenResource.db_PerseonenResource
                     {
                         Name = obj.Name,
-                        Abweichung = obj.Abweichung,
                         Funktion = obj.Funktion,
-                        Kommentar = obj.Kommentar,
-                        Kosten = obj.Kosten,
                         KostenG = obj.KostenG,
                         Pkey = obj.Pkey
                     };
@@ -288,7 +285,10 @@ namespace ProjektManagementTool.Helper
                         FKey_Aktiviteat = obj.FKey_Aktiviteat,
                         FKey_PerseonenResource = obj.FKey_PerseonenResource,
                         StartDatum = obj.StartDatum,
-                        Pkey = obj.Pkey
+                        Pkey = obj.Pkey,
+                        Abweichung = obj.Abweichung,
+                        Kommentar = obj.Kommentar,
+                        Kosten = obj.Kosten
                     };
                     Table<ZPerseonenResource.db_ZPerseonenResource> tableZPerseonenResource = connection.GetTable<ZPerseonenResource.db_ZPerseonenResource>();
                     tableZPerseonenResource.InsertOnSubmit(dbObjZPerseonenResource);

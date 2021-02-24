@@ -36,12 +36,16 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Verfügbare Resourcen" HorizontalAlignment="Left" Height="380" Margin="271,13,0,0" VerticalAlignment="Top" Width="201">
+        <GroupBox Header="Verfügbare Resourcen" HorizontalAlignment="Left" Height="385" Margin="271,13,0,0" VerticalAlignment="Top" Width="201">
             <StackPanel>
-                <DataGrid ItemsSource="{Binding Resourcen}" SelectedIndex="{Binding ResourcenIndex}" Height="335">
+                <DataGrid ItemsSource="{Binding ResourcenP}" SelectedIndex="{Binding ResourcenPIndex}" Height="160">
 
                 </DataGrid>
-                <Button Command="{Binding CMDWaehlen}">Wählen</Button>
+                <Button Command="{Binding CMDWaehlenP}">Wählen</Button>
+                <DataGrid ItemsSource="{Binding ResourcenE}" SelectedIndex="{Binding ResourcenEIndex}" Height="160">
+
+                </DataGrid>
+                <Button Command="{Binding CMDWaehlenE}">Wählen</Button>
             </StackPanel>
         </GroupBox>
 
