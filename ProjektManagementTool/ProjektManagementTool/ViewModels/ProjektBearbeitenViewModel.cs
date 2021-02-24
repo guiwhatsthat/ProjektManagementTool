@@ -740,6 +740,38 @@ namespace ProjektManagementTool.ViewModels
             context.PhasePkey = aktivitaet.FKey_PhaseID;
             context.MitarbeiterPkey = aktivitaet.FKey_VerantwortlichePersonID;
 
+            //Liste mit allen zugewiesenen Kosten
+            var kosten = new ObservableCollection<GenericKosten>();
+            
+            //externeKosten
+            query = $"Select * from Z_ExterneResource where FKey_Aktiviteat='{aktivitaet.Pkey}'";
+            var listZTable = dbHelper.RunQuery("ZExterneResource", query);
+            foreach (var result in listZTable)
+            {
+                query = $"Select * from ExterneResource where Pkey='{result.FKey_ExterneResource}'";
+                var externeKosten = dbHelper.RunQuery("ExterneResource", query)[0];
+                if (externeKosten != null)
+                {
+                    var genericKosten = new GenericKosten("ExterneKosten", externeKosten.Name, externeKosten.Pkey, aktivitaet.Pkey, result.Pkey);
+                    kosten.Add(genericKosten);
+                }
+            }
+
+            //personenkosten
+            query = $"Select * from Z_PerseonenResource where FKey_Aktiviteat='{aktivitaet.Pkey}'";
+            listZTable = dbHelper.RunQuery("ZPerseonenResource", query);
+            foreach (var result in listZTable)
+            {
+                query = $"Select * from PerseonenResource where Pkey='{result.FKey_PerseonenResource}'";
+                var externeKosten = dbHelper.RunQuery("PerseonenResource", query)[0];
+                if (externeKosten != null)
+                {
+                    var genericKosten = new GenericKosten("PersonenKosten", externeKosten.Name, externeKosten.Pkey, aktivitaet.Pkey, result.Pkey);
+                    kosten.Add(genericKosten);
+                }
+            }
+
+            context.ListKosten = kosten;
             aktiviteatBearbeitenView.Show();
         }
     }

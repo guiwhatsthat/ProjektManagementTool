@@ -89,6 +89,38 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
+                case "ExterneResource":
+                    returnValue = connection.ExecuteQuery<ExterneResource.db_ExterneResource>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new ExterneResource(i.Pkey,i.Name,i.KostenG,i.Kosten,i.Abweichung,i.Kommentar,i.Art,0);
+                        returnList.Add(obj);
+                    }
+                    break;
+                case "ZExterneResource":
+                    returnValue = connection.ExecuteQuery<ZExterneResource.db_ExterneResource>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new ZExterneResource(i.Pkey,i.FKey_Aktiviteat, i.FKey_ExterneResource, i.StartDatum,i.EndDatum);
+                        returnList.Add(obj);
+                    }
+                    break;
+                case "PerseonenResource":
+                    returnValue = connection.ExecuteQuery<PerseonenResource.db_PerseonenResource>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new PerseonenResource(i.Pkey, i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Kommentar, i.Funktion, 0);
+                        returnList.Add(obj);
+                    }
+                    break;
+                case "ZPerseonenResource":
+                    returnValue = connection.ExecuteQuery<ZPerseonenResource.db_ZPerseonenResource>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new ZPerseonenResource(i.Pkey, i.FKey_Aktiviteat, i.FKey_PerseonenResource, i.StartDatum, i.EndDatum);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;
@@ -202,6 +234,66 @@ namespace ProjektManagementTool.Helper
                     tableAktivitaet.InsertOnSubmit(dbObjAktivitaet);
                     connection.SubmitChanges();
                     pkey = dbObjAktivitaet.Pkey;
+                    break;
+                case "ExterneResource":
+                    var dbObjExterneResource = new ExterneResource.db_ExterneResource
+                    {
+                        Name = obj.Name,
+                        Abweichung = obj.Abweichung,
+                        Art = obj.Art,
+                        Kommentar = obj.Kommentar,
+                        Kosten = obj.Kosten,
+                        KostenG = obj.KostenG,
+                        Pkey = obj.Pkey
+                    };
+                    Table<ExterneResource.db_ExterneResource> tableExterneResource = connection.GetTable<ExterneResource.db_ExterneResource>();
+                    tableExterneResource.InsertOnSubmit(dbObjExterneResource);
+                    connection.SubmitChanges();
+                    pkey = dbObjExterneResource.Pkey;
+                    break;
+                case "ZExterneResource":
+                    var dbObjZExterneResource = new ZExterneResource.db_ExterneResource
+                    {
+                        EndDatum = obj.EndDatum,
+                        FKey_Aktiviteat = obj.FKey_Aktiviteat,
+                        FKey_ExterneResource = obj.FKey_ExterneResource,
+                        StartDatum = obj.StartDatum,
+                        Pkey = obj.Pkey
+                    };
+                    Table<ZExterneResource.db_ExterneResource> tableZExterneResource = connection.GetTable<ZExterneResource.db_ExterneResource>();
+                    tableZExterneResource.InsertOnSubmit(dbObjZExterneResource);
+                    connection.SubmitChanges();
+                    pkey = dbObjZExterneResource.Pkey;
+                    break;
+                case "PerseonenResource":
+                    var dbObjPerseonenResource = new PerseonenResource.db_PerseonenResource
+                    {
+                        Name = obj.Name,
+                        Abweichung = obj.Abweichung,
+                        Funktion = obj.Funktion,
+                        Kommentar = obj.Kommentar,
+                        Kosten = obj.Kosten,
+                        KostenG = obj.KostenG,
+                        Pkey = obj.Pkey
+                    };
+                    Table<PerseonenResource.db_PerseonenResource> tablePerseonenResource = connection.GetTable<PerseonenResource.db_PerseonenResource>();
+                    tablePerseonenResource.InsertOnSubmit(dbObjPerseonenResource);
+                    connection.SubmitChanges();
+                    pkey = dbObjPerseonenResource.Pkey;
+                    break;
+                case "ZPerseonenResource":
+                    var dbObjZPerseonenResource = new ZPerseonenResource.db_ZPerseonenResource
+                    {
+                        EndDatum = obj.EndDatum,
+                        FKey_Aktiviteat = obj.FKey_Aktiviteat,
+                        FKey_PerseonenResource = obj.FKey_PerseonenResource,
+                        StartDatum = obj.StartDatum,
+                        Pkey = obj.Pkey
+                    };
+                    Table<ZPerseonenResource.db_ZPerseonenResource> tableZPerseonenResource = connection.GetTable<ZPerseonenResource.db_ZPerseonenResource>();
+                    tableZPerseonenResource.InsertOnSubmit(dbObjZPerseonenResource);
+                    connection.SubmitChanges();
+                    pkey = dbObjZPerseonenResource.Pkey;
                     break;
                 default:
                     

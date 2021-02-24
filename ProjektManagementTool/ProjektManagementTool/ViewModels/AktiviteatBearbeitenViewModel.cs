@@ -469,7 +469,9 @@ namespace ProjektManagementTool.ViewModels
         void Kostenerfassen()
         {
             var ressourceBearbeitenView = new RessourceBearbeiten();
-            var ressourceBearbeitenViewModel = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
+            var context = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
+            context.Fkey_Aktivitaet = Pkey;
+            context.ParentDataContext = this;
             ressourceBearbeitenView.Show();
         }
         //Button Kosten bearbeiten
@@ -485,6 +487,47 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Kostenbearbeiten()
         {
+            var dbHelper = new DBHelper();
+            var ressourceBearbeitenView = new RessourceBearbeiten();
+            var context = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
+            context.Fkey_Aktivitaet = Pkey;
+            context.ParentDataContext = this;
+
+            //ausgewählte Kosten
+            var kosten = (GenericKosten)ListKosten[KostenIndex];
+            if (kosten.Typ == "ExterneKosten")
+            {
+                string query = $"Select * from ExterneResource where PKey='{kosten.Pkey}'";
+                var externeResource = (ExterneResource)dbHelper.RunQuery("ExterneResource", query)[0];
+                context.Pkey = externeResource.Pkey;
+                context.Kosten = externeResource.Kosten;
+                context.KostenG = externeResource.KostenG;
+                context.Name = externeResource.Name;
+                context.ArtFunktion = externeResource.Art;
+                query = $"Select * from Z_ExterneResource where PKey='{kosten.ZPkey}'";
+                var zexterneResource = (ZExterneResource)dbHelper.RunQuery("ZExterneResource", query)[0];
+                context.StartDatum = zexterneResource.StartDatum;
+                context.EndDatum = zexterneResource.EndDatum;
+                context.Art = "ExterneKosten";
+            } else
+            {
+                string query = $"Select * from PerseonenResource where PKey='{kosten.Pkey}'";
+                var personenRsourcen = (PerseonenResource)dbHelper.RunQuery("PerseonenResource", query)[0];
+                context.Pkey = personenRsourcen.Pkey;
+                context.Kosten = personenRsourcen.Kosten;
+                context.KostenG = personenRsourcen.KostenG;
+                context.Name = personenRsourcen.Name;
+                context.ArtFunktion = personenRsourcen.Funktion;
+                query = $"Select * from Z_PerseonenResource where PKey='{kosten.ZPkey}'";
+                var zpersonenResource = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
+                context.StartDatum = zpersonenResource.StartDatum;
+                context.EndDatum = zpersonenResource.EndDatum;
+                context.Art = "PersonenKosten";
+
+            }
+
+
+            ressourceBearbeitenView.Show();
         }
         //Button Phase zuweisen
         ICommand _Phasezuweisen;

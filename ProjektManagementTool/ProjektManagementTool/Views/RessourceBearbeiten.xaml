@@ -5,23 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Ressource bearbeiten" Height="390" Width="506">
+        Title="Ressource bearbeiten" Height="439" Width="506">
     <Grid>
-        <GroupBox Width="220" Margin="26,13,0,20" HorizontalAlignment="Left">
-            <StackPanel Height="341" >
-                <Label Content="Name" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Name}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
-                <Label Content="Art" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <ComboBox ItemsSource="{Binding Arten}" Width="200" HorizontalAlignment="Left"></ComboBox>
-                <Label Content="Kosten Geplant" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
-                <Label Content="Kosten" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
-                <Label Content="Startdatum" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <DatePicker SelectedDate="{Binding StartDaum}" Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
-                <Label Content="Enddatum" Margin="0,0,0,0" Width="200" HorizontalAlignment="Left"/>
-                <DatePicker SelectedDate="{Binding EndDatum}" Margin="5,0,0,0" Width="200" HorizontalAlignment="Left"></DatePicker>
-                <Grid Width="200"  Margin="5,5,0,0" HorizontalAlignment="Left" >
+        <GroupBox Width="225" Height="380" Margin="26,13,0,20" HorizontalAlignment="Left">
+            <StackPanel>
+                <Label Content="Name" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Name}"  Margin="5,0,0,0" Width="205" HorizontalAlignment="Left" />
+                <Label Content="Kostenart" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <ComboBox ItemsSource="{Binding Arten}" SelectedValue="{Binding Art}" Width="205" HorizontalAlignment="Left"></ComboBox>
+                <Label Content="Art oder Funktion (je nach Kostenart)" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding ArtFunktion}"  Margin="5,0,0,0" Width="205" HorizontalAlignment="Left" />
+                <Label Content="Kosten Geplant" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="205" HorizontalAlignment="Left" />
+                <Label Content="Kosten" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="205" HorizontalAlignment="Left" />
+                <Label Content="Startdatum" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <DatePicker SelectedDate="{Binding StartDatum}" Margin="5,0,0,0" Width="205" HorizontalAlignment="Left"></DatePicker>
+                <Label Content="Enddatum" Margin="0,0,0,0" Width="205" HorizontalAlignment="Left"/>
+                <DatePicker SelectedDate="{Binding EndDatum}" Margin="5,0,0,0" Width="205" HorizontalAlignment="Left"></DatePicker>
+                <Grid Width="205"  Margin="5,5,0,0" HorizontalAlignment="Left" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -34,9 +36,9 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Verfügbare Resourcen" HorizontalAlignment="Left" Height="320" Margin="271,13,0,0" VerticalAlignment="Top" Width="201">
+        <GroupBox Header="Verfügbare Resourcen" HorizontalAlignment="Left" Height="380" Margin="271,13,0,0" VerticalAlignment="Top" Width="201">
             <StackPanel>
-                <DataGrid ItemsSource="{Binding Resourcen}" SelectedIndex="{Binding ResourcenIndex}" Height="275">
+                <DataGrid ItemsSource="{Binding Resourcen}" SelectedIndex="{Binding ResourcenIndex}" Height="335">
 
                 </DataGrid>
                 <Button Command="{Binding CMDWaehlen}">Wählen</Button>

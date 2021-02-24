@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ProjektManagementTool.Models
 {
-    class ExterneResource
+    class PerseonenResource
     {
         //Eigentschaften
         public int Pkey { get; set; }
@@ -15,10 +15,10 @@ namespace ProjektManagementTool.Models
         public decimal Kosten { get; set; }
         public Nullable<decimal> Abweichung { get; set; }
         public string Kommentar { get; set; }
-        public string Art { get; set; }
-        public int Fkey_Aktivitaet{ get; set; }
+        public string Funktion { get; set; }
+        public int Fkey_Aktivitaet { get; set; }
 
-        public ExterneResource(int t_Pkey, string t_Name, decimal t_KostenG, decimal t_Kosten, Nullable<decimal> t_Abweichung, string t_Kommentar, string t_Art, int t_Fkey_Aktivitaet)
+        public PerseonenResource(int t_Pkey, string t_Name, decimal t_KostenG, decimal t_Kosten, Nullable<decimal> t_Abweichung, string t_Kommentar, string t_Art, int t_Fkey_Aktivitaet)
         {
             Pkey = t_Pkey;
             Name = t_Name;
@@ -26,13 +26,13 @@ namespace ProjektManagementTool.Models
             Kosten = t_Kosten;
             Abweichung = t_Abweichung;
             Kommentar = t_Kommentar;
-            Art = t_Art;
+            Funktion = t_Art;
             Fkey_Aktivitaet = t_Fkey_Aktivitaet;
         }
 
         //SQL mapping
-        [Table(Name = "ExterneResource")]
-        public class db_ExterneResource
+        [Table(Name = "PerseonenResource")]
+        public class db_PerseonenResource
         {
             //Mapper auf Primary Key
             [Column(Name = "Pkey", IsDbGenerated = true, IsPrimaryKey = true)]
@@ -49,24 +49,24 @@ namespace ProjektManagementTool.Models
             [Column]
             public string Kommentar;
             [Column]
-            public string Art;
+            public string Funktion;
         }
 
         public int CreateInDB()
         {
             var dbHelper = new DBHelper();
-            int pkey = dbHelper.Write("ExterneResource", this);
+            int pkey = dbHelper.Write("PerseonenResource", this);
             return pkey;
         }
         public void Update()
         {
             var dbHelper = new DBHelper();
-            dbHelper.Update("ExterneResource", this);
+            dbHelper.Update("PerseonenResource", this);
         }
         public void Remove()
         {
             var dbHelper = new DBHelper();
-            dbHelper.Remove("ExterneResource", this);
+            dbHelper.Remove("PerseonenResource", this);
         }
     }
 }

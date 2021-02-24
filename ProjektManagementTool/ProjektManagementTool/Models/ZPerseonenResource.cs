@@ -6,27 +6,27 @@ using System.Text;
 
 namespace ProjektManagementTool.Models
 {
-    class ZExterneResource
+    class ZPerseonenResource
     {
         //Eigentschaften
         public int Pkey { get; set; }
         public int FKey_Aktiviteat { get; set; }
-        public int FKey_ExterneResource { get; set; }
+        public int FKey_PerseonenResource { get; set; }
         public DateTime StartDatum { get; set; }
         public Nullable<DateTime> EndDatum { get; set; }
 
-        public ZExterneResource(int t_Pkey, int t_FKey_Aktiviteat, int t_FKey_ExterneResource,DateTime t_StartDatum, Nullable<DateTime> t_EndDatum)
+        public ZPerseonenResource(int t_Pkey, int t_FKey_Aktiviteat, int t_FKey_PerseonenResource, DateTime t_StartDatum, Nullable<DateTime> t_EndDatum)
         {
             Pkey = t_Pkey;
             FKey_Aktiviteat = t_FKey_Aktiviteat;
-            FKey_ExterneResource = t_FKey_ExterneResource;
+            FKey_PerseonenResource = t_FKey_PerseonenResource;
             StartDatum = t_StartDatum;
             EndDatum = t_EndDatum;
         }
 
         //SQL mapping
-        [Table(Name = "Z_ExterneResource")]
-        public class db_ExterneResource
+        [Table(Name = "Z_PerseonenResource")]
+        public class db_ZPerseonenResource
         {
             //Mapper auf Primary Key
             [Column(Name = "Pkey", IsDbGenerated = true, IsPrimaryKey = true)]
@@ -35,7 +35,7 @@ namespace ProjektManagementTool.Models
             [Column]
             public int FKey_Aktiviteat;
             [Column]
-            public int FKey_ExterneResource;
+            public int FKey_PerseonenResource;
             [Column]
             public DateTime StartDatum;
             [Column]
@@ -45,18 +45,18 @@ namespace ProjektManagementTool.Models
         public int CreateInDB()
         {
             var dbHelper = new DBHelper();
-            int pkey = dbHelper.Write("ZExterneResource", this);
+            int pkey = dbHelper.Write("ZPerseonenResource", this);
             return pkey;
         }
         public void Update()
         {
             var dbHelper = new DBHelper();
-            dbHelper.Update("ZExterneResource", this);
+            dbHelper.Update("ZPerseonenResource", this);
         }
         public void Remove()
         {
             var dbHelper = new DBHelper();
-            dbHelper.Remove("ZExterneResource", this);
+            dbHelper.Remove("ZPerseonenResource", this);
         }
     }
 }
