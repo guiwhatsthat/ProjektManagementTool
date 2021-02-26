@@ -129,9 +129,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button Command="{Binding CMDFreigeabeerteilen}" Grid.Column="0" Grid.Row="0" Width="100" HorizontalAlignment="Left" Margin="0,5">Freigeben</Button>
-                    <Button Command="{Binding CMDPlanen}" Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left"  Margin="0,5">Planen</Button>
-                    <Button Command="{Binding CMDStarten}" Grid.Column="0" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Starten</Button>
-                    <Button Command="{Binding CMDProjektspeichern}" Grid.Column="1" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
+                    <Button Command="{Binding CMDPlanen}" IsEnabled="{Binding PlanenErlaubt}" Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left"  Margin="0,5">Planen</Button>
+                    <Button Command="{Binding CMDStarten}" IsEnabled="{Binding StartenErlaubt}" Grid.Column="0" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Starten</Button>
+                    <Button Command="{Binding CMDProjektspeichern}" IsEnabled="{Binding BeendenErlaubt}" Grid.Column="1" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
                     <Button Command="{Binding CMDProjektspeichern}" Grid.Column="0" Grid.Row="3" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
                     <Button Command="{Binding CMDProjektloeschen}" Width="100" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="3" Margin="0,5">Löschen</Button>
                 </Grid>

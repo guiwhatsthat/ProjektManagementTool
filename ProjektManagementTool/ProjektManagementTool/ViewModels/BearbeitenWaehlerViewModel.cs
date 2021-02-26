@@ -106,6 +106,7 @@ namespace ProjektManagementTool.ViewModels
                     }
 
                 }
+                //aktivitäten
                 context.ListAktivitaet = aktivitaetListe;
                 //List der angezeigten Elemente übergeben
                 context.WaehlerContext = this;
@@ -121,7 +122,11 @@ namespace ProjektManagementTool.ViewModels
                     }
                 }
                 context.ListMeilensteine = listMeilensteine;
-                //aktivitäten
+
+                //UI elemente ausblenden
+                context.PlanenErlaubt = false;
+                context.StartenErlaubt = false;
+                context.BeendenErlaubt = false;
 
                 projektbearbeiten.Show();
 

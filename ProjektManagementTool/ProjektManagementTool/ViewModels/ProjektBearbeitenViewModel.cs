@@ -26,6 +26,39 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Aktion");
             }
         }
+
+        //UI elmente aktivieren
+        public bool _StartenErlaubt;
+        public bool StartenErlaubt
+        {
+            get { return _StartenErlaubt; }
+            set
+            {
+                _StartenErlaubt = value;
+                OnPropertyChanged("StartenErlaubt");
+            }
+        }
+        public bool _PlanenErlaubt;
+        public bool PlanenErlaubt
+        {
+            get { return _PlanenErlaubt; }
+            set
+            {
+                _PlanenErlaubt = value;
+                OnPropertyChanged("PlanenErlaubt");
+            }
+        }
+        public bool _BeendenErlaubt;
+        public bool BeendenErlaubt
+        {
+            get { return _BeendenErlaubt; }
+            set
+            {
+                _BeendenErlaubt = value;
+                OnPropertyChanged("BeendenErlaubt");
+            }
+        }
+
         //Helper Value für die FKey
         int _ProjektleiterID;
         public int ProjektleiterID
@@ -398,6 +431,10 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Freigeabeerteilen()
         {
+            if (Pkey == 0)
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(Freigabedatum))
             {
                 Freigabedatum = DateTime.Now.ToString("dd.MM.yyyy");
@@ -425,7 +462,7 @@ namespace ProjektManagementTool.ViewModels
             {
                 System.Windows.MessageBox.Show("Projekt wurde bereits freigegeben", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            
+            PlanenErlaubt = true;
         }
 
         //Button Projekt speicher
@@ -511,11 +548,9 @@ namespace ProjektManagementTool.ViewModels
                 if (WaehlerContext != null)
                 {
                     WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Projekt", "Select * from Projekt"));
-                } 
+                }
                 
             }
-            
-
         }
         //Button Projekt planen
         ICommand _ShowPhaseDaten;
@@ -567,6 +602,7 @@ namespace ProjektManagementTool.ViewModels
         {
             Status = "In Planung";
             Projektspeichern();
+            StartenErlaubt = true;
         }
 
         //Button Projekt löschen
