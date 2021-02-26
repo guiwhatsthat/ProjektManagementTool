@@ -62,6 +62,9 @@ namespace ProjektManagementTool.ViewModels
             if (ListObj.Count == 0)
             {
                 return;
+            } else if (Index > ListObj.Count - 1)
+            {
+                return;
             }
             var dbhelper = new DBHelper();
             if (Header == "Projekt")

@@ -571,6 +571,45 @@ namespace ProjektManagementTool.ViewModels
             PhaseName = ListPhasen[PhasenIndex].Name;
             PhasePkey = ListPhasen[PhasenIndex].Pkey;
         }
+        //Button Abweichung
+        ICommand _Abweichung;
+        public ICommand CMDAbweichung
+        {
+            get
+            {
+                return _Abweichung ?? (_Abweichung =
+                new RelayCommand(p => Abweichung()));
+            }
+        }
+        //Funktion für den Command
+        void Abweichung()
+        {
+            var dbHelper = new DBHelper();
+            var abweichungView = new AbweichungView();
+            var context = (AbweichungViewModel)abweichungView.DataContext;
+            string query = $"Select * from VKostenAbweichungExterne where Fkey_Aktivitaet='{Pkey}' and Kosten!=0";
+            var list = dbHelper.RunQuery("VKostenAbweichungExterne", query);
+            var listexterne = new ObservableCollection<VKostenAbweichungExterne>();
+            foreach (var entry in list)
+            {
+                listexterne.Add((VKostenAbweichungExterne)entry);
+            }
+            context.externeListe = listexterne;
+            context.externeIndex = -1;
+
+            query = $"Select * from VKostenAbweichungPersonen where FKey_Aktiviteat='{Pkey}' and Kosten!=0";
+            list = dbHelper.RunQuery("VKostenAbweichungPersonen", query);
+            var listpersonen = new ObservableCollection<VKostenAbweichungPersonen>();
+            foreach (var entry in list)
+            {
+                listpersonen.Add((VKostenAbweichungPersonen)entry);
+            }
+            context.personenListe = listpersonen;
+            context.personenIndex = -1;
+
+            //Show
+            abweichungView.Show();
+        }
         #endregion
     }
 }

@@ -85,10 +85,22 @@
         </GroupBox>
         <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,435,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Button Command="{Binding CMDStarten}" Width="100" HorizontalAlignment="Left">Starten</Button>
-                <Button Command="{Binding CMDBeenden}" Width="100" HorizontalAlignment="Left" Margin="0,5,0,0">Beenden</Button>
-                <Button Command="{Binding CMDSpeichern}" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
-                <Button Command="{Binding CMDLoeschen}" Width="100" HorizontalAlignment="Left">Löschen</Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button Command="{Binding CMDStarten}" Grid.Row="0" Grid.Column="0" Width="100" HorizontalAlignment="Left" Margin="0,5,0,5">Starten</Button>
+                    <Button Command="{Binding CMDBeenden}" Grid.Row="0" Grid.Column="1"  Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
+                    <Button Command="{Binding CMDAbweichung}" Grid.Row="1" Grid.Column="0"  Width="100" HorizontalAlignment="Left" Margin="0,0,0,0">Abweichungen</Button>
+                    <Button Command="{Binding CMDSpeichern}" Grid.Row="2" Grid.Column="0"  Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                    <Button Command="{Binding CMDLoeschen}" Grid.Row="2" Grid.Column="2" Width="100" HorizontalAlignment="Left" Margin="0,5">Löschen</Button>
+                </Grid>
             </StackPanel>
         </GroupBox>
     </Grid>

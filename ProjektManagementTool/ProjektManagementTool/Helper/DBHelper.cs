@@ -121,8 +121,23 @@ namespace ProjektManagementTool.Helper
                         returnList.Add(obj);
                     }
                     break;
+                case "VKostenAbweichungExterne":
+                    returnValue = connection.ExecuteQuery<VKostenAbweichungExterne.db_VKostenAbweichungExterne>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new VKostenAbweichungExterne(i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Art, i.Kommentar, i.StartDatum, i.EndDatum, i.Pkey,i.Fkey_Aktivitaet);
+                        returnList.Add(obj);
+                    }
+                    break;
+                case "VKostenAbweichungPersonen":
+                    returnValue = connection.ExecuteQuery<VKostenAbweichungPersonen.db_VKostenAbweichungPersonen>(t_Query).ToList();
+                    foreach (var i in returnValue)
+                    {
+                        var obj = new VKostenAbweichungPersonen(i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Funktion, i.Kommentar, i.StartDatum, i.EndDatum, i.Pkey, i.FKey_Aktiviteat);
+                        returnList.Add(obj);
+                    }
+                    break;
                 default:
-                    returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     break;
             }
             return returnList;
