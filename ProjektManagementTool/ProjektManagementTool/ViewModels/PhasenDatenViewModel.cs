@@ -110,15 +110,15 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("StartDatumG");
             }
         }
-        //Status EndtDatumG
-        DateTime _EndtDatumG;
-        public DateTime EndtDatumG
+        //Status EndDatumG
+        DateTime _EndDatumG;
+        public DateTime EndDatumG
         {
-            get { return _EndtDatumG; }
+            get { return _EndDatumG; }
             set
             {
-                _EndtDatumG = value;
-                OnPropertyChanged("EndtDatumG");
+                _EndDatumG = value;
+                OnPropertyChanged("EndDatumG");
             }
         }
         //Status StartDatum
@@ -132,15 +132,15 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("StartDatum");
             }
         }
-        //Status EndtDatumG
-        Nullable<DateTime> _EndtDatum;
-        public Nullable<DateTime> EndtDatum
+        //Status EndDatumG
+        Nullable<DateTime> _EndDatum;
+        public Nullable<DateTime> EndDatum
         {
-            get { return _EndtDatum; }
+            get { return _EndDatum; }
             set
             {
-                _EndtDatum = value;
-                OnPropertyChanged("EndtDatum");
+                _EndDatum = value;
+                OnPropertyChanged("EndDatum");
             }
         }
         
@@ -168,6 +168,15 @@ namespace ProjektManagementTool.ViewModels
                 System.Windows.MessageBox.Show("Phase kann erst gestartet werden, wenn das Projekt gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+            // Checken ob das Enddatum geplant wurde
+            if (EndDatumG == null || EndDatum == DateTime.MinValue)
+            {
+                System.Windows.MessageBox.Show("Phase kann nicht gestartet werden. Es muss noch das geplante Enddatum eingetragen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            //Startdatumsetzen
             StartDatum = DateTime.Now;
             Status = "In Arbeit";
             Phasespeichern();
@@ -185,7 +194,40 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Phasebeenden()
         {
-            //Muss noch gemacht werden
+            if (Status == "Eröffnet")
+            {
+                System.Windows.MessageBox.Show("Bitte zuerst die Phaen daten abfüllen und speichern. Aktuell sind noch die generierten Daten eingetragen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            else if (ProjektStatus != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Phase kann erst gestartet werden, wenn das Projekt gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            //Checken ob alle Aktivitäten abgeschlossen sind
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Aktivitaet where FKey_PhaseID='{Pkey}' and EndDatum is null";
+            List<dynamic> list = dbHelper.RunQuery("Aktivitaet", query);
+            if (list.Count > 0)
+            {
+                System.Windows.MessageBox.Show("Es sind nicht alle Aktivitäten dieser Phase abgeschlossen, kann nicht beendet werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            //Checken ob alle Meilensteine abgeschlossen sind
+            query = $"Select * from Meilenstein where FKey_PhaseID='{Pkey}' and Datum is null";
+            List<dynamic> listM = dbHelper.RunQuery("Meilenstein", query);
+            if (list.Count > 0)
+            {
+                System.Windows.MessageBox.Show("Es sind nicht alle Meilensteine dieser Phase abgeschlossen, kann nicht beendet werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            //Enddatum setzen
+            EndDatum = DateTime.Now;
+            Status = "Abgeschlossen";
+            Phasespeichern();
         }
         //Speichern
         ICommand _Speichern;
@@ -206,15 +248,17 @@ namespace ProjektManagementTool.ViewModels
                 Status = "Erfasst";
                 //Meilenstein hinzufügen
                 string meilensteinName = Name + "_Ende";
-                var objMeilenstein = new Meilenstein(0,meilensteinName,EndtDatumG,null,Pkey);
-                objMeilenstein.CreateInDB();
+                var objMeilenstein = new Meilenstein(0,meilensteinName,EndDatumG,null,Pkey);
+                int meilensteinPkey =objMeilenstein.CreateInDB();
+                objMeilenstein.Pkey = meilensteinPkey;
+
                 if (ParentContext.ListMeilensteine == null)
                 {
                     ParentContext.ListMeilensteine = new ObservableCollection<Meilenstein>();
                 }
                 ParentContext.ListMeilensteine.Add(objMeilenstein);
             }
-            var objPhase = new Phase(Pkey, Name, Status, Fortschritt, StartDatumG, EndtDatumG, StartDatum, EndtDatum, FKey_PhaseTemplateID, FKey_ProjektID);
+            var objPhase = new Phase(Pkey, Name, Status, Fortschritt, StartDatumG, EndDatumG, StartDatum, EndDatum, FKey_PhaseTemplateID, FKey_ProjektID);
             objPhase.Update();
 
             string query = $"Select * from Phase where FKey_ProjektID='{ParentContext.Pkey}'";

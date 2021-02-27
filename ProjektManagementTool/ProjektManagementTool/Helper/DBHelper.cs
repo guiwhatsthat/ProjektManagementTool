@@ -36,7 +36,8 @@ namespace ProjektManagementTool.Helper
             {
                 case "Projekt":
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
-                    foreach (var i in returnValue) {
+                    foreach (var i in returnValue)
+                    {
                         var obj = new Projekt(i.Pkey, i.Name, i.Beschreibung, i.FreigabeDatum, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_ProjektleiterID, i.KostenG, i.Kosten, i.FKey_VorgehensmodellID, i.Dokumente, i.Status, i.Fortschritt);
                         returnList.Add(obj);
                     }
@@ -85,7 +86,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<Aktivitaet.db_Aktivitaet>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new Aktivitaet(i.Pkey,i.Name,i.StartDatumG,i.EndDatumG,i.StartDatum,i.EndDatum,i.BudgetExterneKostenG,i.BudgetPersonenKostenG,i.BudgetExterneKosten,i.BudgetPersonenKosten,i.Fortschritt,i.FKey_VerantwortlichePersonID,i.FKey_PhaseID,i.Dokumente);
+                        var obj = new Aktivitaet(i.Pkey, i.Name, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.BudgetExterneKostenG, i.BudgetPersonenKostenG, i.BudgetExterneKosten, i.BudgetPersonenKosten, i.Fortschritt, i.FKey_VerantwortlichePersonID, i.FKey_PhaseID, i.Dokumente);
                         returnList.Add(obj);
                     }
                     break;
@@ -93,7 +94,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<ExterneResource.db_ExterneResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new ExterneResource(i.Pkey,i.Name,i.KostenG,i.Art,0);
+                        var obj = new ExterneResource(i.Pkey, i.Name, i.KostenG, i.Art, 0);
                         returnList.Add(obj);
                     }
                     break;
@@ -101,7 +102,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<ZExterneResource.db_ExterneResource>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new ZExterneResource(i.Pkey,i.FKey_Aktiviteat, i.FKey_ExterneResource, i.StartDatum,i.EndDatum, i.Kosten, i.Abweichung, i.Kommentar);
+                        var obj = new ZExterneResource(i.Pkey, i.FKey_Aktiviteat, i.FKey_ExterneResource, i.StartDatum, i.EndDatum, i.Kosten, i.Abweichung, i.Kommentar);
                         returnList.Add(obj);
                     }
                     break;
@@ -125,7 +126,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<VKostenAbweichungExterne.db_VKostenAbweichungExterne>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new VKostenAbweichungExterne(i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Art, i.Kommentar, i.StartDatum, i.EndDatum, i.Pkey,i.Fkey_Aktivitaet);
+                        var obj = new VKostenAbweichungExterne(i.Name, i.KostenG, i.Kosten, i.Abweichung, i.Art, i.Kommentar, i.StartDatum, i.EndDatum, i.Pkey, i.Fkey_Aktivitaet);
                         returnList.Add(obj);
                     }
                     break;
@@ -140,6 +141,8 @@ namespace ProjektManagementTool.Helper
                 default:
                     break;
             }
+            connection.Dispose();
+            connection = null;
             return returnList;
         }
 
@@ -311,9 +314,11 @@ namespace ProjektManagementTool.Helper
                     pkey = dbObjZPerseonenResource.Pkey;
                     break;
                 default:
-                    
+
                     break;
             }
+            connection.Dispose();
+            connection = null;
             return pkey;
         }
 
@@ -331,15 +336,15 @@ namespace ProjektManagementTool.Helper
                     Table<Vorgehensmodell.db_Vorgehensmodell> tableVorgehensmodell = connection.GetTable<Vorgehensmodell.db_Vorgehensmodell>();
                     var vorgehensmodellObj = (Vorgehensmodell)obj;
                     var entryVorgehensmodell = (from i in tableVorgehensmodell
-                                 where i.Pkey == vorgehensmodellObj.Pkey
-                                 select i).First();
+                                                where i.Pkey == vorgehensmodellObj.Pkey
+                                                select i).First();
                     //Daten Updaten
                     entryVorgehensmodell.Name = vorgehensmodellObj.Name;
                     entryVorgehensmodell.Beschreibung = vorgehensmodellObj.Beschreibung;
                     connection.SubmitChanges();
                     break;
                 case "PhaseTemplate":
-                    
+
                     break;
                 case "Projekt":
                     Table<Projekt.db_Projekt> tableProjekt = connection.GetTable<Projekt.db_Projekt>();
@@ -367,26 +372,27 @@ namespace ProjektManagementTool.Helper
                     Table<Phase.db_Phase> tablePhase = connection.GetTable<Phase.db_Phase>();
                     var phaseObj = (Phase)obj;
                     var entryPhase = (from i in tablePhase
-                                 where i.Pkey == phaseObj.Pkey
-                                 select i).First();
-                    entryPhase.Name = obj.Name;
-                    entryPhase.Status = obj.Status;
-                    entryPhase.Fortschritt = obj.Fortschritt;
-                    entryPhase.StartDatumG = obj.StartDatumG;
-                    entryPhase.EndDatumG = obj.EndDatumG;
-                    entryPhase.StartDatum = obj.StartDatum;
-                    entryPhase.EndDatum = obj.EndDatum;
-                    entryPhase.FKey_PhaseTemplateID = obj.FKey_PhaseTemplateID;
-                    entryPhase.FKey_ProjektID = obj.FKey_ProjektID;
-
+                                      where i.Pkey == phaseObj.Pkey
+                                      select i).First();
+                    entryPhase.Name = phaseObj.Name;
+                    entryPhase.Status = phaseObj.Status;
+                    entryPhase.Fortschritt = phaseObj.Fortschritt;
+                    entryPhase.StartDatumG = phaseObj.StartDatumG;
+                    entryPhase.EndDatumG = DateTime.Parse(phaseObj.EndDatumG.ToString("dd.MM.yyyy"));
+                    entryPhase.StartDatum = phaseObj.StartDatum;
+                    entryPhase.EndDatum = phaseObj.EndDatum;
+                    entryPhase.FKey_PhaseTemplateID = phaseObj.FKey_PhaseTemplateID;
+                    entryPhase.FKey_ProjektID = phaseObj.FKey_ProjektID;
                     connection.SubmitChanges();
+
+
                     break;
                 case "Meilenstein":
                     Table<Meilenstein.db_Meilenstein> tableMeilenstein = connection.GetTable<Meilenstein.db_Meilenstein>();
                     var meilensteinObj = (Meilenstein)obj;
                     var entryMeilenstein = (from i in tableMeilenstein
-                                      where i.Pkey == meilensteinObj.Pkey
-                                      select i).First();
+                                            where i.Pkey == meilensteinObj.Pkey
+                                            select i).First();
                     entryMeilenstein.Name = obj.Name;
                     entryMeilenstein.DatumG = obj.DatumG;
                     entryMeilenstein.Datum = obj.Datum;
@@ -398,7 +404,7 @@ namespace ProjektManagementTool.Helper
                     var AktivitaetObj = (Aktivitaet)obj;
                     var entryAktivitaet = (from i in tableAktivitaet
                                            where i.Pkey == AktivitaetObj.Pkey
-                                            select i).First();
+                                           select i).First();
                     entryAktivitaet.Name = obj.Name;
                     entryAktivitaet.StartDatumG = obj.StartDatumG;
                     entryAktivitaet.EndDatumG = obj.EndDatumG;
@@ -419,7 +425,7 @@ namespace ProjektManagementTool.Helper
                     var ExterneResourceObj = (ExterneResource)obj;
                     var entryExterneResource = (from i in tableExterneResource
                                                 where i.Pkey == ExterneResourceObj.Pkey
-                                           select i).First();
+                                                select i).First();
                     entryExterneResource.Name = obj.Name;
                     entryExterneResource.Art = obj.Art;
                     entryExterneResource.KostenG = obj.KostenG;
@@ -430,8 +436,8 @@ namespace ProjektManagementTool.Helper
                     Table<ZExterneResource.db_ExterneResource> tableZExterneResource = connection.GetTable<ZExterneResource.db_ExterneResource>();
                     var ZExterneResourceObj = (ZExterneResource)obj;
                     var entryZExterneResource = (from i in tableZExterneResource
-                                                where i.Pkey == ZExterneResourceObj.Pkey
-                                                select i).First();
+                                                 where i.Pkey == ZExterneResourceObj.Pkey
+                                                 select i).First();
                     entryZExterneResource.EndDatum = obj.EndDatum;
                     entryZExterneResource.FKey_Aktiviteat = obj.FKey_Aktiviteat;
                     entryZExterneResource.FKey_ExterneResource = obj.FKey_ExterneResource;
@@ -447,7 +453,7 @@ namespace ProjektManagementTool.Helper
                     var PersonenResourceObj = (PerseonenResource)obj;
                     var entryPerseonenResource = (from i in tablePerseonenResource
                                                   where i.Pkey == PersonenResourceObj.Pkey
-                                                select i).First();
+                                                  select i).First();
                     entryPerseonenResource.Name = obj.Name;
                     entryPerseonenResource.Funktion = obj.Funktion;
                     entryPerseonenResource.KostenG = obj.KostenG;
@@ -458,8 +464,8 @@ namespace ProjektManagementTool.Helper
                     Table<ZPerseonenResource.db_ZPerseonenResource> tableZPerseonenResource = connection.GetTable<ZPerseonenResource.db_ZPerseonenResource>();
                     var ZPersonenResourceObj = (ZPerseonenResource)obj;
                     var entryZPerseonenResource = (from i in tableZPerseonenResource
-                                                 where i.Pkey == ZPersonenResourceObj.Pkey
-                                                 select i).First();
+                                                   where i.Pkey == ZPersonenResourceObj.Pkey
+                                                   select i).First();
                     entryZPerseonenResource.EndDatum = obj.EndDatum;
                     entryZPerseonenResource.FKey_Aktiviteat = obj.FKey_Aktiviteat;
                     entryZPerseonenResource.FKey_PerseonenResource = obj.FKey_PerseonenResource;
@@ -474,6 +480,8 @@ namespace ProjektManagementTool.Helper
 
                     break;
             }
+            connection.Dispose();
+            connection = null;
         }
 
         public void Remove(string t_Table, dynamic obj)
@@ -490,8 +498,8 @@ namespace ProjektManagementTool.Helper
                     Table<PhaseTemplate.db_PhaseTemplate> tablePhaseTemplate = connection.GetTable<PhaseTemplate.db_PhaseTemplate>();
                     var PhaseTemplateObj = (PhaseTemplate)obj;
                     var entryPhasenTamplate = (from i in tablePhaseTemplate
-                                                where i.Name == PhaseTemplateObj.Name
-                                                select i).First();
+                                               where i.Name == PhaseTemplateObj.Name
+                                               select i).First();
                     //Remove
                     tablePhaseTemplate.DeleteOnSubmit(entryPhasenTamplate);
                     connection.SubmitChanges();
@@ -501,8 +509,8 @@ namespace ProjektManagementTool.Helper
                     Table<Meilenstein.db_Meilenstein> tableMeilenstein = connection.GetTable<Meilenstein.db_Meilenstein>();
                     var meilensteinObj = (Meilenstein)obj;
                     var entryMeilenstein = (from i in tableMeilenstein
-                                               where i.Name == meilensteinObj.Name
-                                               select i).First();
+                                            where i.Name == meilensteinObj.Name
+                                            select i).First();
                     //Remove
                     tableMeilenstein.DeleteOnSubmit(entryMeilenstein);
                     connection.SubmitChanges();
@@ -513,7 +521,7 @@ namespace ProjektManagementTool.Helper
                     var aktivitaetObj = (Aktivitaet)obj;
                     var entryAktivitaet = (from i in tableAktivitaet
                                            where i.Name == aktivitaetObj.Name
-                                            select i).First();
+                                           select i).First();
                     //Remove
                     tableAktivitaet.DeleteOnSubmit(entryAktivitaet);
                     connection.SubmitChanges();
@@ -524,7 +532,7 @@ namespace ProjektManagementTool.Helper
                     var ZExterneResourceObj = (ZExterneResource)obj;
                     var entryZExterneResource = (from i in tableZExterneResource
                                                  where i.Pkey == ZExterneResourceObj.Pkey
-                                           select i).First();
+                                                 select i).First();
                     //Remove
                     tableZExterneResource.DeleteOnSubmit(entryZExterneResource);
                     connection.SubmitChanges();
@@ -535,7 +543,7 @@ namespace ProjektManagementTool.Helper
                     var ZPerseonenResourcetObj = (ZPerseonenResource)obj;
                     var entryZPerseonenResource = (from i in tableZPerseonenResource
                                                    where i.Pkey == ZPerseonenResourcetObj.Pkey
-                                           select i).First();
+                                                   select i).First();
                     //Remove
                     tableZPerseonenResource.DeleteOnSubmit(entryZPerseonenResource);
                     connection.SubmitChanges();
@@ -544,6 +552,8 @@ namespace ProjektManagementTool.Helper
 
                     break;
             }
+            connection.Dispose();
+            connection = null;
         }
     }
 }

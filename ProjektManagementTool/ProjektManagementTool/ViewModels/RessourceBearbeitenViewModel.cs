@@ -173,17 +173,18 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //ResourcenIndex
-        int _ResourcenPIndex;
-        public int ResourcenPIndex
+        Nullable<int> _ResourcenPIndex;
+        public Nullable<int> ResourcenPIndex
         {
             get { return _ResourcenPIndex; }
             set
             {
                 _ResourcenPIndex = value;
-                ResourcenEIndex = -1;
+
                 OnPropertyChanged("ResourcenPIndex");
             }
         }
+        bool changedIndex;
         //Resourcen
         ObservableCollection<ExterneResource> _ResourcenE;
         public ObservableCollection<ExterneResource> ResourcenE
@@ -196,14 +197,13 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //ResourcenIndex
-        int _ResourcenEIndex;
-        public int ResourcenEIndex
+        Nullable<int> _ResourcenEIndex;
+        public Nullable<int> ResourcenEIndex
         {
             get { return _ResourcenEIndex; }
             set
             {
                 _ResourcenEIndex = value;
-                ResourcenPIndex = -1;
                 OnPropertyChanged("ResourcenEIndex");
             }
         }
@@ -384,13 +384,13 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            if (ResourcenEIndex == -1)
+            if (ResourcenEIndex == null)
             {
                 System.Windows.MessageBox.Show("Kein Eintrag ausgewählt", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var externeKosten = (ExterneResource)ResourcenE[ResourcenEIndex];
+            var externeKosten = (ExterneResource)ResourcenE[Convert.ToInt32(ResourcenEIndex)];
             Name = externeKosten.Name;
             KostenG = externeKosten.KostenG;
             ArtFunktion = externeKosten.Art;
@@ -415,13 +415,13 @@ namespace ProjektManagementTool.ViewModels
                 return;
             }
 
-            if (ResourcenPIndex == -1)
+            if (ResourcenPIndex == null)
             {
                 System.Windows.MessageBox.Show("Kein Eintrag ausgewählt", "Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var personenKosten = (PerseonenResource)ResourcenP[ResourcenPIndex];
+            var personenKosten = (PerseonenResource)ResourcenP[Convert.ToInt32(ResourcenPIndex)];
             Name = personenKosten.Name;
             KostenG = personenKosten.KostenG;
             ArtFunktion = personenKosten.Funktion;

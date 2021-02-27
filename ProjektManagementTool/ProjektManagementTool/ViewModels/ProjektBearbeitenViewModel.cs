@@ -58,6 +58,16 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("BeendenErlaubt");
             }
         }
+        public bool _FreigebenErlaubt;
+        public bool FreigebenErlaubt
+        {
+            get { return _FreigebenErlaubt; }
+            set
+            {
+                _FreigebenErlaubt = value;
+                OnPropertyChanged("FreigebenErlaubt");
+            }
+        }
 
         //Helper Value für die FKey
         int _ProjektleiterID;
@@ -383,13 +393,16 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void ShowVorgehensmodellhinzufügen()
         {
-            var hinzufuegenView = new HinzufuegenView();
-            HinzufuegenViewModel context = (HinzufuegenViewModel)hinzufuegenView.DataContext;
-            context.Header = "Vorgehensmodell";
-            var dbHelper = new DBHelper();
-            context.ListObj = dbHelper.RunQuery("Vorgehensmodell", "Select * from Vorgehensmodell");
-            context.ParentDataContext = this;
-            hinzufuegenView.Show();
+            if (Status == "Erfasst")
+            {
+                var hinzufuegenView = new HinzufuegenView();
+                HinzufuegenViewModel context = (HinzufuegenViewModel)hinzufuegenView.DataContext;
+                context.Header = "Vorgehensmodell";
+                var dbHelper = new DBHelper();
+                context.ListObj = dbHelper.RunQuery("Vorgehensmodell", "Select * from Vorgehensmodell");
+                context.ParentDataContext = this;
+                hinzufuegenView.Show();
+            }
         }
         //Button Ablage hinzufügen
         ICommand _Ablagehinzufügen;
@@ -454,6 +467,7 @@ namespace ProjektManagementTool.ViewModels
                     //Create Phasen
                     var phaseObj = new Phase(0,template.Name,"Eröffnet",0,DateTime.Now, DateTime.Now,null,null,template.Pkey, Pkey);
                     int phasePKey = phaseObj.CreateInDB();
+                    phaseObj.Pkey = phasePKey;
                     //Phasen dem bindig zuweisen
                     PhasenListe.Add(phaseObj);
                 }
@@ -511,7 +525,7 @@ namespace ProjektManagementTool.ViewModels
             if (Pkey == 0)
             {
                 //dieser test muss nur beim eröffnen gemacht werden
-                if (DateTime.Now >= StartDatumG)
+                if (DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy")) > StartDatumG)
                 {
                     System.Windows.MessageBox.Show("Startdatum muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -529,6 +543,7 @@ namespace ProjektManagementTool.ViewModels
                     System.Windows.MessageBox.Show("Projekt erfasst", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 Pkey = projektPkey;
+                FreigebenErlaubt = true;
             } else
             {
                 //Update
@@ -576,8 +591,8 @@ namespace ProjektManagementTool.ViewModels
             context.StartDatum = PhasenListe[IndexPhase].StartDatum;
             context.StartDatumG = PhasenListe[IndexPhase].StartDatumG;
             context.Status = PhasenListe[IndexPhase].Status;
-            context.EndtDatum = PhasenListe[IndexPhase].EndDatum;
-            context.EndtDatumG = PhasenListe[IndexPhase].EndDatumG;
+            context.EndDatum = PhasenListe[IndexPhase].EndDatum;
+            context.EndDatumG = PhasenListe[IndexPhase].EndDatumG;
             context.Fortschritt = PhasenListe[IndexPhase].Fortschritt;
             context.Pkey = PhasenListe[IndexPhase].Pkey;
             context.ProjektStatus = Status;
@@ -651,11 +666,13 @@ namespace ProjektManagementTool.ViewModels
             if (startErlaubt)
             {
                 Status = "In Arbeit";
+                BeendenErlaubt = true;
             } else
             {
-                System.Windows.MessageBox.Show("Projekt kann nicht gestartet werden. Zuerst müssen alle Phasen bearbeitet werden.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Projekt kann nicht gestartet werden. Zuerst müssen alle Phasen bearbeitet werden. Sie dürfen nicht mehr den Status Eröffnet haben. Einne Statusänderung kann durch das Speichern der Phase erreicht werden.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+            Projektspeichern();
         }
         //Meilenstein bearbeiten
         ICommand _MeilensteinBearbeiten;
@@ -704,6 +721,11 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void MeilensteinErfassen()
         {
+            if (Status != "In Planung" && Status != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Meilensteine könnent nur bearbeitet werden, wenn das Projekt in Planung ist", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             var dbHelper = new DBHelper();
             var meilensteinbearbeiten = new MeilensteinBearbeitenView();
             var context = (MeilensteinBearbeitenViewModel)meilensteinbearbeiten.DataContext;
@@ -726,6 +748,11 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Aktivitaeterfassen()
         {
+            if (Status != "In Planung" && Status != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Aktivitäten könnent nur bearbeitet werden, wenn das Projekt in Planung ist", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             var aktiviteatBearbeitenView = new AktiviteatBearbeitenView();
             var context = (AktiviteatBearbeitenViewModel)aktiviteatBearbeitenView.DataContext;
             context.ParentDataContext = this;
@@ -746,7 +773,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Aktivitaetbearbeiten()
         {
-            if (ListAktivitaet == null)
+            if (ListAktivitaet == null || ListAktivitaet.Count == 0)
             {
                 return;
             }

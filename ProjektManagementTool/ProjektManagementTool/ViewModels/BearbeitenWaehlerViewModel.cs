@@ -62,7 +62,8 @@ namespace ProjektManagementTool.ViewModels
             if (ListObj.Count == 0)
             {
                 return;
-            } else if (Index > ListObj.Count - 1)
+            }
+            else if (Index > ListObj.Count - 1)
             {
                 return;
             }
@@ -124,13 +125,33 @@ namespace ProjektManagementTool.ViewModels
                 context.ListMeilensteine = listMeilensteine;
 
                 //UI elemente ausblenden
-                context.PlanenErlaubt = false;
+                string status = ListObj[Index].Status;
+                context.StartenErlaubt = false;
                 context.StartenErlaubt = false;
                 context.BeendenErlaubt = false;
+                context.FreigebenErlaubt = false;
 
+                switch (status)
+                {
+                    case "Erfasst":
+                        context.FreigebenErlaubt = true;
+                        break;
+                    case "Freigegeben":
+                        context.PlanenErlaubt = true;
+                        break;
+                    case "In Planung":
+                        context.StartenErlaubt = true;
+                        break;
+                    case "In Arbeit":
+                        context.BeendenErlaubt = true;
+                        break;
+                    default:
+                        break;
+                }
                 projektbearbeiten.Show();
 
-            } else
+            }
+            else
             {
                 var vorgehensmodellErfassen = new VorgehensmodellErfassenView();
                 var context = (VorgehensmodellErfassenViewModel)vorgehensmodellErfassen.DataContext;
@@ -143,7 +164,7 @@ namespace ProjektManagementTool.ViewModels
                 string query = $"Select * from PhaseTemplate where FKey_VorgehensmodellID='{ListObj[Index].Pkey}'";
                 var phaseTemplates = dbhelper.RunQuery("PhaseTemplate", query);
                 var list = new ObservableCollection<string>();
-                foreach(var i in phaseTemplates)
+                foreach (var i in phaseTemplates)
                 {
                     list.Add(i.Name);
                 }

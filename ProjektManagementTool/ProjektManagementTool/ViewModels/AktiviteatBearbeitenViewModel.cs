@@ -260,7 +260,15 @@ namespace ProjektManagementTool.ViewModels
         }
         //Funktion für den Command
         void Starten()
-        {            
+        {
+            //Checken on Enddatum Geplant gsetzte ist
+            if (EndDatumG == null || EndDatum == DateTime.MinValue)
+            {
+                System.Windows.MessageBox.Show("Aktivität kann nicht gestartet werden. Es muss noch das geplante Enddatum eingetragen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            StartDatum = DateTime.Now;
+            Speichern();
         }
         //Button Aktivität beenden
         ICommand _Beenden;
@@ -275,6 +283,22 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Beenden()
         {
+            if (StartDatum == null || EndDatum != null)
+            {
+                return;
+            }
+            //Checken ob Kosten abgeschlossen sind
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Z_ExterneResource where FKey_Aktiviteat='{Pkey}' and EndDatum is null";
+            var listeE = dbHelper.RunQuery("ZExterneResource", query);
+            query = $"Select * from Z_PerseonenResource where FKey_Aktiviteat='{Pkey}' and EndDatum is null";
+            var listeP = dbHelper.RunQuery("ZPerseonenResource", query);
+            if (listeP.Count > 0 || listeE.Count > 0)
+            {
+                System.Windows.MessageBox.Show("Aktivität kann nicht abgeschlossen werden. Es sind noch nicht alle Kosten abgeschlossen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
         }
         //Button Aktivität speichern
         ICommand _Speichern;
@@ -334,14 +358,28 @@ namespace ProjektManagementTool.ViewModels
 
             if (Pkey == 0)
             {
+                //Checken ob Phase abgeschlossen ist, wenn ja kann die Aktiität nicht zugewiesen werden
+                foreach (var phase in ListPhasen)
+                {
+                    if (phase.Pkey == PhasePkey)
+                    {
+                        if (phase.EndDatum != null)
+                        {
+                            System.Windows.MessageBox.Show("Aktivität kann nicht einer Abgeschlossenen Phase zugewiesen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                }
+                
                 //dieser test muss nur beim eröffnen gemacht werden
-                if (DateTime.Now >= StartDatumG)
+                if (DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy")) > StartDatumG)
                 {
                     System.Windows.MessageBox.Show("Datum (Geplant) muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
                 var aktivitaet = new Aktivitaet(0, Name, StartDatumG, EndDatumG, StartDatum, EndDatum, ExterneKostenG, PersonenKostenG, ExterneKosten, PersonenKosten, Fortschritt, MitarbeiterPkey, PhasePkey, Ablage);
                 Pkey = aktivitaet.CreateInDB();
+                aktivitaet.Pkey = Pkey;
                 if (Pkey == -1)
                 {
                     System.Windows.MessageBox.Show("Fehler! beim schreiben in die DB", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -359,16 +397,9 @@ namespace ProjektManagementTool.ViewModels
             else
             {
                 var aktivitaet = new Aktivitaet(Pkey, Name, StartDatumG, EndDatumG, StartDatum, EndDatum, ExterneKostenG, PersonenKostenG, ExterneKosten, PersonenKosten, Fortschritt, MitarbeiterPkey, PhasePkey, Ablage);
-                Pkey = aktivitaet.CreateInDB();
-                if (Pkey == -1)
-                {
-                    System.Windows.MessageBox.Show("Fehler! beim schreiben in die DB", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show("Aktivität aktualisiert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                aktivitaet.Update();
+                System.Windows.MessageBox.Show("Aktivität aktualisiert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                
                 int aindex = 0;
                 for (int i = 0; i < ParentDataContext.ListAktivitaet.Count; i++)
                 {

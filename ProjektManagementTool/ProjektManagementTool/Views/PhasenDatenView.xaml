@@ -18,15 +18,15 @@
                 <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
                 <DatePicker SelectedDate="{Binding StartDatumG}"></DatePicker>
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker SelectedDate="{Binding EndtDatumG}"></DatePicker>
+                <DatePicker SelectedDate="{Binding EndDatumG}"></DatePicker>
             </StackPanel>
         </GroupBox>
         <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Startdatum" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Startdatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding StartDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Enddatum" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Enddatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding EndDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,150,0,0" VerticalAlignment="Top" Width="275">
