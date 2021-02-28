@@ -124,6 +124,14 @@ namespace ProjektManagementTool.ViewModels
                 }
                 context.ListMeilensteine = listMeilensteine;
 
+                //Kosten
+                decimal alleKosten = 0;
+                foreach (var a in aktivitaetListe)
+                {
+                    alleKosten += a.BudgetExterneKosten;
+                    alleKosten += a.BudgetPersonenKosten;
+                }
+                context.Kosten = alleKosten;
                 //UI elemente ausblenden
                 string status = ListObj[Index].Status;
                 context.StartenErlaubt = false;

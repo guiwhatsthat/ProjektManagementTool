@@ -159,9 +159,15 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Phasestarten()
         {
+            //Checken ob das Projekt gestartet ist
+            if (ParentContext.Status != "In Arbeit") 
+            {
+                System.Windows.MessageBox.Show("Phase kann erst gestartet werden wenn das Projekt gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             if (Status == "Eröffnet")
             {
-                System.Windows.MessageBox.Show("Bitte zuerst die Phaen daten abfüllen und speichern. Aktuell sind noch die generierten Daten eingetragen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Bitte zuerst die Phasen daten abfüllen und speichern. Aktuell sind noch die generierten Daten eingetragen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             } else if (ProjektStatus != "In Arbeit")
             {

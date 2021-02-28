@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Phase bearbeiten" Height="307" Width="635">
+        Title="Phase bearbeiten" Height="319" Width="635">
     <Grid>
         <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="260" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>

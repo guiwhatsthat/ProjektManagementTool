@@ -30,7 +30,7 @@
         </GroupBox>
         <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="98" Margin="329,176,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Button Command="{Binding CMDAbschliessen}" Width="100" HorizontalAlignment="Left">Abshcliessem</Button>
+                <Button Command="{Binding CMDAbschliessen}" Width="100" HorizontalAlignment="Left">Abschliessen</Button>
                 <Button Command="{Binding CMDSpeichern}" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
                 <Button Command="{Binding CMDLoeschen}" Width="100" HorizontalAlignment="Left">Löschen</Button>
             </StackPanel>

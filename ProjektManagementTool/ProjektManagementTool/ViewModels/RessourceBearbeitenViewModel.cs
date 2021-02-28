@@ -184,7 +184,7 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("ResourcenPIndex");
             }
         }
-        bool changedIndex;
+        public string ProjektStatus;
         //Resourcen
         ObservableCollection<ExterneResource> _ResourcenE;
         public ObservableCollection<ExterneResource> ResourcenE
@@ -339,6 +339,7 @@ namespace ProjektManagementTool.ViewModels
                     var genericKosten = new GenericKosten(Art, Name, Pkey, Fkey_Aktivitaet, ZPkey);
                     ParentDataContext.ListKosten.Add(genericKosten);
                     System.Windows.MessageBox.Show("Kosten erfasst", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    KostenRechner();
                     return;
                 }
                 else
@@ -361,6 +362,7 @@ namespace ProjektManagementTool.ViewModels
                     var zperson = (ZPerseonenResource)dbHelper.RunQuery("ZPerseonenResource", query)[0];
                     var link = new ZPerseonenResource(zperson.Pkey, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, zperson.Kommentar);
                     link.Update();
+                    KostenRechner();
                     System.Windows.MessageBox.Show("Aktualisiert", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -441,6 +443,14 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Loeschen()
         {
+            //Darf nicht gelöscht werden wenn Projekt archiviert oder beendet ist
+            if (ProjektStatus == "Archiviert" || ProjektStatus == "Abgeschlossen")
+            {
+                System.Windows.MessageBox.Show("Es können keine Kosten entfernt werden, wenn das Projekt abgeschlossen oder archiviert ist", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+
             if (Pkey != 0 && ZPkey != 0)
             {
                 var dbHelper = new DBHelper();
@@ -474,5 +484,28 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         #endregion
+
+        void KostenRechner()
+        {
+            var dbHelper = new DBHelper();
+            string query = $"Select * from Z_PerseonenResource where FKey_Aktiviteat='{Fkey_Aktivitaet}'";
+            var listP = dbHelper.RunQuery("ZPerseonenResource", query);
+            decimal pKosten = 0;
+            foreach (var p in listP)
+            {
+                pKosten += p.Kosten;
+            }
+
+            query = $"Select * from Z_ExterneResource where FKey_Aktiviteat='{Fkey_Aktivitaet}'";
+            var listE = dbHelper.RunQuery("ZExterneResource", query);
+            decimal eKosten = 0;
+            foreach (var e in listE)
+            {
+                eKosten += e.Kosten;
+            }
+            ParentDataContext.PersonenKosten = pKosten;
+            ParentDataContext.ExterneKosten = eKosten;
+            ParentDataContext.Speichern();
+        }
     }
 }

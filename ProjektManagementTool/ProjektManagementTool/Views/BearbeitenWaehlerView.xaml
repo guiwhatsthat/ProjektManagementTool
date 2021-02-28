@@ -23,7 +23,6 @@
                         </Grid.RowDefinitions>
                         <Button Content="Button 1"/>
                         <Button Command="{Binding CMDBearbeiten}" Grid.Column="0" Padding="5,5,5,5" Content="Bearbeiten"/>
-                        <Button Grid.Column="1" Content="Löschen"/>
                     </Grid>
                 </StackPanel>
             </GroupBox>

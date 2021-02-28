@@ -143,7 +143,20 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Abschliessen()
         {
-            //Muss noch gemacht werden
+            if (Datum != null)
+            {
+                return;
+            }
+            //Checken ob Projekt in Arbeit ist
+            if (ParentContext.Status != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Kann nicht abgeschlossen werden weil das Projekt nicht in Arbeit ist.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            Datum = DateTime.Now;
+            Speichern();
+
         }
         //Speichern
         ICommand _Speichern;
@@ -183,7 +196,7 @@ namespace ProjektManagementTool.ViewModels
             if (Pkey == 0)
             {
                 //dieser test muss nur beim eröffnen gemacht werden
-                if (DateTime.Now >= DatumG)
+                if (DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy")) > DatumG)
                 {
                     System.Windows.MessageBox.Show("Datum (Geplant) muss heute oder in der Zukunft sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -201,8 +214,19 @@ namespace ProjektManagementTool.ViewModels
                 string query = $"Select * from Phase where Name='{PhaseName}'";
                 var dbPhase = dbHelper.RunQuery("Phase", query);
                 var meilenstein = new Meilenstein(Pkey, Name, DatumG, Datum, dbPhase[0].Pkey);
-                meilenstein.CreateInDB();
-                MessageBox.Show($"Phase '{Name}' hinzugefügt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                meilenstein.Update();
+                MessageBox.Show($"Phase '{Name}' aktualisiert", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                int index = 0;
+                for (int i = 0; i < ParentContext.ListMeilensteine.Count; i++)
+                {
+                    var obj = (Meilenstein)ParentContext.ListMeilensteine[i];
+                    if (obj.Pkey == Pkey)
+                    {
+                        index = i;
+                        i = ParentContext.ListMeilensteine.Count;
+                    }
+                }
+                ParentContext.ListMeilensteine.RemoveAt(index);
                 ParentContext.ListMeilensteine.Add(meilenstein);
             }
         }

@@ -215,7 +215,8 @@ namespace ProjektManagementTool.ViewModels
                 if (Status == "Freigegeben" || Status == "Erfasst" || Status == "Archiviert")
                 {
                     EnablePhase = false;
-                } else
+                }
+                else
                 {
                     EnablePhase = true;
                 }
@@ -465,14 +466,15 @@ namespace ProjektManagementTool.ViewModels
                 foreach (var template in phasenTemplates)
                 {
                     //Create Phasen
-                    var phaseObj = new Phase(0,template.Name,"Eröffnet",0,DateTime.Now, DateTime.Now,null,null,template.Pkey, Pkey);
+                    var phaseObj = new Phase(0, template.Name, "Eröffnet", 0, DateTime.Now, DateTime.Now, null, null, template.Pkey, Pkey);
                     int phasePKey = phaseObj.CreateInDB();
                     phaseObj.Pkey = phasePKey;
                     //Phasen dem bindig zuweisen
                     PhasenListe.Add(phaseObj);
                 }
                 EnablePhase = false;
-            } else
+            }
+            else
             {
                 System.Windows.MessageBox.Show("Projekt wurde bereits freigegeben", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -504,19 +506,21 @@ namespace ProjektManagementTool.ViewModels
             {
                 System.Windows.MessageBox.Show("Startdatum hat das falsche Format", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            } else if (!DateTime.TryParse(EndtDatumG.ToString(), out DateTime b))
+            }
+            else if (!DateTime.TryParse(EndtDatumG.ToString(), out DateTime b))
             {
                 System.Windows.MessageBox.Show("Enddatum hat das falsche Format", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            
+
 
             if (StartDatumG == DateTime.MinValue || EndtDatumG == DateTime.MinValue)
             {
                 System.Windows.MessageBox.Show("Daten wurden nicht spezifiziert", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
-            } else if (StartDatumG > EndtDatumG)
+            }
+            else if (StartDatumG > EndtDatumG)
             {
                 System.Windows.MessageBox.Show("Startdatum muss vor dem enddatum liegen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -531,6 +535,9 @@ namespace ProjektManagementTool.ViewModels
                     return;
                 }
 
+                //Kostenabrufn
+                KostenAbrufen(false);
+
                 //Projekt speichern
                 Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
                 int projektPkey = projekt.CreateInDB();
@@ -544,19 +551,23 @@ namespace ProjektManagementTool.ViewModels
                 }
                 Pkey = projektPkey;
                 FreigebenErlaubt = true;
-            } else
+            }
+            else
             {
+                //Kostenabrufn
+                KostenAbrufen(false);
                 //Update
                 if (null == Freigabedatum)
                 {
-                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung,null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
                     projekt.Update();
-                } else
+                }
+                else
                 {
                     Projekt projekt = new Projekt(Pkey, Name, Beschreibung, DateTime.Parse(Freigabedatum), StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
                     projekt.Update();
                 }
-                
+
                 var dbHelper = new DBHelper();
 
                 //Update anzeige view
@@ -564,7 +575,7 @@ namespace ProjektManagementTool.ViewModels
                 {
                     WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Projekt", "Select * from Projekt"));
                 }
-                
+
             }
         }
         //Button Projekt planen
@@ -633,8 +644,105 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Projektloeschen()
         {
+            BeendenErlaubt = false;
+            FreigebenErlaubt = false;
+            PlanenErlaubt = false;
+            StartenErlaubt = false;
+            ReadOnlyStatus = true;
             Status = "Archiviert";
             Projektspeichern();
+        }
+
+        //Button Projekt löschen
+        ICommand _Projektbeenden;
+        public ICommand CMDProjektbeenden
+        {
+            get
+            {
+                return _Projektbeenden ?? (_Projektbeenden =
+                new RelayCommand(p => Projektbeenden()));
+            }
+        }
+        //Funktion für den Command
+        void Projektbeenden()
+        {
+            bool abschliessenPhasen = true;
+            //checken ob alle Phasen abgeschlossen sind
+            foreach (var phase in PhasenListe)
+            {
+                if (phase.Status != "Abgeschlossen")
+                {
+                    abschliessenPhasen = false;
+                }
+            }
+            if (abschliessenPhasen == false)
+            {
+                System.Windows.MessageBox.Show("Es müssen zuerst alle Phasen abgeschlossen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            //checken ob alle Meilensteine abgeschlossen sind
+            bool abschliessenMeilenstein = true;
+            foreach (var meilenstein in ListMeilensteine)
+            {
+                if (meilenstein.Datum == null)
+                {
+                    abschliessenMeilenstein = false;
+                }
+            }
+            if (abschliessenMeilenstein == false)
+            {
+                System.Windows.MessageBox.Show("Es müssen zuerst alle Meilensteine abgeschlossen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            //Check ob Abweichungen Kommentiert sind
+            bool abschliessenKosten = true;
+            var dbHelper = new DBHelper();
+            foreach (var aktivitaet in ListAktivitaet)
+            {
+                if (abschliessenKosten == true)
+                {
+                    //alle exterene Resourcen
+                    string query = $"Select * from VKostenAbweichungExterne where Fkey_Aktivitaet='{aktivitaet.Pkey}' and Kommentar=''";
+                    var resultE = dbHelper.RunQuery("VKostenAbweichungExterne", query);
+                    if (resultE.Count > 0)
+                    {
+                        abschliessenKosten = false;
+                        continue;
+                    }
+                    //alle Personen resourcen
+                    if (abschliessenKosten == true)
+                    {
+                        query = $"Select * from VKostenAbweichungPersonen where FKey_Aktiviteat='{aktivitaet.Pkey}' and Kommentar=''";
+                        var resultP = dbHelper.RunQuery("VKostenAbweichungPersonen", query);
+                        if (resultP.Count > 0)
+                        {
+                            abschliessenKosten = false;
+                            continue;
+                        }
+                    }
+                }
+            }
+            if (abschliessenKosten == false)
+            {
+                System.Windows.MessageBox.Show("Es müssen zuerst alle Abweichungen der Kosten (in den Aktivitäten) kommentiert werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            //Ui Elemente deaktivieren
+            BeendenErlaubt = false;
+            FreigebenErlaubt = false;
+            PlanenErlaubt = false;
+            StartenErlaubt = false;
+            ReadOnlyStatus = true;
+
+            //Abschliessen
+            Fortschritt = 100;
+            Status = "Abgeschlossen";
+            Projektspeichern();
+            System.Windows.MessageBox.Show("Projekt abgeschlossen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
 
         //Button Projekt Starten
@@ -655,7 +763,7 @@ namespace ProjektManagementTool.ViewModels
             var dbHelper = new DBHelper();
             string query = $"Select * from Phase where FKey_ProjektID='{Pkey}'";
             List<dynamic> phasen = dbHelper.RunQuery("Phase", query);
-            foreach(var phase in phasen)
+            foreach (var phase in phasen)
             {
                 if (phase.Status == "Eröffnet")
                 {
@@ -667,7 +775,8 @@ namespace ProjektManagementTool.ViewModels
             {
                 Status = "In Arbeit";
                 BeendenErlaubt = true;
-            } else
+            }
+            else
             {
                 System.Windows.MessageBox.Show("Projekt kann nicht gestartet werden. Zuerst müssen alle Phasen bearbeitet werden. Sie dürfen nicht mehr den Status Eröffnet haben. Einne Statusänderung kann durch das Speichern der Phase erreicht werden.", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -795,17 +904,18 @@ namespace ProjektManagementTool.ViewModels
             context.ExterneKostenG = aktivitaet.BudgetExterneKostenG;
             query = $"Select * from Phase where Pkey='{aktivitaet.FKey_PhaseID}'";
             context.PhaseName = dbHelper.RunQuery("Phase", query)[0].Name;
-            context.StartDatum= aktivitaet.StartDatum;
+            context.StartDatum = aktivitaet.StartDatum;
             context.StartDatumG = aktivitaet.StartDatumG;
             context.EndDatum = aktivitaet.EndDatum;
             context.EndDatumG = aktivitaet.EndDatumG;
             context.Pkey = aktivitaet.Pkey;
             context.PhasePkey = aktivitaet.FKey_PhaseID;
             context.MitarbeiterPkey = aktivitaet.FKey_VerantwortlichePersonID;
+            context.Fortschritt = aktivitaet.Fortschritt;
 
             //Liste mit allen zugewiesenen Kosten
             var kosten = new ObservableCollection<GenericKosten>();
-            
+
             //externeKosten
             query = $"Select * from Z_ExterneResource where FKey_Aktiviteat='{aktivitaet.Pkey}'";
             var listZTable = dbHelper.RunQuery("ZExterneResource", query);
@@ -834,8 +944,51 @@ namespace ProjektManagementTool.ViewModels
                 }
             }
 
+            query = $"Select * from Z_PerseonenResource where FKey_Aktiviteat='{aktivitaet.Pkey}'";
+            var listP = dbHelper.RunQuery("ZPerseonenResource", query);
+            decimal pKosten = 0;
+            foreach (var p in listP)
+            {
+                pKosten += p.Kosten;
+            }
+
+            query = $"Select * from Z_ExterneResource where FKey_Aktiviteat='{aktivitaet.Pkey}'";
+            var listE = dbHelper.RunQuery("ZExterneResource", query);
+            decimal eKosten = 0;
+            foreach (var e in listE)
+            {
+                eKosten += e.Kosten;
+            }
+
+            context.PersonenKosten = pKosten;
+            context.ExterneKosten = eKosten;
             context.ListKosten = kosten;
             aktiviteatBearbeitenView.Show();
+        }
+        //Meilenstein erfassen
+        ICommand _KostenAbrufen;
+        public ICommand CMDKostenAbrufen
+        {
+            get
+            {
+                return _KostenAbrufen ?? (_KostenAbrufen =
+                new RelayCommand(p => KostenAbrufen()));
+            }
+        }
+        //Funktion für den Command
+        void KostenAbrufen(bool save = true)
+        {
+            decimal alleKosten = 0;
+            foreach (var a in ListAktivitaet)
+            {
+                alleKosten += a.BudgetExterneKosten;
+                alleKosten += a.BudgetPersonenKosten;
+            }
+            Kosten = alleKosten;
+            if (save)
+            {
+                Projektspeichern();
+            }   
         }
     }
 }

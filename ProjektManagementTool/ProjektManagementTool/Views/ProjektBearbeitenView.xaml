@@ -14,7 +14,7 @@
                 <Label Content="Beschreibung" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Beschreibung}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Start Datum (Geplant)" Margin="0,0,0,0"/>
-                <DatePicker SelectedDate="{Binding StartDatumG}"></DatePicker>
+                <DatePicker SelectedDate="{Binding StartDatumG}"  ></DatePicker>
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
                 <DatePicker SelectedDate="{Binding EndtDatumG}"></DatePicker>
                 <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
@@ -105,7 +105,7 @@
                     <Button Grid.Column="0"  Command="{Binding CMDMeilensteinErfassen}" Padding="5,5,5,5">Erfassen</Button>
                     <Button Grid.Column="1" Command="{Binding CMDMeilensteinBearbeiten}" >Bearbeiten</Button>
                 </Grid>
-                
+
             </StackPanel>
         </GroupBox>
         <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
@@ -116,7 +116,7 @@
                 <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="117" Margin="26,534,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="141" Margin="26,534,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -127,15 +127,16 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button Command="{Binding CMDFreigeabeerteilen}" IsEnabled="{Binding FreigebenErlaubt}" Grid.Column="0" Grid.Row="0" Width="100" HorizontalAlignment="Left" Margin="0,5">Freigeben</Button>
                     <Button Command="{Binding CMDPlanen}" IsEnabled="{Binding PlanenErlaubt}" Grid.Column="1" Grid.Row="0" Width="100" HorizontalAlignment="Left"  Margin="0,5">Planen</Button>
                     <Button Command="{Binding CMDStarten}" IsEnabled="{Binding StartenErlaubt}" Grid.Column="0" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Starten</Button>
                     <Button Command="{Binding CMDProjektbeenden}" IsEnabled="{Binding BeendenErlaubt}" Grid.Column="1" Grid.Row="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
-                    <Button Command="{Binding CMDProjektspeichern}" Grid.Column="0" Grid.Row="3" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
-                    <Button Command="{Binding CMDProjektloeschen}" Width="100" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="3" Margin="0,5">Löschen</Button>
+                    <Button Command="{Binding CMDProjektspeichern}" Grid.Column="0" Grid.Row="2" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                    <Button Command="{Binding CMDProjektloeschen}" Width="100" HorizontalAlignment="Left"  Grid.Column="1" Grid.Row="2" Margin="0,5">Löschen</Button>
+                    <Button Command="{Binding CMDKostenAbrufen}" Width="100" HorizontalAlignment="Left"  Grid.Column="0" Grid.Row="3" Margin="0,5">Kosten abrufen</Button>
                 </Grid>
-
             </StackPanel>
         </GroupBox>
     </Grid>

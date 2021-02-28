@@ -365,6 +365,7 @@ namespace ProjektManagementTool.Helper
                     entry.FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID;
                     entry.Dokumente = obj.Dokumente;
                     entry.Status = obj.Status;
+                    entry.Fortschritt = obj.Fortschritt;
 
                     connection.SubmitChanges();
                     break;

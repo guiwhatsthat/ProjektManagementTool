@@ -261,6 +261,17 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Starten()
         {
+            //Checken on gelinkte Phase gestartet ist
+            foreach (var phase in ListPhasen) { 
+                if (PhasePkey == phase.Pkey)
+                {
+                    if (phase.Status != "In Arbeit")
+                    {
+                        System.Windows.MessageBox.Show("Aktivität kann nicht gestartet werden. Die zugewiesene Phase wurde noch nicht gestartet", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                }
+            }
             //Checken on Enddatum Geplant gsetzte ist
             if (EndDatumG == null || EndDatum == DateTime.MinValue)
             {
@@ -298,7 +309,9 @@ namespace ProjektManagementTool.ViewModels
                 System.Windows.MessageBox.Show("Aktivität kann nicht abgeschlossen werden. Es sind noch nicht alle Kosten abgeschlossen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-
+            EndDatum = DateTime.Now;
+            Speichern();
+            System.Windows.MessageBox.Show("Wurde abgeschlossen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         //Button Aktivität speichern
         ICommand _Speichern;
@@ -311,7 +324,7 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //Funktion für den Command
-        void Speichern()
+        public void Speichern()
         {
             //check ob Daten leer sind
             if (string.IsNullOrEmpty(Name))
@@ -499,6 +512,18 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Kostenerfassen()
         {
+            //Checken ob Kosten erfasst werden dürfen
+            if (StartDatum == null)
+            {
+                System.Windows.MessageBox.Show("Es können keine Kosten zugewiesen werden, weil die Aktivität noch nicht gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            if (EndDatum != null)
+            {
+                System.Windows.MessageBox.Show("Es können keine Kosten zugewiesen werden, weil die Aktivität bereits abgeschlossen wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            
             var ressourceBearbeitenView = new RessourceBearbeiten();
             var context = (RessourceBearbeitenViewModel)ressourceBearbeitenView.DataContext;
             context.Fkey_Aktivitaet = Pkey;
@@ -577,7 +602,7 @@ namespace ProjektManagementTool.ViewModels
                 context.Kosten = Convert.ToDecimal(zpersonenResource.Kosten);
                 context.Art = "PersonenKosten";
             }
-
+            context.ProjektStatus = ParentDataContext.Status;
             context.OArt = context.Art;
 
             ressourceBearbeitenView.Show();
