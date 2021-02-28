@@ -979,6 +979,10 @@ namespace ProjektManagementTool.ViewModels
         void KostenAbrufen(bool save = true)
         {
             decimal alleKosten = 0;
+            if (ListAktivitaet == null || ListAktivitaet.Count == 0)
+            {
+                return;
+            }
             foreach (var a in ListAktivitaet)
             {
                 alleKosten += a.BudgetExterneKosten;
