@@ -596,6 +596,12 @@ namespace ProjektManagementTool.ViewModels
                 System.Windows.MessageBox.Show("Phasen könnent nur bearbeitet werden, wenn das Projekt in Planung ist", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+
+            if (IndexPhase == -1)
+            {
+                return;
+            }
+
             var phaseDatenView = new PhasenDatenView();
             var context = (PhasenDatenViewModel)phaseDatenView.DataContext;
             context.Name = PhasenListe[IndexPhase].Name;

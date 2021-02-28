@@ -222,12 +222,37 @@ namespace ProjektManagementTool.ViewModels
             }
 
             //Checken ob alle Meilensteine abgeschlossen sind
-            query = $"Select * from Meilenstein where FKey_PhaseID='{Pkey}' and Datum is null";
+            query = $"Select * from Meilenstein where FKey_PhaseID='{Pkey}' and Datum is null and Name!='{Name}_End'";
             List<dynamic> listM = dbHelper.RunQuery("Meilenstein", query);
             if (list.Count > 0)
             {
                 System.Windows.MessageBox.Show("Es sind nicht alle Meilensteine dieser Phase abgeschlossen, kann nicht beendet werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
+            }
+
+            //End Meilenstein abschlissen
+            query = $"Select * from Meilenstein where FKey_PhaseID='{Pkey}' and Name='{Name}_Ende'";
+            List<dynamic> endMeilenstein = dbHelper.RunQuery("Meilenstein", query);
+            if (endMeilenstein.Count > 0)
+            {
+                var meilenstein = (Meilenstein)endMeilenstein[0];
+                meilenstein.Datum = DateTime.Now;
+                meilenstein.Update();
+
+                //Meilensteine liste aktualisieren
+                int listIndex = 0;
+                for (int i = 0; i < ParentContext.ListMeilensteine.Count; i++)
+                {
+                    if (ParentContext.ListMeilensteine[i].Pkey == meilenstein.Pkey)
+                    {
+                        listIndex = i;
+                        i = ParentContext.ListMeilensteine.Count;
+                    }
+                }
+                var temp = ParentContext.ListMeilensteine;
+                temp.RemoveAt(listIndex);
+                temp.Add(meilenstein);
+                ParentContext.ListMeilensteine = temp;
             }
 
             //Enddatum setzen
