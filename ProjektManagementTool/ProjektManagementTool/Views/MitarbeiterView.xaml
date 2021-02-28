@@ -1,0 +1,18 @@
+﻿<Window x:Class="ProjektManagementTool.Views.MitarbeiterView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektManagementTool.Views"
+        mc:Ignorable="d"
+        Title="Mitarbeiter" Height="249" Width="159">
+    <StackPanel Margin="13,13,0,43" HorizontalAlignment="Left">
+        <Label Content="Vorname" Width="100"/>
+        <TextBox Text="{Binding Vorname}" Width="100"/>
+        <Label Content="Nachname" Width="100"/>
+        <TextBox Text="{Binding Nachname}" Width="100"/>
+        <Label Content="Funktion" Width="100"/>
+        <TextBox Text="{Binding Funktion}" Width="100"/>
+        <Button Command="{Binding CMDHinzufuegen}">Hinzufügen</Button>
+    </StackPanel>
+</Window>

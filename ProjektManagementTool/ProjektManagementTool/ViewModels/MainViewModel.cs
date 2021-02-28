@@ -85,6 +85,23 @@ namespace ProjektManagementTool.ViewModels
             ShowWaehlerView("Projekt");
         }
 
+        //Button: Mitarbeiter erfassen
+        ICommand _Mitarbeitererfassen;
+        public ICommand CMDMitarbeitererfassen
+        {
+            get
+            {
+                return _Mitarbeitererfassen ?? (_Mitarbeitererfassen =
+                new RelayCommand(p => Mitarbeitererfassen()));
+            }
+        }
+        //Funktion für den Command
+        void Mitarbeitererfassen()
+        {
+            var mitarbeiterview = new MitarbeiterView();
+            mitarbeiterview.Show();
+        }
+
         //Helper Funktion für den Waehlertyp
         void ShowWaehlerView(string t_Typ)
         {

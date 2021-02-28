@@ -313,6 +313,18 @@ namespace ProjektManagementTool.Helper
                     connection.SubmitChanges();
                     pkey = dbObjZPerseonenResource.Pkey;
                     break;
+                case "Mitarbeiter":
+                    var dbObjMitarbeiter = new Mitarbeiter.db_Mitarbeiter
+                    {
+                        Vorname = obj.Vorname,
+                        Nachname = obj.Nachname,
+                        Funktion = obj.Funktion,
+                    };
+                    Table<Mitarbeiter.db_Mitarbeiter> tableZMitarbeiter = connection.GetTable<Mitarbeiter.db_Mitarbeiter>();
+                    tableZMitarbeiter.InsertOnSubmit(dbObjMitarbeiter);
+                    connection.SubmitChanges();
+                    pkey = dbObjMitarbeiter.Pkey;
+                    break;
                 default:
 
                     break;

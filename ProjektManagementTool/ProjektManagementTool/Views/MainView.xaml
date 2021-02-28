@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         Title="Projektmanagement Tool" Height="450" Width="800">
     <Grid>
-        <GroupBox Header="Start" HorizontalAlignment="Left" Height="174" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Start" HorizontalAlignment="Left" Height="204" Margin="26,43,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <TextBlock HorizontalAlignment="Left" Height="81" Margin="10,0,0,0" TextWrapping="Wrap" Width="222"><Run Text="Willkommens-Text"/><LineBreak/><Run Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum orci vel ultrices scelerisque. Vivamus at dui vitae ante interdum euismod id vitae nulla. Phasellus vehicula hendrerit elit interdum dignissim. Vivamus id dolor non risus imperdiet pulvinar."/></TextBlock>
-                <Button Grid.Row="0" Margin="30,10,30,10" Command="{Binding CMDVorgehensmodellErfassen}">Vorgehnsmodell erfassen</Button>
-                <Button Grid.Row="2" Margin="30,0,30,10" Command="{Binding CMDProjektErfassen}">Projekt erfassen</Button>
+                <Button Margin="30,10,30,10" Command="{Binding CMDVorgehensmodellErfassen}">Vorgehnsmodell erfassen</Button>
+                <Button Margin="30,0,30,10" Command="{Binding CMDProjektErfassen}">Projekt erfassen</Button>
+                <Button Margin="30,0,30,10" Command="{Binding CMDMitarbeitererfassen}">Mitarbeiter erfassen</Button>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Verwalten" HorizontalAlignment="Left" Height="259" Margin="426,43,0,0" VerticalAlignment="Top" Width="275">
