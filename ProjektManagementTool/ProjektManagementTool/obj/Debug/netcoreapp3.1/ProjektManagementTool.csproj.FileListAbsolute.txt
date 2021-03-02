@@ -49,3 +49,4 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\AbweichungView.baml
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MitarbeiterView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MitarbeiterView.baml
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\ProjektDB.mdf

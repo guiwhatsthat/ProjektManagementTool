@@ -11,4 +11,10 @@
     <PackageReference Include="Mindbox.Data.Linq" Version="3.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ProjektDB.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

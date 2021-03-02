@@ -14,7 +14,7 @@ namespace ProjektManagementTool.Helper
         {
             string basepath = AppDomain.CurrentDomain.BaseDirectory;
             string mainpath = basepath.Split("bin")[0];
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + mainpath + "ProjektDB.mdf" + ";Integrated Security = True;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security = True;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
             return connectionString;
         }
 
