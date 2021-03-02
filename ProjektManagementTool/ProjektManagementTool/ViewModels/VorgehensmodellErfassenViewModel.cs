@@ -161,7 +161,7 @@ namespace ProjektManagementTool.ViewModels
             {
                 //Vorgensmodell Objekt erstellen
                 var objModell = new Vorgehensmodell(0, ModellName, ModellBeschreibung);
-                int Pkey = objModell.CreateInDB();
+                Pkey = objModell.CreateInDB();
                 if (Pkey == -1)
                 {
                     return;

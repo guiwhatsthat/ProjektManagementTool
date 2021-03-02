@@ -61,7 +61,6 @@ namespace ProjektManagementTool.ViewModels
                     //Spreichere in der DB
                     int vorgehensmodellPkey = ParentDataContext.Pkey;
                     var obj = new PhaseTemplate(0, PhaseName,vorgehensmodellPkey);
-                    obj.CreateInDB();
                     
                     ParentDataContext.Phasen.Add(PhaseName);
                     MessageBox.Show("Phase wurde hinzugefügt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);

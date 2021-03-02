@@ -10,10 +10,11 @@ namespace ProjektManagementTool.Helper
     class DBHelper
     {
         static DataContext connection;
-        //Fixer Wert sollte über die sttings gesetzt werden können, eventuell später implementieren (da kein Ziel)
         string GetConnectionString()
         {
-            string connectionString = "Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
+            string basepath = AppDomain.CurrentDomain.BaseDirectory;
+            string mainpath = basepath.Split("bin")[0];
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + mainpath + "ProjektDB.mdf" + ";Integrated Security = True;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
             return connectionString;
         }
 
