@@ -48,6 +48,14 @@
             "Mindbox.Data.Linq": {
               "target": "Package",
               "version": "[3.0.2, )"
+            },
+            "System.Data.SQLite.Core": {
+              "target": "Package",
+              "version": "[1.0.113.7, )"
+            },
+            "System.ServiceProcess.ServiceController": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [

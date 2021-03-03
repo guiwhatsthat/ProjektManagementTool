@@ -81,6 +81,11 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Zuweisen()
         {
+            if (ListObj == null || ListObj.Count == 0)
+            {
+                return;
+            }
+
             if (Header == "Mitarbeiter")
             {
                 string mitarbeiterName = ListObj[Index].Vorname + " " + ListObj[Index].Nachname;

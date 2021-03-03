@@ -143,6 +143,8 @@ namespace ProjektManagementTool.Helper
                 default:
                     break;
             }
+            connection.Connection.Close();
+            connection.Connection.Dispose();
             connection.Dispose();
             connection = null;
             return returnList;
@@ -331,6 +333,8 @@ namespace ProjektManagementTool.Helper
 
                     break;
             }
+            connection.Connection.Close();
+            connection.Connection.Dispose();
             connection.Dispose();
             connection = null;
             return pkey;
@@ -495,6 +499,8 @@ namespace ProjektManagementTool.Helper
 
                     break;
             }
+            connection.Connection.Close();
+            connection.Connection.Dispose();
             connection.Dispose();
             connection = null;
         }
@@ -567,6 +573,8 @@ namespace ProjektManagementTool.Helper
 
                     break;
             }
+            connection.Connection.Close();
+            connection.Connection.Dispose();
             connection.Dispose();
             connection = null;
         }

@@ -3,6 +3,8 @@ using ProjektManagementTool.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -11,6 +13,14 @@ namespace ProjektManagementTool.ViewModels
 {
     class MainViewModel : BaseViewModel
     {
+        public MainViewModel()
+        {
+            if (!CheckForService())
+            {
+                MessageBox.Show("Konnte den Service SQL Server (SQLEXPRESS) nicht finden. Bitte installieren Sie sql express", "Info", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         //Button: Vorgehensmodell erfassen
         ICommand _VorgehensmodellErfassen;
         public ICommand CMDVorgehensmodellErfassen
@@ -111,6 +121,13 @@ namespace ProjektManagementTool.ViewModels
             context.Header = t_Typ;
             context.ListObj = new ObservableCollection<dynamic>(dbhelper.RunQuery(t_Typ, $"Select * from {t_Typ}"));
             bearbeitenWaehler.Show();
+        }
+
+        bool CheckForService() 
+        {
+            ServiceController[] services = ServiceController.GetServices("localhost");
+            var service = services.FirstOrDefault(s => s.DisplayName == "SQL Server (SQLEXPRESS)");
+            return service != null;
         }
     }
 }
