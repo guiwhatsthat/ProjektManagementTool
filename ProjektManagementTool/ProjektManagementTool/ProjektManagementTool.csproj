@@ -8,13 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mindbox.Data.Linq" Version="3.0.2" />
+    <None Remove="ProjektDB.mdf" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ProjektDB.mdf">
+    <Content Include="ProjektDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mindbox.Data.Linq" Version="3.0.2" />
   </ItemGroup>
 
 </Project>

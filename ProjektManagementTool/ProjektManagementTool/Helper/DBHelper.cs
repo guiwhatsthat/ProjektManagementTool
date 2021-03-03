@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using ProjektManagementTool.Models;
+
 
 namespace ProjektManagementTool.Helper
 
@@ -12,9 +15,7 @@ namespace ProjektManagementTool.Helper
         static DataContext connection;
         string GetConnectionString()
         {
-            string basepath = AppDomain.CurrentDomain.BaseDirectory;
-            string mainpath = basepath.Split("bin")[0];
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security = True;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
+            string connectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security=True;User Instance=True";//"Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security = True;database=TestDB;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
             return connectionString;
         }
 
