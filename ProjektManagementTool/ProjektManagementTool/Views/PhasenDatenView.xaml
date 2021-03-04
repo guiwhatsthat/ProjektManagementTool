@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Phase bearbeiten" Height="319" Width="635">
+        Title="Phase bearbeiten" Height="427" Width="635">
     <Grid>
-        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="260" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="311" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Name}" IsReadOnly="True"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
@@ -19,21 +19,42 @@
                 <DatePicker SelectedDate="{Binding StartDatumG}"></DatePicker>
                 <Label Content="End Datum (Geplant)" Margin="0,0,0,0"/>
                 <DatePicker SelectedDate="{Binding EndDatumG}"></DatePicker>
+                <Label Content="Review Datum (Geplant)" Margin="0,0,0,0"/>
+                <DatePicker SelectedDate="{Binding ReviewDatumG}"></DatePicker>
             </StackPanel>
         </GroupBox>
-        <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="120" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox IsEnabled="False" Header="Informationen" HorizontalAlignment="Left" Height="249" Margin="329,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Startdatum" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding StartDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Enddatum" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding EndDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Freigabedatum" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding FreigabeDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Visum" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding Visum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Reviewdatum" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding ReviewDatum}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,150,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="122" Margin="329,260,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
-                <Button Command="{Binding CMDStarten}" Width="100" HorizontalAlignment="Left">Starten</Button>
-                <Button Command="{Binding CMDBeenden}" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
-                <Button Command="{Binding CMDSpeichern}" Width="100" HorizontalAlignment="Left">Speichern</Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button Command="{Binding CMDStarten}" Grid.Row="0" Grid.Column="0" Width="100" HorizontalAlignment="Left" Margin="0,5">Starten</Button>
+                    <Button Command="{Binding CMDBeenden}" Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Beenden</Button>
+                    <Button Command="{Binding CMDSpeichern}" Grid.Row="1" Grid.Column="0" Width="100" HorizontalAlignment="Left" Margin="0,5">Speichern</Button>
+                    <Button Command="{Binding CMDFreigeben}" Grid.Row="1" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="0,5">Freigeben</Button>
+                    <Button Command="{Binding CMDReview}" Grid.Row="2" Grid.Column="0" Width="120" HorizontalAlignment="Left" Margin="0,5">Review durchgeführt</Button>
+                </Grid>
             </StackPanel>
         </GroupBox>
     </Grid>

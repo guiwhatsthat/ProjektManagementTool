@@ -40,7 +40,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<Projekt.db_Projekt>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new Projekt(i.Pkey, i.Name, i.Beschreibung, i.FreigabeDatum, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_ProjektleiterID, i.KostenG, i.Kosten, i.FKey_VorgehensmodellID, i.Dokumente, i.Status, i.Fortschritt);
+                        var obj = new Projekt(i.Pkey, i.Name, i.Beschreibung, i.FreigabeDatum, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_ProjektleiterID, i.KostenG, i.Kosten, i.FKey_VorgehensmodellID, i.Dokumente, i.Status, i.Fortschritt, i.Prioritaet);
                         returnList.Add(obj);
                     }
                     break;
@@ -56,7 +56,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<Mitarbeiter.db_Mitarbeiter>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion);
+                        var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion, i.Pensum);
                         returnList.Add(obj);
                     }
                     break;
@@ -72,7 +72,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<Phase.db_Phase>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new Phase(i.Pkey, i.Name, i.Status, i.Fortschritt, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_PhaseTemplateID, i.FKey_ProjektID);
+                        var obj = new Phase(i.Pkey, i.Name, i.Status, i.Fortschritt, i.StartDatumG, i.EndDatumG, i.StartDatum, i.EndDatum, i.FKey_PhaseTemplateID, i.FKey_ProjektID, i.Visum, i.FreigabeDatum, i.ReviewDatum, i.ReviewDatumG);
                         returnList.Add(obj);
                     }
                     break;
@@ -197,6 +197,7 @@ namespace ProjektManagementTool.Helper
                         FKey_VorgehensmodellID = obj.FKey_VorgehensmodellID,
                         Dokumente = obj.Dokumente,
                         Status = obj.Status,
+                        Prioritaet = obj.Prioritaet
                     };
                     Table<Projekt.db_Projekt> tableProjekt = connection.GetTable<Projekt.db_Projekt>();
                     tableProjekt.InsertOnSubmit(dbObjProjekt);
@@ -215,6 +216,7 @@ namespace ProjektManagementTool.Helper
                         EndDatum = obj.EndDatum,
                         FKey_PhaseTemplateID = obj.FKey_PhaseTemplateID,
                         FKey_ProjektID = obj.FKey_ProjektID,
+                        ReviewDatumG = obj.ReviewDatumG
                     };
                     Table<Phase.db_Phase> tablePhase = connection.GetTable<Phase.db_Phase>();
                     tablePhase.InsertOnSubmit(dbObjPhase);
@@ -323,6 +325,7 @@ namespace ProjektManagementTool.Helper
                         Vorname = obj.Vorname,
                         Nachname = obj.Nachname,
                         Funktion = obj.Funktion,
+                        Pensum = obj.Pensum
                     };
                     Table<Mitarbeiter.db_Mitarbeiter> tableZMitarbeiter = connection.GetTable<Mitarbeiter.db_Mitarbeiter>();
                     tableZMitarbeiter.InsertOnSubmit(dbObjMitarbeiter);
@@ -384,6 +387,7 @@ namespace ProjektManagementTool.Helper
                     entry.Dokumente = obj.Dokumente;
                     entry.Status = obj.Status;
                     entry.Fortschritt = obj.Fortschritt;
+                    entry.Prioritaet = obj.Prioritaet;
 
                     connection.SubmitChanges();
                     break;
@@ -402,6 +406,9 @@ namespace ProjektManagementTool.Helper
                     entryPhase.EndDatum = phaseObj.EndDatum;
                     entryPhase.FKey_PhaseTemplateID = phaseObj.FKey_PhaseTemplateID;
                     entryPhase.FKey_ProjektID = phaseObj.FKey_ProjektID;
+                    entryPhase.ReviewDatumG = phaseObj.ReviewDatumG;
+                    entryPhase.Visum = phaseObj.Visum;
+                    entryPhase.FreigabeDatum = phaseObj.FreigabeDatum;
                     connection.SubmitChanges();
 
 

@@ -48,7 +48,6 @@ namespace ProjektManagementTool.ViewModels
             var projektBearbeitenView = new ProjektBearbeitenView();
             ProjektBearbeitenViewModel contex = (ProjektBearbeitenViewModel)projektBearbeitenView.DataContext;
             contex.Aktion = "Erfassen";
-            contex.ReadOnlyFortschritt = true;
             contex.Fortschritt = 0;
             contex.Status = "Erfasst";
             contex.ReadOnlyStatus = true;

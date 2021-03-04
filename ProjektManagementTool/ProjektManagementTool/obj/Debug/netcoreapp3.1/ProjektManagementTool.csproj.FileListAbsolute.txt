@@ -40,7 +40,6 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csproj.CopyComplete
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\HinzufuegenView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\HinzufuegenView.baml
-C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csprojAssemblyReference.cache
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\PhasenDatenView.g.cs
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\PhasenDatenView.baml
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\MeilensteinBearbeitenView.g.cs
@@ -63,3 +62,6 @@ C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektMan
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.ServiceProcess.ServiceController.dll
 C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\bin\Debug\netcoreapp3.1\ProjektDB_log.ldf
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\VisumView.g.cs
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\Views\VisumView.baml
+C:\Users\Steven\Documents\ProjektManagementTool\ProjektManagementTool\ProjektManagementTool\obj\Debug\netcoreapp3.1\ProjektManagementTool.csprojAssemblyReference.cache

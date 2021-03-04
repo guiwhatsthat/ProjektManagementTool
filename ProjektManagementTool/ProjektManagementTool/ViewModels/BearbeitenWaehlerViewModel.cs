@@ -93,6 +93,7 @@ namespace ProjektManagementTool.ViewModels
                 context.ProjektleiterID = mitarbeiter.Pkey;
                 context.VorgehensmodellID = vorgehensmodell.Pkey;
                 context.EnablePhase = true;
+                context.Prio = ListObj[Index].Prioritaet.Trim();
                 query = $"Select * from Phase where FKey_ProjektID='{ListObj[Index].Pkey}'";
                 context.PhasenListe = new ObservableCollection<dynamic>(dbhelper.RunQuery("Phase", query));
                 var aktivitaetListe = new ObservableCollection<Aktivitaet>();

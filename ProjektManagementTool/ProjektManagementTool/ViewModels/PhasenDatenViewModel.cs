@@ -1,5 +1,6 @@
 ﻿using ProjektManagementTool.Helper;
 using ProjektManagementTool.Models;
+using ProjektManagementTool.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -121,6 +122,39 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("EndDatumG");
             }
         }
+        //Status FreigabeDatum
+        Nullable<DateTime> _FreigabeDatum;
+        public Nullable<DateTime> FreigabeDatum
+        {
+            get { return _FreigabeDatum; }
+            set
+            {
+                _FreigabeDatum = value;
+                OnPropertyChanged("FreigabeDatum");
+            }
+        }
+        //Status ReviewDatum
+        Nullable<DateTime> _ReviewDatum;
+        public Nullable<DateTime> ReviewDatum
+        {
+            get { return _ReviewDatum; }
+            set
+            {
+                _ReviewDatum = value;
+                OnPropertyChanged("ReviewDatum");
+            }
+        }
+        //Status ReviewDatumG
+        DateTime _ReviewDatumG;
+        public DateTime ReviewDatumG
+        {
+            get { return _ReviewDatumG; }
+            set
+            {
+                _ReviewDatumG = value;
+                OnPropertyChanged("ReviewDatumG");
+            }
+        }
         //Status StartDatum
         Nullable<DateTime> _StartDatum;
         public Nullable<DateTime> StartDatum
@@ -132,7 +166,7 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("StartDatum");
             }
         }
-        //Status EndDatumG
+        //Status EndDatum
         Nullable<DateTime> _EndDatum;
         public Nullable<DateTime> EndDatum
         {
@@ -143,7 +177,18 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("EndDatum");
             }
         }
-        
+        //Visum
+        string _Visum;
+        public string Visum
+        {
+            get { return _Visum; }
+            set
+            {
+                _Visum = value;
+                OnPropertyChanged("Visum");
+            }
+        }
+
 
         //Buttons
         //Starten
@@ -160,7 +205,12 @@ namespace ProjektManagementTool.ViewModels
         void Phasestarten()
         {
             //Checken ob das Projekt gestartet ist
-            if (ParentContext.Status != "In Arbeit") 
+            if (FreigabeDatum == null)
+            {
+                System.Windows.MessageBox.Show("Phase kann erst gestartet werden, sie muss zuerst freigegeben werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            if (ProjektStatus != "In Arbeit") 
             {
                 System.Windows.MessageBox.Show("Phase kann erst gestartet werden wenn das Projekt gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -169,9 +219,9 @@ namespace ProjektManagementTool.ViewModels
             {
                 System.Windows.MessageBox.Show("Bitte zuerst die Phasen daten abfüllen und speichern. Aktuell sind noch die generierten Daten eingetragen", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
-            } else if (ProjektStatus != "In Arbeit")
+            } else if (Status != "Freigegeben")
             {
-                System.Windows.MessageBox.Show("Phase kann erst gestartet werden, wenn das Projekt gestartet wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("Phase kann erst gestartet werden, wenn sie friegegeben wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -258,6 +308,7 @@ namespace ProjektManagementTool.ViewModels
             //Enddatum setzen
             EndDatum = DateTime.Now;
             Status = "Abgeschlossen";
+            Fortschritt = 100;
             Phasespeichern();
         }
         //Speichern
@@ -271,8 +322,19 @@ namespace ProjektManagementTool.ViewModels
             }
         }
         //Funktion für den Command
-        void Phasespeichern()
+        public void Phasespeichern()
         {
+            //RevieDatumG checken
+            if (ReviewDatumG == null || ReviewDatumG == DateTime.MinValue)
+            {
+                System.Windows.MessageBox.Show("Geplantes Reviewdatum hat ein falsches Format", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            } else if (DateTime.Parse(EndDatumG.ToString("dd.MM.yyyy")) > DateTime.Parse(ReviewDatumG.ToString("dd.MM.yyyy")))
+            {
+                System.Windows.MessageBox.Show("Geplantes Reviewdatum muss nach abschluss der Phase sein", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var dbHelper = new DBHelper();
             if (Status == "Eröffnet")
             {
@@ -289,11 +351,61 @@ namespace ProjektManagementTool.ViewModels
                 }
                 ParentContext.ListMeilensteine.Add(objMeilenstein);
             }
-            var objPhase = new Phase(Pkey, Name, Status, Fortschritt, StartDatumG, EndDatumG, StartDatum, EndDatum, FKey_PhaseTemplateID, FKey_ProjektID);
+            var objPhase = new Phase(Pkey, Name, Status, Fortschritt, StartDatumG, EndDatumG, StartDatum, EndDatum, FKey_PhaseTemplateID, FKey_ProjektID, Visum, FreigabeDatum, ReviewDatum, ReviewDatumG);
             objPhase.Update();
 
             string query = $"Select * from Phase where FKey_ProjektID='{ParentContext.Pkey}'";
             ParentContext.PhasenListe = new ObservableCollection<dynamic>(dbHelper.RunQuery("Phase", query));
+        }
+
+        //Freigeben
+        ICommand _Freigeben;
+        public ICommand CMDFreigeben
+        {
+            get
+            {
+                return _Freigeben ?? (_Freigeben =
+                new RelayCommand(p => Freigeben()));
+            }
+        }
+        //Funktion für den Command
+        void Freigeben()
+        {
+            if (FreigabeDatum != null)
+            {
+                return;
+            } 
+            //Inputbox
+            var visumView = new VisumView();
+            var context = (VisumViewModel)visumView.DataContext;
+            context.ParentConext = this;
+            visumView.Show();
+
+        }
+
+        //Freigeben
+        ICommand _Review;
+        public ICommand CMDReview
+        {
+            get
+            {
+                return _Review ?? (_Review =
+                new RelayCommand(p => Review()));
+            }
+        }
+        //Funktion für den Command
+        void Review()
+        {
+            if (Status != "Abgeschlossen")
+            {
+                System.Windows.MessageBox.Show("Review kann erst gemacht werden die Phase abgeschlossen wurde", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            Status = "Review durchgeführt";
+            ReviewDatum = DateTime.Now;
+
+            System.Windows.MessageBox.Show("Review abgeschlossen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

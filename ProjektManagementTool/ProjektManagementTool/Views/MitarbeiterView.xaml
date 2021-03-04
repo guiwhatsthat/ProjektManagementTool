@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="Mitarbeiter" Height="249" Width="159">
+        Title="Mitarbeiter" Height="292" Width="173">
     <StackPanel Margin="13,13,0,43" HorizontalAlignment="Left">
         <Label Content="Vorname" Width="100"/>
         <TextBox Text="{Binding Vorname}" Width="100"/>
@@ -13,6 +13,8 @@
         <TextBox Text="{Binding Nachname}" Width="100"/>
         <Label Content="Funktion" Width="100"/>
         <TextBox Text="{Binding Funktion}" Width="100"/>
+        <Label Content="Pensum in %" Width="100"/>
+        <TextBox Text="{Binding Pensum}" Width="100"/>
         <Button Command="{Binding CMDHinzufuegen}">Hinzufügen</Button>
     </StackPanel>
 </Window>

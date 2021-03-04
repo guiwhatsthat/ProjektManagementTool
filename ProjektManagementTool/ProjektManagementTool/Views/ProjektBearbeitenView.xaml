@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektManagementTool.Views"
         mc:Ignorable="d"
-        Title="ProjektBearbeitenView" Height="723" Width="646">
+        Title="ProjektBearbeitenView" Height="754" Width="646">
     <Grid>
-        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="519" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Projekt" HorizontalAlignment="Left" Height="555" Margin="26,10,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Label Content="Name" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Name}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
@@ -20,9 +20,11 @@
                 <Label Content="Kosten (Geplant)" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding KostenG}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Fortschritt in %" Margin="0,0,0,0"/>
-                <TextBox Text="{Binding Fortschritt}" IsReadOnly="{Binding ReadOnlyFortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Fortschritt}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
                 <Label Content="Status" Margin="0,0,0,0"/>
                 <TextBox Text="{Binding Status}" IsReadOnly="{Binding ReadOnlyStatus}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
+                <Label Content="Priorität" Margin="0,0,0,0"/>
+                <ComboBox ItemsSource="{Binding PrioListe}" SelectedValue="{Binding Prio}"/>
                 <Label Content="Projektleiter" Margin="0,0,0,0"/>
                 <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -116,7 +118,7 @@
                 <TextBox Text="{Binding Kosten}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="141" Margin="26,534,0,0" VerticalAlignment="Top" Width="275">
+        <GroupBox Header="Aktionen" HorizontalAlignment="Left" Height="141" Margin="26,570,0,0" VerticalAlignment="Top" Width="275">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>

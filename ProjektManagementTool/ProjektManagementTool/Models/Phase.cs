@@ -19,8 +19,12 @@ namespace ProjektManagementTool.Models
         public Nullable<DateTime> EndDatum { get; set; }
         public int FKey_PhaseTemplateID { get; set; }
         public int FKey_ProjektID { get; set; }
+        public string Visum { get; set; }
+        public Nullable<DateTime> FreigabeDatum { get; set; }
+        public Nullable<DateTime> ReviewDatum { get; set; }
+        public DateTime ReviewDatumG { get; set; }
 
-        public Phase(int t_Pkey, string t_Name, string t_Status, int t_Fortschritt, DateTime t_StartDatumG, DateTime t_EndDatumG ,Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, int t_FKey_PhaseTemplateID, int t_FKey_ProjektID)
+        public Phase(int t_Pkey, string t_Name, string t_Status, int t_Fortschritt, DateTime t_StartDatumG, DateTime t_EndDatumG ,Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, int t_FKey_PhaseTemplateID, int t_FKey_ProjektID, string t_Visum, Nullable<DateTime> t_FreigabeDatum, Nullable<DateTime> t_ReviewDatum, DateTime t_ReviewDatumG)
         {
             Pkey = t_Pkey;
             Name = t_Name;
@@ -32,6 +36,10 @@ namespace ProjektManagementTool.Models
             EndDatum = t_EndDatum;
             FKey_PhaseTemplateID = t_FKey_PhaseTemplateID;
             FKey_ProjektID = t_FKey_ProjektID;
+            Visum = t_Visum;
+            FreigabeDatum = t_FreigabeDatum;
+            ReviewDatum = t_ReviewDatum;
+            ReviewDatumG = t_ReviewDatumG;
         }
 
         //SQL mapping
@@ -60,6 +68,15 @@ namespace ProjektManagementTool.Models
             public int FKey_PhaseTemplateID;
             [Column]
             public int FKey_ProjektID;
+            [Column]
+            public string Visum;
+            [Column]
+            public Nullable<DateTime> FreigabeDatum;
+            [Column]
+            public Nullable<DateTime> ReviewDatum;
+            [Column]
+            public DateTime ReviewDatumG;
+
         }
 
         public int CreateInDB()

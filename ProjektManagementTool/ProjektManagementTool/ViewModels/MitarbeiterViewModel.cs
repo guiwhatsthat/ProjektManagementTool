@@ -41,6 +41,16 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Funktion");
             }
         }
+        int _Pensum;
+        public int Pensum
+        {
+            get { return _Pensum; }
+            set
+            {
+                _Pensum = value;
+                OnPropertyChanged("Pensum");
+            }
+        }
         #endregion
         #region Buttons
         ICommand _Hinzufuegen;
@@ -55,12 +65,21 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Hinzufuegen()
         {
-            if (string.IsNullOrEmpty(Vorname) || string.IsNullOrEmpty(Nachname) || string.IsNullOrEmpty(Funktion))
+            if (string.IsNullOrEmpty(Vorname) || string.IsNullOrEmpty(Nachname) || string.IsNullOrEmpty(Funktion) || string.IsNullOrEmpty(Funktion))
             {
                 MessageBox.Show("Nicht alle Felder sind ausgefüllt", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            var mitarbeiter = new Mitarbeiter(0,Vorname,Nachname,Funktion);
+            if (Pensum > 100)
+            {
+                MessageBox.Show("Pensu kann nicht mehr als 100% sein", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            } else if (Pensum == 0)
+            {
+                MessageBox.Show("Pensu kann nicht 0% sein", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var mitarbeiter = new Mitarbeiter(0,Vorname,Nachname,Funktion, Pensum);
             mitarbeiter.CreateInDB();
             MessageBox.Show("Mitarbeiter wurde erstellt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }

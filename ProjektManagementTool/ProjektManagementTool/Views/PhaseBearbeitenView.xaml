@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Margin="26,33,0,10">
             <Label Content="Name" Margin="0,0,0,0"/>
-            <TextBox Text="{Binding PhaseName}"  Margin="5,5,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding PhaseName}"  Margin="5,5,0,0" Width="200" HorizontalAlignment="Left" />
             <Grid Margin="5,5,0,0" Width="200" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

@@ -15,6 +15,16 @@ namespace ProjektManagementTool.ViewModels
 {
     class ProjektBearbeitenViewModel : BaseViewModel
     {
+        public ProjektBearbeitenViewModel()
+        {
+            var Prios = new List<string>();
+            Prios.Add("Tief");
+            Prios.Add("Mittel");
+            Prios.Add("Hoch");
+            PrioListe = Prios;
+        }
+
+
         //Aktion die ausgeführt werden muss (Erfassen/Bearbeiten)
         string _Aktion;
         public string Aktion
@@ -66,6 +76,29 @@ namespace ProjektManagementTool.ViewModels
             {
                 _FreigebenErlaubt = value;
                 OnPropertyChanged("FreigebenErlaubt");
+            }
+        }
+
+        //PrioListe
+        List<String> _PrioListe;
+        public List<String> PrioListe
+        {
+            get { return _PrioListe; }
+            set
+            {
+                _PrioListe = value;
+                OnPropertyChanged("PrioListe");
+            }
+        }
+        //Prio
+        string _Prio;
+        public string Prio
+        {
+            get { return _Prio; }
+            set
+            {
+                _Prio = value;
+                OnPropertyChanged("Prio");
             }
         }
 
@@ -122,16 +155,6 @@ namespace ProjektManagementTool.ViewModels
             {
                 _EnablePhase = value;
                 OnPropertyChanged("EnablePhase");
-            }
-        }
-        bool _ReadOnlyFortschritt;
-        public bool ReadOnlyFortschritt
-        {
-            get { return _ReadOnlyFortschritt; }
-            set
-            {
-                _ReadOnlyFortschritt = value;
-                OnPropertyChanged("ReadOnlyFortschritt");
             }
         }
 
@@ -466,7 +489,7 @@ namespace ProjektManagementTool.ViewModels
                 foreach (var template in phasenTemplates)
                 {
                     //Create Phasen
-                    var phaseObj = new Phase(0, template.Name, "Eröffnet", 0, DateTime.Now, DateTime.Now, null, null, template.Pkey, Pkey);
+                    var phaseObj = new Phase(0, template.Name, "Eröffnet", 0, DateTime.Now, DateTime.Now, null, null, template.Pkey, Pkey, "", null, null, DateTime.Now);
                     int phasePKey = phaseObj.CreateInDB();
                     phaseObj.Pkey = phasePKey;
                     //Phasen dem bindig zuweisen
@@ -495,7 +518,7 @@ namespace ProjektManagementTool.ViewModels
         void Projektspeichern()
         {
             //Check Daten leer
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Beschreibung) || string.IsNullOrEmpty(Mitarbeiter) || string.IsNullOrEmpty(Modell))
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Beschreibung) || string.IsNullOrEmpty(Mitarbeiter) || string.IsNullOrEmpty(Modell) || string.IsNullOrEmpty(Prio))
             {
                 System.Windows.MessageBox.Show("Nicht alle Pflichtfelder ausgefüllt", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -539,7 +562,7 @@ namespace ProjektManagementTool.ViewModels
                 KostenAbrufen(false);
 
                 //Projekt speichern
-                Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                Projekt projekt = new Projekt(0, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt, Prio);
                 int projektPkey = projekt.CreateInDB();
                 if (projektPkey == -1)
                 {
@@ -559,12 +582,12 @@ namespace ProjektManagementTool.ViewModels
                 //Update
                 if (null == Freigabedatum)
                 {
-                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, null, StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt, Prio);
                     projekt.Update();
                 }
                 else
                 {
-                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, DateTime.Parse(Freigabedatum), StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt);
+                    Projekt projekt = new Projekt(Pkey, Name, Beschreibung, DateTime.Parse(Freigabedatum), StartDatumG, EndtDatumG, null, null, ProjektleiterID, KostenG, Kosten, VorgehensmodellID, Ablage, Status, Fortschritt, Prio);
                     projekt.Update();
                 }
 
@@ -615,6 +638,9 @@ namespace ProjektManagementTool.ViewModels
             context.ProjektStatus = Status;
             context.FKey_ProjektID = PhasenListe[IndexPhase].FKey_ProjektID;
             context.FKey_PhaseTemplateID = PhasenListe[IndexPhase].FKey_PhaseTemplateID;
+            context.FreigabeDatum = PhasenListe[IndexPhase].FreigabeDatum;
+            context.Visum = PhasenListe[IndexPhase].Visum;
+            context.ReviewDatumG = PhasenListe[IndexPhase].ReviewDatumG;
             context.ParentContext = this;
             phaseDatenView.Show();
         }
@@ -635,6 +661,7 @@ namespace ProjektManagementTool.ViewModels
             Status = "In Planung";
             Projektspeichern();
             StartenErlaubt = true;
+            PlanenErlaubt = false;
         }
 
         //Button Projekt löschen
@@ -676,14 +703,14 @@ namespace ProjektManagementTool.ViewModels
             //checken ob alle Phasen abgeschlossen sind
             foreach (var phase in PhasenListe)
             {
-                if (phase.Status != "Abgeschlossen")
+                if (phase.Status != "Review durchgeführt")
                 {
                     abschliessenPhasen = false;
                 }
             }
             if (abschliessenPhasen == false)
             {
-                System.Windows.MessageBox.Show("Es müssen zuerst alle Phasen abgeschlossen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Es müssen zuerst alle Reviews der Phasen abgeschlossen werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

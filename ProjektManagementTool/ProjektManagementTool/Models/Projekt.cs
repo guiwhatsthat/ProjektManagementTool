@@ -24,13 +24,14 @@ namespace ProjektManagementTool.Models
         public string Dokumente { get; set; }
         public string Status { get; set; }
         public int Fortschritt { get; set; }
+        public string Prioritaet { get; set; }
 
         public Projekt()
         {
             //leeres object für die tabellen abfrage
         }
 
-        public Projekt(int t_Pkey, string t_Name, string t_Beschreibung, Nullable<DateTime> t_FreigabeDatum, DateTime t_StartDatumG, DateTime t_EndDatumG, Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, int t_FKey_ProjektleiterID, decimal t_KostenG, Nullable<decimal> t_Kosten, int t_FKey_VorgehensmodellID, string t_Dokumente, string t_Status, int t_Fortschritt)
+        public Projekt(int t_Pkey, string t_Name, string t_Beschreibung, Nullable<DateTime> t_FreigabeDatum, DateTime t_StartDatumG, DateTime t_EndDatumG, Nullable<DateTime> t_StartDatum, Nullable<DateTime> t_EndDatum, int t_FKey_ProjektleiterID, decimal t_KostenG, Nullable<decimal> t_Kosten, int t_FKey_VorgehensmodellID, string t_Dokumente, string t_Status, int t_Fortschritt, string t_Prioritaet)
         {
             Pkey = t_Pkey;
             Name = t_Name;
@@ -47,6 +48,7 @@ namespace ProjektManagementTool.Models
             Dokumente = t_Dokumente;
             Status = t_Status;
             Fortschritt = t_Fortschritt;
+            Prioritaet = t_Prioritaet;
         }
 
 
@@ -86,6 +88,8 @@ namespace ProjektManagementTool.Models
             public string Status;
             [Column]
             public int Fortschritt;
+            [Column]
+            public string Prioritaet;
         }
 
         public int CreateInDB()

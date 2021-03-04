@@ -11,7 +11,7 @@
             <Label Content="Name" Margin="0,0,0,0"/>
             <TextBox Text="{Binding ModellName}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             <Label Content="Beschreibung" Margin="0,0,0,0"/>
-            <TextBox Text="{Binding ModellBeschreibung}"  Margin="5,0,0,0" Foreground="LightGray" Width="200" HorizontalAlignment="Left" />
+            <TextBox Text="{Binding ModellBeschreibung}"  Margin="5,0,0,0" Width="200" HorizontalAlignment="Left" />
             <GroupBox Header="Phasen" Margin="5,5,0,0" HorizontalAlignment="Left" Width="200" >
                 <StackPanel>
                     <ListView ItemsSource="{Binding Phasen}" SelectedIndex="{Binding Index}"  Height="80">

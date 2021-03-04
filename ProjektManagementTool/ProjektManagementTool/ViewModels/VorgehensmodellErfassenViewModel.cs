@@ -171,6 +171,7 @@ namespace ProjektManagementTool.ViewModels
                 {
                     var objPhaseTemplate = new PhaseTemplate(0, phase, Pkey);
                     objPhaseTemplate.CreateInDB();
+                    MessageBox.Show("Modell erfasst", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             } else
             {
@@ -180,8 +181,11 @@ namespace ProjektManagementTool.ViewModels
 
 
                 //Update anzeige view
-                var dbHelper = new DBHelper();
-                WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Vorgehensmodell", "Select * from Vorgehensmodell"));
+                if (WaehlerContext.ListObj != null)
+                {
+                    var dbHelper = new DBHelper();
+                    WaehlerContext.ListObj = new ObservableCollection<dynamic>(dbHelper.RunQuery("Vorgehensmodell", "Select * from Vorgehensmodell"));
+                }
             }
             
         }
