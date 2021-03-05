@@ -374,8 +374,9 @@ namespace ProjektManagementTool.ViewModels
             if (FreigabeDatum != null)
             {
                 return;
-            } 
+            }
             //Inputbox
+            Phasespeichern();
             var visumView = new VisumView();
             var context = (VisumViewModel)visumView.DataContext;
             context.ParentConext = this;
@@ -404,7 +405,7 @@ namespace ProjektManagementTool.ViewModels
 
             Status = "Review durchgeführt";
             ReviewDatum = DateTime.Now;
-
+            Phasespeichern();
             System.Windows.MessageBox.Show("Review abgeschlossen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

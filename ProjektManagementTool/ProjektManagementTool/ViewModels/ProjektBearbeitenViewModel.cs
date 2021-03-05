@@ -732,36 +732,40 @@ namespace ProjektManagementTool.ViewModels
             //Check ob Abweichungen Kommentiert sind
             bool abschliessenKosten = true;
             var dbHelper = new DBHelper();
-            foreach (var aktivitaet in ListAktivitaet)
+            if (ListAktivitaet != null)
             {
-                if (abschliessenKosten == true)
+                foreach (var aktivitaet in ListAktivitaet)
                 {
-                    //alle exterene Resourcen
-                    string query = $"Select * from VKostenAbweichungExterne where Fkey_Aktivitaet='{aktivitaet.Pkey}' and Kommentar=''";
-                    var resultE = dbHelper.RunQuery("VKostenAbweichungExterne", query);
-                    if (resultE.Count > 0)
-                    {
-                        abschliessenKosten = false;
-                        continue;
-                    }
-                    //alle Personen resourcen
                     if (abschliessenKosten == true)
                     {
-                        query = $"Select * from VKostenAbweichungPersonen where FKey_Aktiviteat='{aktivitaet.Pkey}' and Kommentar=''";
-                        var resultP = dbHelper.RunQuery("VKostenAbweichungPersonen", query);
-                        if (resultP.Count > 0)
+                        //alle exterene Resourcen
+                        string query = $"Select * from VKostenAbweichungExterne where Fkey_Aktivitaet='{aktivitaet.Pkey}' and Kommentar=''";
+                        var resultE = dbHelper.RunQuery("VKostenAbweichungExterne", query);
+                        if (resultE.Count > 0)
                         {
                             abschliessenKosten = false;
                             continue;
                         }
+                        //alle Personen resourcen
+                        if (abschliessenKosten == true)
+                        {
+                            query = $"Select * from VKostenAbweichungPersonen where FKey_Aktiviteat='{aktivitaet.Pkey}' and Kommentar=''";
+                            var resultP = dbHelper.RunQuery("VKostenAbweichungPersonen", query);
+                            if (resultP.Count > 0)
+                            {
+                                abschliessenKosten = false;
+                                continue;
+                            }
+                        }
                     }
                 }
+                if (abschliessenKosten == false)
+                {
+                    System.Windows.MessageBox.Show("Es müssen zuerst alle Abweichungen der Kosten (in den Aktivitäten) kommentiert werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
             }
-            if (abschliessenKosten == false)
-            {
-                System.Windows.MessageBox.Show("Es müssen zuerst alle Abweichungen der Kosten (in den Aktivitäten) kommentiert werden", "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            
 
             //Ui Elemente deaktivieren
             BeendenErlaubt = false;
@@ -915,7 +919,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Aktivitaetbearbeiten()
         {
-            if (ListAktivitaet == null || ListAktivitaet.Count == 0)
+            if (ListAktivitaet == null || ListAktivitaet.Count == 0 || AktivitaeteIndex == -1)
             {
                 return;
             }
