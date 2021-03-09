@@ -41,6 +41,16 @@ namespace ProjektManagementTool.ViewModels
                 OnPropertyChanged("Funktion");
             }
         }
+        string _Abteilung;
+        public string Abteilung
+        {
+            get { return _Abteilung; }
+            set
+            {
+                _Abteilung = value;
+                OnPropertyChanged("Abteilung");
+            }
+        }
         int _Pensum;
         public int Pensum
         {
@@ -65,7 +75,7 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Hinzufuegen()
         {
-            if (string.IsNullOrEmpty(Vorname) || string.IsNullOrEmpty(Nachname) || string.IsNullOrEmpty(Funktion) || string.IsNullOrEmpty(Funktion))
+            if (string.IsNullOrEmpty(Vorname) || string.IsNullOrEmpty(Nachname) || string.IsNullOrEmpty(Funktion) || string.IsNullOrEmpty(Pensum.ToString()) || string.IsNullOrEmpty(Abteilung))
             {
                 MessageBox.Show("Nicht alle Felder sind ausgefüllt", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -79,7 +89,7 @@ namespace ProjektManagementTool.ViewModels
                 MessageBox.Show("Pensu kann nicht 0% sein", "Info", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            var mitarbeiter = new Mitarbeiter(0,Vorname,Nachname,Funktion, Pensum);
+            var mitarbeiter = new Mitarbeiter(0,Vorname,Nachname,Funktion, Pensum, Abteilung);
             mitarbeiter.CreateInDB();
             MessageBox.Show("Mitarbeiter wurde erstellt", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }

@@ -15,7 +15,7 @@ namespace ProjektManagementTool.Helper
         static DataContext connection;
         string GetConnectionString()
         {
-            string connectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security=True;User Instance=True";//"Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security = True;database=TestDB;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
+            string connectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security=True;User Instance=True;Database=ProjektDB";//"Data Source=.\\SQLEXPRESS;AttachDbFilename=" + AppDomain.CurrentDomain.BaseDirectory + "ProjektDB.mdf" + ";Integrated Security = True;database=TestDB;";//"Server=DESKTOP-35P8P5I\\SQLEXPRESS;Database=DB_Projekte;Connection timeout=30;Integrated Security=True";
             return connectionString;
         }
 
@@ -56,7 +56,7 @@ namespace ProjektManagementTool.Helper
                     returnValue = connection.ExecuteQuery<Mitarbeiter.db_Mitarbeiter>(t_Query).ToList();
                     foreach (var i in returnValue)
                     {
-                        var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion, i.Pensum);
+                        var obj = new Mitarbeiter(i.Pkey, i.Vorname, i.Nachname, i.Funktion, i.Pensum, i.Abteilung);
                         returnList.Add(obj);
                     }
                     break;
@@ -325,7 +325,8 @@ namespace ProjektManagementTool.Helper
                         Vorname = obj.Vorname,
                         Nachname = obj.Nachname,
                         Funktion = obj.Funktion,
-                        Pensum = obj.Pensum
+                        Pensum = obj.Pensum,
+                        Abteilung = obj.Abteilung
                     };
                     Table<Mitarbeiter.db_Mitarbeiter> tableZMitarbeiter = connection.GetTable<Mitarbeiter.db_Mitarbeiter>();
                     tableZMitarbeiter.InsertOnSubmit(dbObjMitarbeiter);

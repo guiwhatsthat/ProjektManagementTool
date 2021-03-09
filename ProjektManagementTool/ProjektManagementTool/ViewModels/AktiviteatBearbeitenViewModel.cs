@@ -439,8 +439,27 @@ namespace ProjektManagementTool.ViewModels
         //Funktion für den Command
         void Loeschen()
         {
+            if (ParentDataContext.Status != "In Arbeit")
+            {
+                System.Windows.MessageBox.Show("Kann nur gelöscht werden wenn das Projekt in Arbeit ist", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             if (Pkey != 0 || Pkey != -1 )
             {
+                //Zuerst kosten löschen
+                foreach (var delKosten in ListKosten)
+                {
+                    if (delKosten.Typ == "PersonenKosten")
+                    {
+                        var pKosten = new ZPerseonenResource(delKosten.ZPkey, 0, 0, DateTime.Now, DateTime.Now, 0, 0, "");
+                        pKosten.Remove();
+                    } else
+                    {
+                        var eKosten = new ZExterneResource(delKosten.ZPkey, 0, 0, DateTime.Now, DateTime.Now, 0, 0, "");
+                        eKosten.Remove();
+                    }
+                }
+                
                 var aktivitaet = new Aktivitaet(Pkey, Name, StartDatumG, EndDatumG, StartDatum, EndDatum, ExterneKostenG, PersonenKostenG, ExterneKosten, PersonenKosten, Fortschritt, MitarbeiterPkey, PhasePkey, Ablage);
                 aktivitaet.Remove();
                 System.Windows.MessageBox.Show("Aktivität gelöscht", "Warnung", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -14,14 +14,16 @@ namespace ProjektManagementTool.Models
         public string Nachname { get; set; }
         public string Funktion { get; set; }
         public int Pensum { get; set; }
+        public string Abteilung { get; set; }
 
-        public Mitarbeiter(int t_Pkey, string t_Vorname, string t_Nachname, string t_Funktion, int t_Pensum)
+        public Mitarbeiter(int t_Pkey, string t_Vorname, string t_Nachname, string t_Funktion, int t_Pensum, string t_Abteilung)
         {
             Pkey = t_Pkey;
             Vorname = t_Vorname;
             Nachname = t_Nachname;
             Funktion = t_Funktion;
             Pensum = t_Pensum;
+            Abteilung = t_Abteilung;
         }
 
         //SQL mapping
@@ -40,6 +42,8 @@ namespace ProjektManagementTool.Models
             public string Funktion;
             [Column]
             public int Pensum;
+            [Column]
+            public string Abteilung;
         }
 
         public int CreateInDB()

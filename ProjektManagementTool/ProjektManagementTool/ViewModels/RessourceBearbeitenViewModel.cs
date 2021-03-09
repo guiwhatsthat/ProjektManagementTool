@@ -282,9 +282,21 @@ namespace ProjektManagementTool.ViewModels
             {
                 if (Pkey == 0)
                 {
-                    var externeKosten = new ExterneResource(0, Name, KostenG,ArtFunktion, Fkey_Aktivitaet);
-                    Pkey = externeKosten.CreateInDB();
-                    OArt = Art;
+                    //Checken ob es so eine kostenart schon gibt
+                    var dbHelper = new DBHelper();
+                    string query = $"Select * from ExterneResource where Name='{Name}' and Art='{ArtFunktion}' and KostenG='{KostenG}'";
+                    var doppleteKosten = dbHelper.RunQuery("ExterneResource", query);
+                    if (doppleteKosten.Count != 0)
+                    {
+                        Pkey = doppleteKosten[0].Pkey;
+                        OArt = doppleteKosten[0].Art;
+                    } else
+                    {
+                        var externeKosten = new ExterneResource(0, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
+                        Pkey = externeKosten.CreateInDB();
+                        OArt = Art;
+                    }
+                    
                     //Create link zwischen aktivitaet und Kosten
                     var link = new ZExterneResource(0,Fkey_Aktivitaet,Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
                     ZPkey = link.CreateInDB();
@@ -324,9 +336,21 @@ namespace ProjektManagementTool.ViewModels
             {
                 if (Pkey == 0)
                 {
-                    var personenKosten = new PerseonenResource(0, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
-                    Pkey = personenKosten.CreateInDB();
-                    OArt = Art;
+                    //Checken ob es so eine kostenart schon gibt
+                    var dbHelper = new DBHelper();
+                    string query = $"Select * from PerseonenResource where Name='{Name}' and Funktion='{ArtFunktion}' and KostenG='{KostenG}'";
+                    var doppleteKosten = dbHelper.RunQuery("PerseonenResource", query);
+                    if (doppleteKosten.Count != 0)
+                    {
+                        Pkey = doppleteKosten[0].Pkey;
+                        OArt = doppleteKosten[0].Funktion;
+                    } else
+                    {
+                        var personenKosten = new PerseonenResource(0, Name, KostenG, ArtFunktion, Fkey_Aktivitaet);
+                        Pkey = personenKosten.CreateInDB();
+                        OArt = Art;
+                    }
+                    
                     //Create link zwischen aktivitaet und Kosten
                     var link = new ZPerseonenResource(0, Fkey_Aktivitaet, Pkey, StartDatum, EndDatum, Kosten, abweichung, "");
                     ZPkey = link.CreateInDB();
